@@ -1,6 +1,12 @@
 # ROProject3
 
-Todos:
+Aufgaben:
+
+Projektmanagemnent:
+* Stakeholder bestimmen
+* Zeitplan entwerfen
+* Ziele und Meilensteine
+
 Software Engineering:
 * Architektur des Systems bestimmen
 * UML Diagramme erstellen
@@ -17,6 +23,7 @@ Regelungstechnik:
 
 
 --- UML Tools ---
+
 https://staruml.io/
 
 https://app.diagrams.net/
