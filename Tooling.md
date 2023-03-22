@@ -20,3 +20,7 @@ The tools and software used are listed here
 
 - https://github.com/standardese/standardese/
 - https://github.com/doxygen/doxygen
+
+## Test framework
+
+- https://github.com/google/googletest
