@@ -22,7 +22,7 @@ matrix:
         - cd ros2
         #- colcon build
       script:
-        #- cd ros2
+        - cd ros2
         #- colcon test
       after_success:
         - bash <(curl -s https://codecov.io/bash) -X gcov -f "!*/ros2_ws/*"
@@ -37,6 +37,7 @@ matrix:
         - pip3 install -r requirements.txt
         #- python3 setup.py install
       script:
+        - cd machine-learning
         #- pytest --cov=./
       after_success:
         - bash <(curl -s https://codecov.io/bash)
