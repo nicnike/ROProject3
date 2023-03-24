@@ -1,1 +1,58 @@
+language: cpp
+compiler: gcc
 
+services:
+  - docker
+
+env:
+  global:
+    - CODECOV_TOKEN=<your_codecov_token>
+
+matrix:
+  include:
+    - name: "ROS2 project"
+      before_install:
+        - sudo apt-get update
+        - sudo apt-get install -y curl gnupg2 lsb-release
+        - curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+        - sudo sh -c 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null'
+        - sudo apt-get update
+      install:
+        - sudo apt install ros-humble-desktop
+        - sudo apt-get install -y build-essential cmake git
+        - cd ros2
+        - colcon build
+      script:
+        - cd ros2
+        - colcon test
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -X gcov -f "!*/ros2_ws/*"
+      
+    - name: "Machine Vision project"
+      before_install:
+        - sudo apt-get update
+        - sudo apt-get install -y build-essential cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+        - cd machine-vision
+      install:
+        - cmake .
+        - make
+      script:
+        - cd machine-vision
+        - ./run_tests.sh
+      after_success:
+      # 
+        - bash <(curl -s https://codecov.io/bash) -X gcov -f "!*/machine-vision/*"
+
+    - name: "Python project"
+      language: python
+      python:
+        - "3.8"
+      before_install:
+        - cd machine-learning
+      install:
+        - pip3 install -r requirements.txt
+        - python3 setup.py install
+      script:
+        - pytest --cov=./
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
