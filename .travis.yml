@@ -27,21 +27,6 @@ matrix:
         #- colcon test
       after_success:
         - bash <(curl -s https://codecov.io/bash) -X gcov -f "!*/ros2_ws/*"
-      
-    - name: "Machine Vision project"
-      before_install:
-        - sudo apt-get update
-        - sudo apt-get install -y build-essential cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
-        - cd machine-vision
-        - ls
-      install:
-        #- cmake .
-        #- make
-      script:
-        #- cd machine-vision
-        #- ./run_tests.sh
-      after_success:
-        - bash <(curl -s https://codecov.io/bash) -X gcov -f "!*/machine-vision/*"
 
     - name: "Machine Learning project"
       language: python
