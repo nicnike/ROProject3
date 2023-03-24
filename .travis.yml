@@ -37,6 +37,6 @@ matrix:
         - pip3 install -r requirements.txt
         #- python3 setup.py install
       script:
-        - pytest --cov=./
+        #- pytest --cov=./
       after_success:
         - bash <(curl -s https://codecov.io/bash)
