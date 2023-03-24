@@ -3,7 +3,7 @@ compiler: gcc
 
 services:
   - docker
-  
+
 matrix:
   include:
     - name: "ROS2 project"
@@ -36,7 +36,6 @@ matrix:
         - cd machine-vision
         - ./run_tests.sh
       after_success:
-      # 
         - bash <(curl -s https://codecov.io/bash) -X gcov -f "!*/machine-vision/*"
 
     - name: "Python project"
