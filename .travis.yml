@@ -9,7 +9,7 @@ matrix:
   include:
     - name: "ROS2 project"
       before_install:
-        ls 
+        - ls
         - sudo apt-get update
         - sudo apt upgrade
         - sudo apt update && sudo apt install curl
