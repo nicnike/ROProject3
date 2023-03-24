@@ -19,10 +19,9 @@ matrix:
         - sudo apt-get install ros-humble-desktop
         - sudo apt-get install -y build-essential cmake git
         - sudo apt-get install python3-colcon-common-extensions
-        - cd ros2
         #- colcon build
-      script:
-        - cd ros2
+      #script:
+        #- cd ros2
         #- colcon test
       after_success:
         - bash <(curl -s https://codecov.io/bash) -X gcov -f "!*/ros2_ws/*"
@@ -36,8 +35,8 @@ matrix:
       install:
         - pip3 install -r requirements.txt
         #- python3 setup.py install
-      script:
-        - cd machine-learning
+      #script:
+        #- cd machine-learning
         #- pytest --cov=./
       after_success:
         - bash <(curl -s https://codecov.io/bash)
