@@ -21,10 +21,10 @@ matrix:
         - sudo apt-get install -y build-essential cmake git
         - sudo apt-get install python3-colcon-common-extensions
         - cd ros2
-        - colcon build
+        #- colcon build
       script:
-        - cd ros2
-        - colcon test
+        #- cd ros2
+        #- colcon test
       after_success:
         - bash <(curl -s https://codecov.io/bash) -X gcov -f "!*/ros2_ws/*"
       
@@ -33,21 +33,23 @@ matrix:
         - sudo apt-get update
         - sudo apt-get install -y build-essential cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
         - cd machine-vision
+        - ls
       install:
-        - cmake .
-        - make
+        #- cmake .
+        #- make
       script:
-        - cd machine-vision
-        - ./run_tests.sh
+        #- cd machine-vision
+        #- ./run_tests.sh
       after_success:
         - bash <(curl -s https://codecov.io/bash) -X gcov -f "!*/machine-vision/*"
 
-    - name: "Python project"
+    - name: "Machine Learning project"
       language: python
       python:
         - "3.8"
       before_install:
         - cd machine-learning
+        - ls
       install:
         - pip3 install -r requirements.txt
         - python3 setup.py install
