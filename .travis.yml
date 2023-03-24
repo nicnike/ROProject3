@@ -3,11 +3,7 @@ compiler: gcc
 
 services:
   - docker
-
-env:
-  global:
-    - CODECOV_TOKEN=<your_codecov_token>
-
+  
 matrix:
   include:
     - name: "ROS2 project"
