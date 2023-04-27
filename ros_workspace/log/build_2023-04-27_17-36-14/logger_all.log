@@ -1,0 +1,130 @@
+[0.253s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build']
+[0.253s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=2, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x7fb8e0a96b90>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7fb8e09e7eb0>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7fb8e09e7eb0>>)
+[0.280s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.280s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.280s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.280s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.280s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.280s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.280s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/johndoe/github/ROProject3/ros_workspace'
+[0.280s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.280s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.280s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.280s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.280s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.280s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.280s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.280s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.280s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.291s] DEBUG:colcon.colcon_core.package_identification:Failed to parse potential ROS package manifest in'.': Error(s) in package './package.xml':
+The manifest contains invalid XML:
+no element found: line 1, column 0
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore'
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore_ament_install'
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_pkg']
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_pkg'
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_meta']
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_meta'
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ros']
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ros'
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['cmake', 'python']
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'cmake'
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python'
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['python_setup_py']
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python_setup_py'
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src/machine_learning) by extensions ['ignore', 'ignore_ament_install']
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src/machine_learning) by extension 'ignore'
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src/machine_learning) by extension 'ignore_ament_install'
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src/machine_learning) by extensions ['colcon_pkg']
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src/machine_learning) by extension 'colcon_pkg'
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src/machine_learning) by extensions ['colcon_meta']
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src/machine_learning) by extension 'colcon_meta'
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src/machine_learning) by extensions ['ros']
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(src/machine_learning) by extension 'ros'
+[0.295s] DEBUG:colcon.colcon_core.package_identification:Package 'src/machine_learning' with type 'ros.ament_python' and name 'machine_learning'
+[0.295s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.295s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.295s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.295s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.295s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.318s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[0.318s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[0.320s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 0 installed packages in /home/johndoe/github/ROProject3/ros_workspace/install
+[0.322s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 291 installed packages in /opt/ros/rolling
+[0.323s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[0.375s] Level 5:colcon.colcon_core.verb:set package 'machine_learning' build argument 'cmake_args' from command line to 'None'
+[0.375s] Level 5:colcon.colcon_core.verb:set package 'machine_learning' build argument 'cmake_target' from command line to 'None'
+[0.375s] Level 5:colcon.colcon_core.verb:set package 'machine_learning' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.375s] Level 5:colcon.colcon_core.verb:set package 'machine_learning' build argument 'cmake_clean_cache' from command line to 'False'
+[0.375s] Level 5:colcon.colcon_core.verb:set package 'machine_learning' build argument 'cmake_clean_first' from command line to 'False'
+[0.375s] Level 5:colcon.colcon_core.verb:set package 'machine_learning' build argument 'cmake_force_configure' from command line to 'False'
+[0.375s] Level 5:colcon.colcon_core.verb:set package 'machine_learning' build argument 'ament_cmake_args' from command line to 'None'
+[0.375s] Level 5:colcon.colcon_core.verb:set package 'machine_learning' build argument 'catkin_cmake_args' from command line to 'None'
+[0.375s] Level 5:colcon.colcon_core.verb:set package 'machine_learning' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.375s] DEBUG:colcon.colcon_core.verb:Building package 'machine_learning' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/johndoe/github/ROProject3/ros_workspace/build/machine_learning', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning', 'merge_install': False, 'path': '/home/johndoe/github/ROProject3/ros_workspace/src/machine_learning', 'symlink_install': False, 'test_result_base': None}
+[0.375s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.378s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.378s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/johndoe/github/ROProject3/ros_workspace/src/machine_learning' with build type 'ament_python'
+[0.378s] Level 1:colcon.colcon_core.shell:create_environment_hook('machine_learning', 'ament_prefix_path')
+[0.382s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.382s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/share/machine_learning/hook/ament_prefix_path.ps1'
+[0.383s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/share/machine_learning/hook/ament_prefix_path.dsv'
+[0.384s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/share/machine_learning/hook/ament_prefix_path.sh'
+[0.385s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.385s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.587s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/johndoe/github/ROProject3/ros_workspace/src/machine_learning'
+[0.588s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.588s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.875s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/johndoe/github/ROProject3/ros_workspace/src/machine_learning': PYTHONPATH=/home/johndoe/github/ROProject3/ros_workspace/build/machine_learning/prefix_override:/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/machine_learning build --build-base /home/johndoe/github/ROProject3/ros_workspace/build/machine_learning/build install --record /home/johndoe/github/ROProject3/ros_workspace/build/machine_learning/install.log --single-version-externally-managed
+[1.105s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/johndoe/github/ROProject3/ros_workspace/src/machine_learning' returned '0': PYTHONPATH=/home/johndoe/github/ROProject3/ros_workspace/build/machine_learning/prefix_override:/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/machine_learning build --build-base /home/johndoe/github/ROProject3/ros_workspace/build/machine_learning/build install --record /home/johndoe/github/ROProject3/ros_workspace/build/machine_learning/install.log --single-version-externally-managed
+[1.114s] Level 1:colcon.colcon_core.environment:checking '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning' for CMake module files
+[1.114s] Level 1:colcon.colcon_core.environment:checking '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning' for CMake config files
+[1.115s] Level 1:colcon.colcon_core.environment:checking '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/lib'
+[1.115s] Level 1:colcon.colcon_core.environment:checking '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/bin'
+[1.115s] Level 1:colcon.colcon_core.environment:checking '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/lib/pkgconfig/machine_learning.pc'
+[1.116s] Level 1:colcon.colcon_core.environment:checking '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/lib/python3.10/site-packages'
+[1.116s] Level 1:colcon.colcon_core.shell:create_environment_hook('machine_learning', 'pythonpath')
+[1.117s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/share/machine_learning/hook/pythonpath.ps1'
+[1.117s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/share/machine_learning/hook/pythonpath.dsv'
+[1.117s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/share/machine_learning/hook/pythonpath.sh'
+[1.118s] Level 1:colcon.colcon_core.environment:checking '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/bin'
+[1.118s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(machine_learning)
+[1.119s] INFO:colcon.colcon_core.shell:Creating package script '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/share/machine_learning/package.ps1'
+[1.120s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/share/machine_learning/package.dsv'
+[1.120s] INFO:colcon.colcon_core.shell:Creating package script '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/share/machine_learning/package.sh'
+[1.121s] INFO:colcon.colcon_core.shell:Creating package script '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/share/machine_learning/package.bash'
+[1.122s] INFO:colcon.colcon_core.shell:Creating package script '/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/share/machine_learning/package.zsh'
+[1.123s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/share/colcon-core/packages/machine_learning)
+[1.124s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[1.124s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[1.124s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[1.124s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[1.129s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[1.129s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[1.129s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[1.142s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[1.143s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/johndoe/github/ROProject3/ros_workspace/install/local_setup.ps1'
+[1.144s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/johndoe/github/ROProject3/ros_workspace/install/_local_setup_util_ps1.py'
+[1.145s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/johndoe/github/ROProject3/ros_workspace/install/setup.ps1'
+[1.147s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/johndoe/github/ROProject3/ros_workspace/install/local_setup.sh'
+[1.147s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/johndoe/github/ROProject3/ros_workspace/install/_local_setup_util_sh.py'
+[1.147s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/johndoe/github/ROProject3/ros_workspace/install/setup.sh'
+[1.148s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/johndoe/github/ROProject3/ros_workspace/install/local_setup.bash'
+[1.149s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/johndoe/github/ROProject3/ros_workspace/install/setup.bash'
+[1.150s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/johndoe/github/ROProject3/ros_workspace/install/local_setup.zsh'
+[1.152s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/johndoe/github/ROProject3/ros_workspace/install/setup.zsh'
