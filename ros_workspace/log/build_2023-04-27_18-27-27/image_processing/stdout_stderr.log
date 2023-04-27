@@ -1,0 +1,31 @@
+running egg_info
+creating ../../build/image_processing/image_processing.egg-info
+writing ../../build/image_processing/image_processing.egg-info/PKG-INFO
+writing dependency_links to ../../build/image_processing/image_processing.egg-info/dependency_links.txt
+writing entry points to ../../build/image_processing/image_processing.egg-info/entry_points.txt
+writing requirements to ../../build/image_processing/image_processing.egg-info/requires.txt
+writing top-level names to ../../build/image_processing/image_processing.egg-info/top_level.txt
+writing manifest file '../../build/image_processing/image_processing.egg-info/SOURCES.txt'
+reading manifest file '../../build/image_processing/image_processing.egg-info/SOURCES.txt'
+writing manifest file '../../build/image_processing/image_processing.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/johndoe/github/ROProject3/ros_workspace/build/image_processing/build
+creating /home/johndoe/github/ROProject3/ros_workspace/build/image_processing/build/lib
+creating /home/johndoe/github/ROProject3/ros_workspace/build/image_processing/build/lib/image_processing
+copying image_processing/__init__.py -> /home/johndoe/github/ROProject3/ros_workspace/build/image_processing/build/lib/image_processing
+running install
+running install_lib
+creating /home/johndoe/github/ROProject3/ros_workspace/install/image_processing/lib/python3.10/site-packages/image_processing
+copying /home/johndoe/github/ROProject3/ros_workspace/build/image_processing/build/lib/image_processing/__init__.py -> /home/johndoe/github/ROProject3/ros_workspace/install/image_processing/lib/python3.10/site-packages/image_processing
+byte-compiling /home/johndoe/github/ROProject3/ros_workspace/install/image_processing/lib/python3.10/site-packages/image_processing/__init__.py to __init__.cpython-310.pyc
+running install_data
+creating /home/johndoe/github/ROProject3/ros_workspace/install/image_processing/share/ament_index
+creating /home/johndoe/github/ROProject3/ros_workspace/install/image_processing/share/ament_index/resource_index
+creating /home/johndoe/github/ROProject3/ros_workspace/install/image_processing/share/ament_index/resource_index/packages
+copying resource/image_processing -> /home/johndoe/github/ROProject3/ros_workspace/install/image_processing/share/ament_index/resource_index/packages
+copying package.xml -> /home/johndoe/github/ROProject3/ros_workspace/install/image_processing/share/image_processing
+running install_egg_info
+Copying ../../build/image_processing/image_processing.egg-info to /home/johndoe/github/ROProject3/ros_workspace/install/image_processing/lib/python3.10/site-packages/image_processing-1.0.0-py3.10.egg-info
+running install_scripts
+writing list of installed files to '/home/johndoe/github/ROProject3/ros_workspace/build/image_processing/install.log'

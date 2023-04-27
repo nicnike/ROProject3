@@ -1,0 +1,27 @@
+[0.509s] Invoking command in '/home/johndoe/github/ROProject3/ros_workspace/src/machine_learning': PYTHONPATH=/home/johndoe/github/ROProject3/ros_workspace/build/machine_learning/prefix_override:/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/machine_learning build --build-base /home/johndoe/github/ROProject3/ros_workspace/build/machine_learning/build install --record /home/johndoe/github/ROProject3/ros_workspace/build/machine_learning/install.log --single-version-externally-managed
+[0.713s] running egg_info
+[0.714s] writing ../../build/machine_learning/machine_learning.egg-info/PKG-INFO
+[0.714s] writing dependency_links to ../../build/machine_learning/machine_learning.egg-info/dependency_links.txt
+[0.714s] writing entry points to ../../build/machine_learning/machine_learning.egg-info/entry_points.txt
+[0.715s] writing requirements to ../../build/machine_learning/machine_learning.egg-info/requires.txt
+[0.715s] writing top-level names to ../../build/machine_learning/machine_learning.egg-info/top_level.txt
+[0.717s] reading manifest file '../../build/machine_learning/machine_learning.egg-info/SOURCES.txt'
+[0.718s] writing manifest file '../../build/machine_learning/machine_learning.egg-info/SOURCES.txt'
+[0.718s] running build
+[0.718s] running build_py
+[0.718s] running install
+[0.719s] running install_lib
+[0.719s] creating /home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/lib/python3.10/site-packages/machine_learning
+[0.720s] copying /home/johndoe/github/ROProject3/ros_workspace/build/machine_learning/build/lib/machine_learning/__init__.py -> /home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/lib/python3.10/site-packages/machine_learning
+[0.720s] byte-compiling /home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/lib/python3.10/site-packages/machine_learning/__init__.py to __init__.cpython-310.pyc
+[0.720s] running install_data
+[0.721s] creating /home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/share/ament_index
+[0.721s] creating /home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/share/ament_index/resource_index
+[0.721s] creating /home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/share/ament_index/resource_index/packages
+[0.721s] copying resource/machine_learning -> /home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/share/ament_index/resource_index/packages
+[0.722s] copying package.xml -> /home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/share/machine_learning
+[0.722s] running install_egg_info
+[0.723s] Copying ../../build/machine_learning/machine_learning.egg-info to /home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/lib/python3.10/site-packages/machine_learning-1.0.0-py3.10.egg-info
+[0.724s] running install_scripts
+[0.742s] writing list of installed files to '/home/johndoe/github/ROProject3/ros_workspace/build/machine_learning/install.log'
+[0.769s] Invoked command in '/home/johndoe/github/ROProject3/ros_workspace/src/machine_learning' returned '0': PYTHONPATH=/home/johndoe/github/ROProject3/ros_workspace/build/machine_learning/prefix_override:/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/machine_learning build --build-base /home/johndoe/github/ROProject3/ros_workspace/build/machine_learning/build install --record /home/johndoe/github/ROProject3/ros_workspace/build/machine_learning/install.log --single-version-externally-managed

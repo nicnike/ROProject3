@@ -1,0 +1,33 @@
+[0.756s] Invoking command in '/home/johndoe/github/ROProject3/ros_workspace/src/kalman_filter': PYTHONPATH=/home/johndoe/github/ROProject3/ros_workspace/build/kalman_filter/prefix_override:/home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/kalman_filter build --build-base /home/johndoe/github/ROProject3/ros_workspace/build/kalman_filter/build install --record /home/johndoe/github/ROProject3/ros_workspace/build/kalman_filter/install.log --single-version-externally-managed
+[0.956s] running egg_info
+[0.957s] creating ../../build/kalman_filter/kalman_filter.egg-info
+[0.957s] writing ../../build/kalman_filter/kalman_filter.egg-info/PKG-INFO
+[0.957s] writing dependency_links to ../../build/kalman_filter/kalman_filter.egg-info/dependency_links.txt
+[0.957s] writing entry points to ../../build/kalman_filter/kalman_filter.egg-info/entry_points.txt
+[0.958s] writing requirements to ../../build/kalman_filter/kalman_filter.egg-info/requires.txt
+[0.958s] writing top-level names to ../../build/kalman_filter/kalman_filter.egg-info/top_level.txt
+[0.958s] writing manifest file '../../build/kalman_filter/kalman_filter.egg-info/SOURCES.txt'
+[0.959s] reading manifest file '../../build/kalman_filter/kalman_filter.egg-info/SOURCES.txt'
+[0.960s] writing manifest file '../../build/kalman_filter/kalman_filter.egg-info/SOURCES.txt'
+[0.961s] running build
+[0.961s] running build_py
+[0.962s] creating /home/johndoe/github/ROProject3/ros_workspace/build/kalman_filter/build
+[0.962s] creating /home/johndoe/github/ROProject3/ros_workspace/build/kalman_filter/build/lib
+[0.962s] creating /home/johndoe/github/ROProject3/ros_workspace/build/kalman_filter/build/lib/kalman_filter
+[0.963s] copying kalman_filter/__init__.py -> /home/johndoe/github/ROProject3/ros_workspace/build/kalman_filter/build/lib/kalman_filter
+[0.963s] running install
+[0.963s] running install_lib
+[0.964s] creating /home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/lib/python3.10/site-packages/kalman_filter
+[0.965s] copying /home/johndoe/github/ROProject3/ros_workspace/build/kalman_filter/build/lib/kalman_filter/__init__.py -> /home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/lib/python3.10/site-packages/kalman_filter
+[0.966s] byte-compiling /home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/lib/python3.10/site-packages/kalman_filter/__init__.py to __init__.cpython-310.pyc
+[0.967s] running install_data
+[0.967s] creating /home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/share/ament_index
+[0.968s] creating /home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/share/ament_index/resource_index
+[0.968s] creating /home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/share/ament_index/resource_index/packages
+[0.969s] copying resource/kalman_filter -> /home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/share/ament_index/resource_index/packages
+[0.970s] copying package.xml -> /home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/share/kalman_filter
+[0.970s] running install_egg_info
+[0.971s] Copying ../../build/kalman_filter/kalman_filter.egg-info to /home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/lib/python3.10/site-packages/kalman_filter-0.0.0-py3.10.egg-info
+[0.972s] running install_scripts
+[0.991s] writing list of installed files to '/home/johndoe/github/ROProject3/ros_workspace/build/kalman_filter/install.log'
+[1.054s] Invoked command in '/home/johndoe/github/ROProject3/ros_workspace/src/kalman_filter' returned '0': PYTHONPATH=/home/johndoe/github/ROProject3/ros_workspace/build/kalman_filter/prefix_override:/home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/kalman_filter build --build-base /home/johndoe/github/ROProject3/ros_workspace/build/kalman_filter/build install --record /home/johndoe/github/ROProject3/ros_workspace/build/kalman_filter/install.log --single-version-externally-managed

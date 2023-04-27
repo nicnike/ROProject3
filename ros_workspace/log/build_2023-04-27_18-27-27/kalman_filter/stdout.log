@@ -1,0 +1,31 @@
+running egg_info
+creating ../../build/kalman_filter/kalman_filter.egg-info
+writing ../../build/kalman_filter/kalman_filter.egg-info/PKG-INFO
+writing dependency_links to ../../build/kalman_filter/kalman_filter.egg-info/dependency_links.txt
+writing entry points to ../../build/kalman_filter/kalman_filter.egg-info/entry_points.txt
+writing requirements to ../../build/kalman_filter/kalman_filter.egg-info/requires.txt
+writing top-level names to ../../build/kalman_filter/kalman_filter.egg-info/top_level.txt
+writing manifest file '../../build/kalman_filter/kalman_filter.egg-info/SOURCES.txt'
+reading manifest file '../../build/kalman_filter/kalman_filter.egg-info/SOURCES.txt'
+writing manifest file '../../build/kalman_filter/kalman_filter.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/johndoe/github/ROProject3/ros_workspace/build/kalman_filter/build
+creating /home/johndoe/github/ROProject3/ros_workspace/build/kalman_filter/build/lib
+creating /home/johndoe/github/ROProject3/ros_workspace/build/kalman_filter/build/lib/kalman_filter
+copying kalman_filter/__init__.py -> /home/johndoe/github/ROProject3/ros_workspace/build/kalman_filter/build/lib/kalman_filter
+running install
+running install_lib
+creating /home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/lib/python3.10/site-packages/kalman_filter
+copying /home/johndoe/github/ROProject3/ros_workspace/build/kalman_filter/build/lib/kalman_filter/__init__.py -> /home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/lib/python3.10/site-packages/kalman_filter
+byte-compiling /home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/lib/python3.10/site-packages/kalman_filter/__init__.py to __init__.cpython-310.pyc
+running install_data
+creating /home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/share/ament_index
+creating /home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/share/ament_index/resource_index
+creating /home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/share/ament_index/resource_index/packages
+copying resource/kalman_filter -> /home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/share/ament_index/resource_index/packages
+copying package.xml -> /home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/share/kalman_filter
+running install_egg_info
+Copying ../../build/kalman_filter/kalman_filter.egg-info to /home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/lib/python3.10/site-packages/kalman_filter-0.0.0-py3.10.egg-info
+running install_scripts
+writing list of installed files to '/home/johndoe/github/ROProject3/ros_workspace/build/kalman_filter/install.log'

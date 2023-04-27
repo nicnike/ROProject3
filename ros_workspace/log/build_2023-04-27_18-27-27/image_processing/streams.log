@@ -1,0 +1,33 @@
+[0.772s] Invoking command in '/home/johndoe/github/ROProject3/ros_workspace/src/image_processing': PYTHONPATH=/home/johndoe/github/ROProject3/ros_workspace/build/image_processing/prefix_override:/home/johndoe/github/ROProject3/ros_workspace/install/image_processing/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/image_processing build --build-base /home/johndoe/github/ROProject3/ros_workspace/build/image_processing/build install --record /home/johndoe/github/ROProject3/ros_workspace/build/image_processing/install.log --single-version-externally-managed
+[0.971s] running egg_info
+[0.972s] creating ../../build/image_processing/image_processing.egg-info
+[0.972s] writing ../../build/image_processing/image_processing.egg-info/PKG-INFO
+[0.972s] writing dependency_links to ../../build/image_processing/image_processing.egg-info/dependency_links.txt
+[0.973s] writing entry points to ../../build/image_processing/image_processing.egg-info/entry_points.txt
+[0.973s] writing requirements to ../../build/image_processing/image_processing.egg-info/requires.txt
+[0.973s] writing top-level names to ../../build/image_processing/image_processing.egg-info/top_level.txt
+[0.973s] writing manifest file '../../build/image_processing/image_processing.egg-info/SOURCES.txt'
+[0.974s] reading manifest file '../../build/image_processing/image_processing.egg-info/SOURCES.txt'
+[0.975s] writing manifest file '../../build/image_processing/image_processing.egg-info/SOURCES.txt'
+[0.975s] running build
+[0.976s] running build_py
+[0.976s] creating /home/johndoe/github/ROProject3/ros_workspace/build/image_processing/build
+[0.976s] creating /home/johndoe/github/ROProject3/ros_workspace/build/image_processing/build/lib
+[0.976s] creating /home/johndoe/github/ROProject3/ros_workspace/build/image_processing/build/lib/image_processing
+[0.976s] copying image_processing/__init__.py -> /home/johndoe/github/ROProject3/ros_workspace/build/image_processing/build/lib/image_processing
+[0.976s] running install
+[0.977s] running install_lib
+[0.977s] creating /home/johndoe/github/ROProject3/ros_workspace/install/image_processing/lib/python3.10/site-packages/image_processing
+[0.977s] copying /home/johndoe/github/ROProject3/ros_workspace/build/image_processing/build/lib/image_processing/__init__.py -> /home/johndoe/github/ROProject3/ros_workspace/install/image_processing/lib/python3.10/site-packages/image_processing
+[0.978s] byte-compiling /home/johndoe/github/ROProject3/ros_workspace/install/image_processing/lib/python3.10/site-packages/image_processing/__init__.py to __init__.cpython-310.pyc
+[0.978s] running install_data
+[0.979s] creating /home/johndoe/github/ROProject3/ros_workspace/install/image_processing/share/ament_index
+[0.980s] creating /home/johndoe/github/ROProject3/ros_workspace/install/image_processing/share/ament_index/resource_index
+[0.980s] creating /home/johndoe/github/ROProject3/ros_workspace/install/image_processing/share/ament_index/resource_index/packages
+[0.980s] copying resource/image_processing -> /home/johndoe/github/ROProject3/ros_workspace/install/image_processing/share/ament_index/resource_index/packages
+[0.980s] copying package.xml -> /home/johndoe/github/ROProject3/ros_workspace/install/image_processing/share/image_processing
+[0.980s] running install_egg_info
+[0.982s] Copying ../../build/image_processing/image_processing.egg-info to /home/johndoe/github/ROProject3/ros_workspace/install/image_processing/lib/python3.10/site-packages/image_processing-1.0.0-py3.10.egg-info
+[0.983s] running install_scripts
+[1.002s] writing list of installed files to '/home/johndoe/github/ROProject3/ros_workspace/build/image_processing/install.log'
+[1.042s] Invoked command in '/home/johndoe/github/ROProject3/ros_workspace/src/image_processing' returned '0': PYTHONPATH=/home/johndoe/github/ROProject3/ros_workspace/build/image_processing/prefix_override:/home/johndoe/github/ROProject3/ros_workspace/install/image_processing/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/image_processing build --build-base /home/johndoe/github/ROProject3/ros_workspace/build/image_processing/build install --record /home/johndoe/github/ROProject3/ros_workspace/build/image_processing/install.log --single-version-externally-managed
