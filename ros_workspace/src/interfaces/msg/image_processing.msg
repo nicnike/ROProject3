@@ -1,0 +1,3 @@
+float64 gripping_point_x
+float64 gripping_point_y
+float64 velocity
