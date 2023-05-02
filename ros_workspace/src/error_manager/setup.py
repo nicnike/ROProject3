@@ -20,6 +20,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            #name = package name.file name:main function
+            "log_handler = error_manager.log_handler:main",
+            "draw_circle = error_manager.draw_circle:main",
         ],
     },
 )

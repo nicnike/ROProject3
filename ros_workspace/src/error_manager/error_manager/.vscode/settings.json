@@ -1,0 +1,22 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/lib/python3.10/site-packages",
+        "/home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/lib/python3.10/site-packages",
+        "/home/johndoe/github/ROProject3/ros_workspace/install/image_processing/lib/python3.10/site-packages",
+        "/home/johndoe/github/ROProject3/ros_workspace/install/image_capture/lib/python3.10/site-packages",
+        "/home/johndoe/github/ROProject3/ros_workspace/install/error_manager/lib/python3.10/site-packages",
+        "/home/johndoe/github/ROProject3/ros_workspace/install/controller/lib/python3.10/site-packages",
+        "/opt/ros/rolling/lib/python3.10/site-packages",
+        "/opt/ros/rolling/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/johndoe/github/ROProject3/ros_workspace/install/machine_learning/lib/python3.10/site-packages",
+        "/home/johndoe/github/ROProject3/ros_workspace/install/kalman_filter/lib/python3.10/site-packages",
+        "/home/johndoe/github/ROProject3/ros_workspace/install/image_processing/lib/python3.10/site-packages",
+        "/home/johndoe/github/ROProject3/ros_workspace/install/image_capture/lib/python3.10/site-packages",
+        "/home/johndoe/github/ROProject3/ros_workspace/install/error_manager/lib/python3.10/site-packages",
+        "/home/johndoe/github/ROProject3/ros_workspace/install/controller/lib/python3.10/site-packages",
+        "/opt/ros/rolling/lib/python3.10/site-packages",
+        "/opt/ros/rolling/local/lib/python3.10/dist-packages"
+    ]
+}
