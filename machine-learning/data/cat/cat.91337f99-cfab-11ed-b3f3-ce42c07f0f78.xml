@@ -1,0 +1,38 @@
+<annotation>
+	<folder>cat</folder>
+	<filename>cat.91337f99-cfab-11ed-b3f3-ce42c07f0f78.jpg</filename>
+	<path>C:\Users\nikla\OneDrive\Robotik\4. Semester\Projekt 3\VideoDetection\TFODCourse\Tensorflow\workspace\images\collectedimages\cat\cat.91337f99-cfab-11ed-b3f3-ce42c07f0f78.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>480</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>cat</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>318</xmin>
+			<ymin>264</ymin>
+			<xmax>371</xmax>
+			<ymax>315</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>unicorn</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>606</xmin>
+			<ymin>251</ymin>
+			<xmax>639</xmax>
+			<ymax>284</ymax>
+		</bndbox>
+	</object>
+</annotation>

@@ -1,0 +1,26 @@
+<annotation>
+	<folder>unicorn</folder>
+	<filename>unicorn.a7c3b1f1-d386-11ed-95af-ce42c07f0f78.jpg</filename>
+	<path>C:\Users\nikla\OneDrive\Robotik\4. Semester\Projekt 3\VideoDetection\TFODCourse\Tensorflow\workspace\images\collectedimages\unicorn\unicorn.a7c3b1f1-d386-11ed-95af-ce42c07f0f78.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>480</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>unicorn</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>389</xmin>
+			<ymin>249</ymin>
+			<xmax>421</xmax>
+			<ymax>287</ymax>
+		</bndbox>
+	</object>
+</annotation>
