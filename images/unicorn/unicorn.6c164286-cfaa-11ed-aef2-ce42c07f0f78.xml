@@ -1,0 +1,26 @@
+<annotation>
+	<folder>Unicorn</folder>
+	<filename>unicorn.6c164286-cfaa-11ed-aef2-ce42c07f0f78.jpg</filename>
+	<path>H:\Unicorn\unicorn.6c164286-cfaa-11ed-aef2-ce42c07f0f78.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>480</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>unicorn</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>443</xmin>
+			<ymin>265</ymin>
+			<xmax>489</xmax>
+			<ymax>302</ymax>
+		</bndbox>
+	</object>
+</annotation>
