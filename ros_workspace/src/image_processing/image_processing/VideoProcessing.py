@@ -1,203 +1,228 @@
 import cv2
 from cv2 import aruco
+import cv2.aruco
 import numpy as np
 from skimage.feature import peak_local_max
 import time
 
+import Animal
 import CSVGeneratorML
 
 
-ARUCO_DICT = {
-    "DICT_4X4_50": cv2.aruco.DICT_4X4_50,
-    "DICT_4X4_100": cv2.aruco.DICT_4X4_100,
-    "DICT_4X4_250": cv2.aruco.DICT_4X4_250,
-    "DICT_4X4_1000": cv2.aruco.DICT_4X4_1000,
-    "DICT_5X5_50": cv2.aruco.DICT_5X5_50,
-    "DICT_5X5_100": cv2.aruco.DICT_5X5_100,
-    "DICT_5X5_250": cv2.aruco.DICT_5X5_250,
-    "DICT_5X5_1000": cv2.aruco.DICT_5X5_1000,
-    "DICT_6X6_50": cv2.aruco.DICT_6X6_50,
-    "DICT_6X6_100": cv2.aruco.DICT_6X6_100,
-    "DICT_6X6_250": cv2.aruco.DICT_6X6_250,
-    "DICT_6X6_1000": cv2.aruco.DICT_6X6_1000,
-    "DICT_7X7_50": cv2.aruco.DICT_7X7_50,
-    "DICT_7X7_100": cv2.aruco.DICT_7X7_100,
-    "DICT_7X7_250": cv2.aruco.DICT_7X7_250,
-    "DICT_7X7_1000": cv2.aruco.DICT_7X7_1000,
-    "DICT_ARUCO_ORIGINAL": cv2.aruco.DICT_ARUCO_ORIGINAL
-}
+class VideoProcessing:
+    def __init__(self, inputVideo):
+        self.video = inputVideo
+        self.homographyX = [0, 0, 0, 0]
+        self.homographyY = [0, 0, 0, 0]
+        self.originX = 0
+        self.originY = 0
+        self.targetHeight = 240
+        self.targetWidth = 300
+        self.objectX = 0
+        self.speed = 0
+        self.lastTime = time.time()
+        self.frame1 = 0
+        self.frame2 = 0
+        self.ARUCO_DICT = {
+            "DICT_4X4_50": cv2.aruco.DICT_4X4_50,
+            "DICT_4X4_100": cv2.aruco.DICT_4X4_100,
+            "DICT_4X4_250": cv2.aruco.DICT_4X4_250,
+            "DICT_4X4_1000": cv2.aruco.DICT_4X4_1000,
+            "DICT_5X5_50": cv2.aruco.DICT_5X5_50,
+            "DICT_5X5_100": cv2.aruco.DICT_5X5_100,
+            "DICT_5X5_250": cv2.aruco.DICT_5X5_250,
+            "DICT_5X5_1000": cv2.aruco.DICT_5X5_1000,
+            "DICT_6X6_50": cv2.aruco.DICT_6X6_50,
+            "DICT_6X6_100": cv2.aruco.DICT_6X6_100,
+            "DICT_6X6_250": cv2.aruco.DICT_6X6_250,
+            "DICT_6X6_1000": cv2.aruco.DICT_6X6_1000,
+            "DICT_7X7_50": cv2.aruco.DICT_7X7_50,
+            "DICT_7X7_100": cv2.aruco.DICT_7X7_100,
+            "DICT_7X7_250": cv2.aruco.DICT_7X7_250,
+            "DICT_7X7_1000": cv2.aruco.DICT_7X7_1000,
+            "DICT_ARUCO_ORIGINAL": cv2.aruco.DICT_ARUCO_ORIGINAL
+        }
+        self.arucoDict = aruco.getPredefinedDictionary(aruco.DICT_4X4_50)
+        self.arucoParams = aruco.DetectorParameters()
+        self.arucoDetector = aruco.ArucoDetector(self.arucoDict, self.arucoParams)
+        self.compensationX = 0
+        self.compensationY = 0
 
-arucoDict = aruco.getPredefinedDictionary(aruco.DICT_4X4_50)
-arucoParams = aruco.DetectorParameters()
+    def VPConvertToGray(self, video):
+        videoGray = cv2.cvtColor(video, cv2.COLOR_BGR2GRAY)
+        return videoGray
 
-histPx = [0, 0, 0, 0]
-histPy = [0, 0, 0, 0]
-height = 480
-width = 600
-# height = 73
-# width = 400
-x0, y0 = (0, 0)
+    def VPConvertToBinary(self, video):
+        _, videoBinary = cv2.threshold(video, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        return videoBinary
+
+    def VPHomography(self, video):
+        fromPoints = np.array(list(zip(self.homographyX, self.homographyY)), dtype='float32')
+        toPoints = np.array([(self.originX + self.targetWidth, self.originY + self.targetHeight),
+                             (self.originX + self.targetWidth, self.originY),
+                             (self.originX, self.originY),
+                             (self.originX, self.originY + self.targetHeight)], dtype='float32')
+        H = cv2.getPerspectiveTransform(fromPoints, toPoints)
+        videoTransformed = cv2.warpPerspective(video, H, (self.targetWidth, self.targetHeight))
+        return videoTransformed
+
+    def VPGetContoursAndArea(self, video, Animal):
+        videoBlurred = cv2.GaussianBlur(video, (5, 5), 0)
+        videoEdged = cv2.Canny(videoBlurred, 50, 150)
+        contours, _ = cv2.findContours(videoEdged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+        for cnt in contours:
+            approx = cv2.approxPolyDP(cnt, 0.04 * cv2.arcLength(cnt, True), True)
+            area = cv2.contourArea(cnt)
+
+            if area > 1000:
+                Animal.shape = len(approx)
+                Animal.objectArea = area
+
+                (x, y), radius = cv2.minEnclosingCircle(cnt)
+                center = (int(x), int(y))
+                radius = int(radius)
+                Animal.radius = radius
+                print(radius)
+                cv2.circle(video, center, radius, (0, 255, 0), 2)
+
+                # cv2.drawContours(video, [cnt], -1, (0, 255, 0), 3)
 
 
-def getPreprocessedVideo(video):
-    fromPts = np.array(list(zip(histPx, histPy)), dtype='float32')
-    toPts = np.array([(x0, y0 + height), (x0 + width, y0 + height), (x0 + width, y0), (x0, y0)], dtype='float32')
+    def VPGetCorners(self, video, Animal):
+        corners = cv2.goodFeaturesToTrack(video, 1000, 0.05, 10)
+        if corners.any() is not None:
+            corners = np.int0(corners)
+            Animal.cornerCount = len(corners)
 
-    H = cv2.getPerspectiveTransform(fromPts, toPts)
+        # for i in corners:
+        #     x, y = i.ravel()
+        #     cv2. circle(video, (x, y), 3, 255, -1)
 
-    videoTransformed = cv2.warpPerspective(video, H, (width + 2 * x0, height + 2 * y0))
-    # convert to Gray
-    videoGray = cv2.cvtColor(videoTransformed, cv2.COLOR_BGR2GRAY)
-    # convert to Binary
-    _, videoBinary = cv2.threshold(videoGray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    def VPGetDistanceTransformation(self, video, Animal):
+        distanceTransformation = cv2.distanceTransform(video, cv2.DIST_L2, 3)
+        try:
+            localMax = peak_local_max(distanceTransformation, min_distance=20)
+            self.objectX = localMax[0, 1]
+            Animal.objectX = localMax[0, 1]
+            Animal.objectY = localMax[0, 0]
+        except:
+            pass
 
-    return videoBinary
+        # cv2.circle(video, (x, y), radius=10, color=(0, 0, 255), thickness=-1)
+
+        return Animal.objectX, Animal.objectY
+
+    def VPGetSpeed(self):
+        '''
+        Returns the speed of an object.
+        :parameter: self
+        :return: self.speed
+        '''
+        if time.time() - self.lastTime > 0.5:
+            self.frame2 = self.objectX
+            if self.frame2 - self.frame1 > 0:
+                self.speed = (self.frame2 - self.frame1) / (time.time() - self.lastTime)
+            self.frame1 = self.frame2
+            self.lastTime = time.time()
+        return self.speed
+
+    def VPArucoDisplay(self, corners, ids, rejected, video):
+        if len(corners) > 0:
+            ids = ids.flatten()
+
+            for (markerCorner, markerID) in zip(corners, ids):
+                corners = markerCorner.reshape((4, 2))
+                (topLeft, topRight, bottomRight, bottomLeft) = corners
+
+                topRight = (int(topRight[0]), int(topRight[1]))
+                bottomRight = (int(bottomRight[0]), int(bottomRight[1]))
+                bottomLeft = (int(bottomLeft[0]), int(bottomLeft[1]))
+                topLeft = (int(topLeft[0]), int(topLeft[1]))
+
+                if 0 <= markerID <= 4:
+                    self.homographyX[markerID] = int(topLeft[0])
+                    self.homographyY[markerID] = int(topLeft[1])
+
+                # cv2.line(video, topLeft, topRight, (0, 255, 0), 2)
+                # cv2.line(video, topRight, bottomRight, (0, 255, 0), 2)
+                # cv2.line(video, bottomRight, bottomLeft, (0, 255, 0), 2)
+                # cv2.line(video, bottomLeft, topLeft, (0, 255, 0), 2)
+                # cv2.circle(video, topLeft, 4, (0, 0, 255), -1)
+                # cv2.putText(video, str(markerID), (topRight[0], topRight[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+            return video
+
+    def VPDetectArucoMarkers(self, video):
+        corners, ids, rejected = self.arucoDetector.detectMarkers(video)
+        videoDetectedMarkers = self.VPArucoDisplay(corners, ids, rejected, video)
+        return videoDetectedMarkers
+
+    def VPCompensateHomography(self):
+        self.compensationY = int((self.homographyY[0] - self.homographyY[1]) / 6)
+        self.compensationX = int((self.homographyX[0] - self.homographyX[3]) / 8)
+        self.homographyX[0] = self.homographyX[0] - self.compensationX
+        self.homographyY[0] = self.homographyY[0] - self.compensationY
+        self.homographyX[1] = self.homographyX[1] - self.compensationX
+        self.homographyY[1] = self.homographyY[1] + self.compensationY
+        self.homographyX[2] = self.homographyX[2] + self.compensationX
+        self.homographyY[2] = self.homographyY[2] + self.compensationY
+        self.homographyX[3] = self.homographyX[3] + self.compensationX
+        self.homographyY[3] = self.homographyY[3] - self.compensationY
+
+    def VPGenerateCSVData(self, Animal):
+        if Animal.shape != 0:
+            CSVData = [Animal.shape,
+                       Animal.objectArea,
+                       Animal.radius,
+                       Animal.cornerCount,
+                       str(Animal)]
+            CSVGeneratorML.appendToCSV(CSVData)
+
+    def VPCommunicateSpeed(self):
+        return self.speed
+
+    def VPProcessVideo(self, video, Animal):
+        homography = self.VPHomography(video)
+        gray = self.VPConvertToGray(homography)
+        self.VPGetCorners(gray, Animal)
+        binary = self.VPConvertToBinary(gray)
+        self.VPGetDistanceTransformation(binary, Animal)
+        self.VPGetContoursAndArea(binary, Animal)
+        self.VPGetSpeed()
+        return binary
 
 
 '''
-Function to evaluate an object within a video frame.
-It will return the shape and area of a eligible object.
-'''
-
-
-def getContours(video):
-    shape = 0
-    area = 0
-    areaObject = 0
-
-    videoBlurred = cv2.GaussianBlur(video, (5, 5), 0)
-    videoEdged = cv2.Canny(videoBlurred, 50, 150)
-    contours, _ = cv2.findContours(videoEdged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-    for cnt in contours:
-        approx = cv2.approxPolyDP(cnt, 0.04 * cv2.arcLength(cnt, True), True)
-        area = cv2.contourArea(cnt)
-        if area > 1000:
-            shape = len(approx)
-            areaObject = area
-            #cv2.drawContours(video, [cnt], -1, (255, 255, 255), 3)
-            #cv2.putText(video, str(shape), (cnt[0][0][0], cnt[0][0][1]), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
-
-    return shape, areaObject
-
-
-'''
-Calculates the local Maximum values in a given preprocessed video frame.
-Returns the x and y value of these
-'''
-
-
-def getDistanceTransformation(video):
-    x, y = 0, 0
-    distanceTransformation = cv2.distanceTransform(video, cv2.DIST_L2, 3)
-    try:
-        localMax = peak_local_max(distanceTransformation, min_distance=20)
-        x = localMax[0, 1]
-        y = localMax[0, 0]
-    except:
-        print("no local max")
-
-    #videoDistanceTransformation = cv2.cvtColor(video, cv2.COLOR_GRAY2RGB)
-    #cv2.circle(videoDistanceTransformation, (x, y), radius=10, color=(0, 0, 255), thickness=-1)
-    #cv2.imwrite("dist_transform.png", distanceTransformation)
-
-    return x, y
-
-
-'''
-Calculates the Speed of the Object in a video frame.
-The X Position will be updated every 0.2 seconds and is only valid if the position change is positive
-so there will be no speed change if a new object enters from the left side of the frame.
-
-The Function takes the x parameter from the created local maximum of the getDistanceTransformation function.
-
-x1, x2, speed, lastTime has to be initialized outside of the function.
-'''
-
-
-x1, x2, speed = 0, 0, 0
-lastTime = time.time()
-
-
-def getSpeed(x):
-    global x1, x2, speed, lastTime
-
-    if time.time() - lastTime > 0.2:
-        x2 = x
-        if x2 - x1 > 0:
-            speed = (x2 - x1) / (time.time() - lastTime)
-        x1 = x2
-        lastTime = time.time()
-
-    return speed
-
-
-'''
-aruco display and filling in top left corner values
-'''
-
-
-def arucoDisplay(corners, ids, rejected, image):
-    if len(corners) > 0:
-        ids = ids.flatten()
-
-        for (markerCorner, markerID) in zip(corners, ids):
-
-            corners = markerCorner.reshape((4, 2))
-            (topLeft, topRight, bottomRight, bottomLeft) = corners
-
-            topRight = ( int( topRight[0] ), int( topRight[1] ) )
-            bottomRight = ( int( bottomRight[0] ), int( bottomRight[1] ) )
-            bottomLeft = ( int( bottomLeft[0] ), int( bottomLeft[1] ) )
-            topLeft = ( int( topLeft[0] ), int( topLeft[1] ) )
-
-            if 0 <= markerID <= 4:
-                histPx[markerID] = int( topLeft[0] )
-                histPy[markerID] = int( topLeft[1] )
-
-            # cv2.line(image, topLeft, topRight, (0, 255, 0), 2)
-            # cv2.line(image, topRight, bottomRight, (0, 255, 0), 2)
-            # cv2.line(image, bottomRight, bottomLeft, (0, 255, 0), 2)
-            # cv2.line(image, bottomLeft, topLeft, (0, 255, 0), 2)
-            #
-            # cv2.circle(image, topLeft, 4, (0, 0, 255), -1)
-            #
-            # cv2.putText(image, str(markerID), (topRight[0], topRight[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-
-    return image
-
-
-'''
-main loop
+test loop - removed soon
 '''
 cap = cv2.VideoCapture(0)
 
+testVideoProcessing = VideoProcessing(cap)
+animal1 = Animal.Animal()
+
+state = 1
+hstate = 1
 while cap.isOpened():
-    _, img = cap.read()
+    _, video = cap.read()
 
-    corners, ids, rejected = cv2.aruco.detectMarkers(img, arucoDict, parameters=arucoParams)
+    if state == 1:
+        detectedMarkers = testVideoProcessing.VPDetectArucoMarkers(video)
+        state = 0
 
-    detectedMarkers = arucoDisplay(corners, ids, rejected, img)
 
-    videoPreprocessed = getPreprocessedVideo(img)
+    newVideo = testVideoProcessing.VPProcessVideo(video, animal1)
+    print(animal1.CommunicateFeatures(), animal1.CommunicatePoints(), testVideoProcessing.VPCommunicateSpeed())
 
-    shape, area = getContours(videoPreprocessed)
+    if hstate == 1:
+        testVideoProcessing.VPCompensateHomography()
+        hstate = 0
 
-    x, y = getDistanceTransformation(videoPreprocessed)
 
-    speed = getSpeed(x)
-
-    print(shape, area, x, y, speed)
-
-    if shape != 0 and 70000 < area < 85000:
-        CSVData = [shape, area, "Unicorn"]
-        CSVGeneratorML.appendToCSV(CSVData)
-
-    cv2.imshow("Image", detectedMarkers)
-    cv2.imshow("Video Preprocessed", videoPreprocessed)
+    cv2.imshow("ImageOriginal", video)
+    cv2.imshow("Image", newVideo)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-capture.release()
+cap.release()
 cv2.destroyAllWindows()

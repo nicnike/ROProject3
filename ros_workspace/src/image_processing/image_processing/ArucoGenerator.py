@@ -1,6 +1,6 @@
 import cv2
 from cv2 import aruco
-import os
+
 
 ARUCO_DICT = {
     "DICT_4X4_50": cv2.aruco.DICT_4X4_50,
@@ -26,7 +26,7 @@ ARUCO_DICT = {
     "DICT_APRILTAG_36h11": cv2.aruco.DICT_APRILTAG_36h11
 }
 
-arucoNumber = 8
+arucoNumber = 4
 arucoSize = 500
 
 arucoDictionary = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
@@ -34,4 +34,4 @@ arucoDictionary = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
 for count in range(arucoNumber):
     arucoId = count
     arucoImage = cv2.aruco.generateImageMarker(arucoDictionary, arucoId, arucoSize)
-    cv2.imwrite(f"..\Images\ArucoMarkers\Aruco_{count}.png", arucoImage)
+    cv2.imwrite(f"ArucoMarkers\Aruco_{count}.png", arucoImage)
