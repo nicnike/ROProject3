@@ -1,19 +1,25 @@
 import numpy as np
 class KalmanFilter(object):
-    def __init__(self, dt, u_x, u_y, std_acc, x_std_meas, y_std_meas):
+    def __init__(self, dt, uX, uY, stdAcc, xStdMeas, yStdMeas):
         """
                :param dt: sampling time (time for 1 cycle)
-               :param u_x: acceleration in x-direction
-               :param u_y: acceleration in y-direction
-               :param std_acc: process noise magnitude
-               :param x_std_meas: standard deviation of the measurement in x-direction
-               :param y_std_meas: standard deviation of the measurement in y-direction
+               :param uX: acceleration in x-direction
+               :param uY: acceleration in y-direction
+               :param stdAcc: process noise magnitude
+               :param xStdMeas: standard deviation of the measurement in x-direction
+               :param yStdMeas: standard deviation of the measurement in y-direction
                """
         #Define sampling time
         self.dt = dt
 
+        #Define x standard deviation
+        self.xStdMeas = xStdMeas
+
+        #Define y standard deviation
+        self.yStdMeas = yStdMeas
+
         #Define the control input variables
-        self.u = np.matrix([[u_x], [u_y]])
+        self.u = np.matrix([[uX], [uY]])
 
         #Initial State
         self.x = np.matrix([[0], [0], [0], [0]])
@@ -38,11 +44,11 @@ class KalmanFilter(object):
         self.Q = np.matrix([[(self.dt**4)/4, 0, (self.dt**3)/2, 0],
                             [0, (self.dt**4)/4, 0, (self.dt**3)/2],
                             [(self.dt**3)/2, 0, self.dt**2, 0],
-                            [0, (self.dt**3)/2, 0, self.dt**2]]) * std_acc**2
+                            [0, (self.dt**3)/2, 0, self.dt**2]]) * stdAcc ** 2
 
         #Initial Measurment Noise Covariance
-        self.R = np.matrix([[x_std_meas**2, 0],
-                            [0, y_std_meas**2]])
+        self.R = np.matrix([[self.xStdMeas ** 2, 0],
+                            [0, self.yStdMeas ** 2]])
 
         #Initial Covariance Matrix
         self.P = np.eye(self.A.shape[1]) #eye= unity  Matrix
@@ -70,6 +76,12 @@ class KalmanFilter(object):
         #Update error covariance Matrix
         self.P = (I - (K * self.H)) * self.P
         return self.x[0:2]
+
+    def setxStdMeas(self, newXStdMeas):
+        self.xStdMeas = newXStdMeas
+
+    def setyStdMeas(self, newYStdMeas):
+        self.yStdMeas = newYStdMeas
 
 
 
