@@ -15,7 +15,7 @@ class ImageSubscriber(Node):
       10)
     self.subscription 
     self.bridge = CvBridge()
-   
+
   def listener_callback(self, data):
     """This function is called everytime a new message is published on the 'image_capture' topic. """
     self.get_logger().info('Receiving video frame')
