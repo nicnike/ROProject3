@@ -4,16 +4,22 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge 
 import cv2 
  
-class ImageSubscriber(Node):
+class PreprocessingNode(Node):
   """An image subscriber which periodically gets new frames."""
   def __init__(self):
-    super().__init__('image_subscriber')
+    super().__init__('Preprocessing_Node')
+    self.get_logger().info('Initializing')
     self.subscription = self.create_subscription(
       Image, 
       'image_capture', 
       self.listener_callback, 
       10)
-    self.subscription 
+    
+    self.publisher_ = self.create_publisher(
+      Image,
+      'preprocessed_image',
+      10)
+
     self.bridge = CvBridge()
 
   def listener_callback(self, data):
@@ -22,16 +28,15 @@ class ImageSubscriber(Node):
     # Convert ROS Image message to OpenCV image to do other stuff with it afterwards
     current_frame = self.bridge.imgmsg_to_cv2(data)
 
-    #Do Image stuff here
+    # preprocess Img here
+    # do image stuff
 
-    #Print image shape
-    self.get_logger().info('Image shape: %s' % str(current_frame.shape))
-    # cv2.imshow("camera", current_frame)
-    # cv2.waitKey(1)
+    preprocessed_msg = self.bridge.cv2_to_imgmsg(current_frame)
+    self.publisher_.publish(preprocessed_msg)
   
 def main(args=None):
   rclpy.init(args=args)
-  image_subscriber = ImageSubscriber()
+  image_subscriber = PreprocessingNode()
   rclpy.spin(image_subscriber)
   image_subscriber.destroy_node()
   rclpy.shutdown()

@@ -20,7 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'ImageSubscriber = image_processing.ImageSubscriber:main',
+            'PreprocessingNode = image_processing.PreprocessingNode:main',
         ],
     },
 )

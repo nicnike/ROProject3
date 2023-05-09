@@ -1,9 +1,9 @@
 import rclpy
-import rclpy.node as node
+from rclpy.node import Node
 import ro45_portalrobot_interfaces.msg as msg
 
 
-class ControlPosition(node):
+class ControlPosition(Node):
     def __init__(self):
         super().__init__('control_position')
         #Will be sent later to the controller
@@ -29,7 +29,7 @@ class ControlPosition(node):
         self.kp = 5
 
     def position_callback(self, data):
-        regelabweichung = [self.output[i] - msg.position[i] for i in range(3)]
+        regelabweichung = [self.target_value[i] - data.position[i] for i in range(3)]
 
         # If the control deviation is less than 0.1, it is set to 0
         for i in range(len(regelabweichung)):
@@ -41,6 +41,7 @@ class ControlPosition(node):
 
         # Publish the control deviation as a velocity
         self.velPub.publish(msg.RobotCmd(x=regelabweichung[0],y=regelabweichung[1],z=regelabweichung[2],gripper=False))
+        self.get_logger().info('Publishing: "%s"' % regelabweichung)
 
 def main(args=None):
     rclpy.init(args=args)

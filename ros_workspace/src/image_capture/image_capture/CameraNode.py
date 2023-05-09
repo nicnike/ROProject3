@@ -4,26 +4,34 @@ from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
 import cv2
 
-class ImagePublisher(Node):
+class CameraNode(Node):
     """An image publisher which periodically publishes new frames."""
     def __init__(self):
-        super().__init__('image_publisher')
-        self.publisher_ = self.create_publisher(Image, 'image_capture', 10)
+        super().__init__('CameraNode')
+        self.publisher_ = self.create_publisher(
+            Image, 
+            'image_capture', 
+            10)
+        
         timer_period = 0.5  # 0.5 seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.bridge = CvBridge()
+
+        #initialize video feed
         self.videoFeed = cv2.VideoCapture(0)
         
     def timer_callback(self):
         ret, frame = self.videoFeed.read()
-        if ret:
-            msg = self.bridge.cv2_to_imgmsg(frame)
-            self.publisher_.publish(msg)
+        if not ret:
+            self.get_logger().warn('Failed to capture frame from the camera.')
+            return
+        img_msg = self.bridge.cv2_to_imgmsg(frame)
+        self.publisher_.publish(img_msg)
         self.get_logger().info('Publishing a video frame')
 
 def main(args=None):
     rclpy.init(args=args)
-    image_publisher = ImagePublisher()
+    image_publisher = CameraNode()
     rclpy.spin(image_publisher)
     image_publisher.destroy_node()
     rclpy.shutdown()
