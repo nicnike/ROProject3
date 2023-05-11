@@ -66,7 +66,8 @@ class PreprocessingNode(Node):
       return 0
 
     def ml_callback(self, msg):
-       #todo: get classification from ML node
+      #todo: get classification from ML node
+      return 0
   
 def main(args=None):
   rclpy.init(args=args)
