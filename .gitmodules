@@ -1,0 +1,3 @@
+[submodule "ros_workspace/src/ro45_portalrobot_interfaces"]
+	path = ros_workspace/src/ro45_portalrobot_interfaces
+	url = https://github.com/matl-hsk/ro45_portalrobot_interfaces
