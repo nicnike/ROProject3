@@ -1,6 +1,7 @@
 import rclpy 
 from rclpy.node import Node 
 from sensor_msgs.msg import Image 
+from interfaces.msg import imageProcessing
 from cv_bridge import CvBridge 
 import cv2 
  
@@ -15,12 +16,20 @@ class PreprocessingNode(Node):
       self.listener_callback, 
       10)
     
-    self.publisher_ = self.create_publisher(
-      Image,
-      'preprocessed_image',
+    self.publisher = self.create_publisher(
+      imageProcessing,
+      'object_information',
       10)
 
     self.bridge = CvBridge()
+
+    # Create publisher and subscriber for ML node
+    # self.ml_publisher_ = self.create_publisher(Float64, 'ml_input', 10)
+    # self.ml_subscriber_ = self.create_subscription(
+    #  Int64,
+    #  'ml_output',
+    #  self.ml_callback,
+    #  10)
 
   def listener_callback(self, data):
     """This function is called everytime a new message is published on the 'image_capture' topic. """
@@ -31,8 +40,33 @@ class PreprocessingNode(Node):
     # preprocess Img here
     # do image stuff
 
-    preprocessed_msg = self.bridge.cv2_to_imgmsg(current_frame)
-    self.publisher_.publish(preprocessed_msg)
+    # Send preprocessed image to ML node and receive classification
+    classification = self.send_to_ml_node(current_frame)
+
+    # Send object position to Kalman filter node
+    object_info = imageProcessing()
+    object_info.header.frame_id = 'map'
+    object_info.header.stamp = self.get_clock().now().to_msg()
+    object_info.point = Point()
+    object_info.point.x = 0.0
+    object_info.point.y = 0.0
+    object_info.radius = 0.0
+    object_info.classification = classification
+
+    self.get_logger().info('Publishing object information' + 
+      object_info.classification + ' ' + 
+      object_info.radius + ' ' +
+      object_info.point.x + ' ' +
+      object_info.point.y)
+
+    self.publisher.publish(object_info)
+
+    def send_to_ml_node(self, surface_area, radius, shape):
+      #todo: send data to ML node
+      return 0
+
+    def ml_callback(self, msg):
+       #todo: get classification from ML node
   
 def main(args=None):
   rclpy.init(args=args)
