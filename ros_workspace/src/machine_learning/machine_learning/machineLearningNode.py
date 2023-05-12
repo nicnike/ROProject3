@@ -8,12 +8,11 @@ svmPathFile = "trainedSVMModel.joblib"
 
 
 class machineLearning:
-    def __init__(self, svmPathFile):
-       self.model = joblib.load(
-            svmPathFile
-        )
+    def __init__(self):
+      self.model = joblib.load(svmPathFile)
+
     def prediction(self,surface_area, radius, shape):
-        return self.model.predict([surface_area, radius, shape])
+      return self.model.predict([surface_area, radius, shape])
 
 class machineLearningNode(Node):
   def __init__(self):
@@ -26,14 +25,14 @@ class machineLearningNode(Node):
         ImageProcessingShape,
         'mlClassification_in',
         self.callback_classification,
-      10)
+        10)
     self.subscription  # prevent unused variable warning
     self.ml = machineLearning("placeHolder")
 
   def callback_classification(self, msg):
-      classification = self.ml.prediction(msg.surface_area, msg.radius, msg.shape)
-      self.get_logger().info('Publishing: "%s"' % classification)
-      self.publisher_.publish(classification)
+    classification = self.ml.prediction(msg.surface_area, msg.radius, msg.shape)
+    self.get_logger().info('Publishing: "%s"' % classification)
+    self.publisher_.publish(classification)
 
 
 def main(args=None):
