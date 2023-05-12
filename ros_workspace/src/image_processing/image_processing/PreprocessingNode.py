@@ -70,7 +70,6 @@ class PreprocessingNode(Node):
     object_info.position.x = 0.0
     object_info.position.y = 0.0
     object_info.radius = 0.0
-    object_info.corners = 0.0
     object_info.classification = classification
 
     self.get_logger().info("Publishing object information " + 

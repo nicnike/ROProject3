@@ -9,15 +9,11 @@ svmPathFile = "trainedSVMModel.joblib"
 
 class machineLearning:
     def __init__(self, svmPathFile):
-       joblib.load(
+       self.model = joblib.load(
             svmPathFile
         )
     def prediction(self,surface_area, radius, shape):
-        return self.prediction(
-          surface_area,
-          radius,
-          shape)
-
+        return self.model.predict([surface_area, radius, shape])
 
 class machineLearningNode(Node):
   def __init__(self):
