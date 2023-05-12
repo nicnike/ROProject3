@@ -1,8 +1,8 @@
 import rclpy
 from rclpy.node import Node
-from interfaces.msg import objectPosition
-from interfaces.msg import imageProcessing
+from custom_interfaces.msg import ObjectPosition, ImageProcessing
 from filterpy.kalman import KalmanFilter
+from geometry_msgs.msg import Point
 import numpy as np
 
 class Object:
@@ -30,15 +30,15 @@ class Object:
 
 class ObjectTrackerNode(Node):
   def __init__(self):
-    super().__init__('object_tracker')
+    super().__init__('object_tracker') # type: ignore
     self.objects = []
     self.next_id = 0
     self.publisher_ = self.create_publisher(
-      objectPosition,
+      ObjectPosition,
       'object_position',
       10)
     self.subscription = self.create_subscription(
-      imageProcessing,
+      ImageProcessing,
       'object_information',
       self.callback_classification,
       10)
@@ -74,14 +74,14 @@ class ObjectTrackerNode(Node):
     for obj in self.objects:
       obj.kf.predict(timestamp - obj.timestamp)
       obj.timestamp = timestamp
-      object_position = objectPosition()
+      object_position = ObjectPosition()
       object_position.header.frame_id = 'map'
       object_position.header.stamp = self.get_clock().now().to_msg()
       object_position.classification = obj.classification
-      object_position.point = Point()
-      object_position.point.x = obj.kf.x[0]
-      object_position.point.y = obj.kf.x[1]
-      object_position.point.z = 0
+      object_position.position = Point()
+      object_position.position.x = obj.kf.x[0]
+      object_position.position.y = obj.kf.x[1]
+      object_position.position.z = 0
       self.get_logger().info('Publishing: "%s"' % object_position)
       self.publisher_.publish(object_position)
 

@@ -11,7 +11,12 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
     ],
-    install_requires=['setuptools'],
+    install_requires=[        
+        'setuptools',
+        'rclpy',
+        'cv_bridge',
+        'sensor_msgs',
+        'opencv-python'],
     zip_safe=True,
     maintainer='Ai Avengers',
     maintainer_email='57753615+nicnike@users.noreply.github.com',
