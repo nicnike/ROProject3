@@ -11,7 +11,8 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
     ],
-    install_requires=['setuptools'],
+    install_requires=['setuptools',
+                      'joblib'],
     zip_safe=True,
     maintainer='Ai Avengers',
     maintainer_email='57753615+nicnike@users.noreply.github.com',
@@ -20,6 +21,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'machinelearningnode = machine_learning.machineLearningNode:main',
         ],
     },
 )

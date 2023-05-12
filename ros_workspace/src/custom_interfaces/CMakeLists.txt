@@ -17,6 +17,7 @@ find_package(rosidl_default_generators REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/ObjectPosition.msg"
   "msg/ImageProcessing.msg"
+  "msg/ImageProcessingShape.msg"
   DEPENDENCIES std_msgs
   DEPENDENCIES geometry_msgs
 )

@@ -1,7 +1,8 @@
 import joblib
 import rclpy
 from rclpy.node import Node
-from interfaces.msg import image_processing_shape, imageProcessing
+from std_msgs.msg import Int64
+from custom_interfaces.msg import ImageProcessingShape
 
 svmPathFile = "trainedSVMModel.joblib"
 
@@ -12,34 +13,29 @@ class machineLearning:
             svmPathFile
         )
     def prediction(self,surface_area, radius, shape):
-        prediction = self.prediction(
+        return self.prediction(
           surface_area,
           radius,
           shape)
-        return prediction
+
 
 class machineLearningNode(Node):
   def __init__(self):
-    super().__init__('ML_Node')
+    super().__init__('ML_Node') # type: ignore
     self.publisher_ = self.create_publisher(
-        imageProcessing,
+        Int64,
         'machine_learning_classification',
         10)
     self.subscription = self.create_subscription(
-        image_processing_shape,
+        ImageProcessingShape,
         'mlClassification',
         self.callback_classification,
       10)
     self.subscription  # prevent unused variable warning
+    self.ml = machineLearning("placeHolder")
 
   def callback_classification(self, msg):
-      surface_area = msg.surface_area
-      radius = msg.radius
-      shape = msg.shape
-      classification = machineLearning.prediction(
-          surface_area,
-          radius,
-          shape)
+      classification = self.ml.prediction(msg.surface_area, msg.radius, msg.shape)
       self.get_logger().info('Publishing: "%s"' % classification)
       self.publisher_.publish(classification)
 

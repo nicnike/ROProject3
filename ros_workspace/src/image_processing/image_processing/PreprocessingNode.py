@@ -1,15 +1,18 @@
 import rclpy 
+from std_msgs.msg import Int64
 from rclpy.node import Node 
 from sensor_msgs.msg import Image 
-from interfaces.msg import imageProcessing
+from custom_interfaces.msg import ImageProcessing, ImageProcessingShape
+from geometry_msgs.msg import Point
 from cv_bridge import CvBridge 
 import cv2 
  
 class PreprocessingNode(Node):
   """An image subscriber which periodically gets new frames."""
   def __init__(self):
-    super().__init__('Preprocessing_Node')
+    super().__init__('Preprocessing_Node') # type: ignore
     self.get_logger().info('Initializing')
+
     self.subscription = self.create_subscription(
       Image, 
       'image_capture', 
@@ -17,19 +20,22 @@ class PreprocessingNode(Node):
       10)
     
     self.publisher = self.create_publisher(
-      imageProcessing,
+      ImageProcessing,
       'object_information',
       10)
 
     self.bridge = CvBridge()
 
     # Create publisher and subscriber for ML node
-    # self.ml_publisher_ = self.create_publisher(Float64, 'ml_input', 10)
-    # self.ml_subscriber_ = self.create_subscription(
-    #  Int64,
-    #  'ml_output',
-    #  self.ml_callback,
-    #  10)
+    self.ml_publisher_ = self.create_publisher(
+      ImageProcessingShape,
+      'mlClassification',
+      10)
+    self.ml_subscriber_ = self.create_subscription(
+      Int64,
+      'ml_output',
+      self.ml_callback,
+      10)
 
   def listener_callback(self, data):
     """This function is called everytime a new message is published on the 'image_capture' topic. """
@@ -39,35 +45,50 @@ class PreprocessingNode(Node):
 
     # preprocess Img here
     # do image stuff
+    surface_area = 0
+    radius = 0
+    shape = 0
 
     # Send preprocessed image to ML node and receive classification
-    classification = self.send_to_ml_node(current_frame)
+    classification = self.send_to_ml_node(surface_area, radius, shape)
 
     # Send object position to Kalman filter node
-    object_info = imageProcessing()
+    object_info = ImageProcessing()
     object_info.header.frame_id = 'map'
     object_info.header.stamp = self.get_clock().now().to_msg()
-    object_info.point = Point()
-    object_info.point.x = 0.0
-    object_info.point.y = 0.0
+    object_info.position = Point()
+    object_info.position.x = 0.0
+    object_info.position.y = 0.0
     object_info.radius = 0.0
     object_info.classification = classification
 
-    self.get_logger().info('Publishing object information' + 
-      object_info.classification + ' ' + 
-      object_info.radius + ' ' +
-      object_info.point.x + ' ' +
-      object_info.point.y)
-
+    self.get_logger().info("Publishing object information " + 
+                           str(object_info.classification) + ' ' 
+                           + str(object_info.radius) + ' ' 
+                           + str(object_info.position.x) + ' ' 
+                           + str(object_info.position.y))
+    
     self.publisher.publish(object_info)
 
-    def send_to_ml_node(self, surface_area, radius, shape):
-      #todo: send data to ML node
-      return 0
+  def send_to_ml_node(self, surface_area, radius, shape):
+    msg = ImageProcessingShape()
+    msg.surface_area = surface_area
+    msg.radius = radius
+    msg.shape = shape
+    self.publisher.publish(msg)
 
-    def ml_callback(self, msg):
-      #todo: get classification from ML node
-      return 0
+    # Wait for response from machine learning node
+    while not self.classification_received:
+        rclpy.spin_once(self)
+
+    # Reset classification_received flag for next call
+    self.classification_received = False
+
+    return self.classification
+
+  def ml_callback(self, msg):
+    self.classification_received = True
+    self.classification = msg.data
   
 def main(args=None):
   rclpy.init(args=args)
