@@ -27,7 +27,7 @@ class machineLearningNode(Node):
         self.callback_classification,
         10)
     self.subscription  # prevent unused variable warning
-    self.ml = machineLearning("placeHolder")
+    self.ml = machineLearning()
 
   def callback_classification(self, msg):
     classification = self.ml.prediction(msg.surface_area, msg.radius, msg.shape)
