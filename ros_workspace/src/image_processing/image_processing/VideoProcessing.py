@@ -51,7 +51,7 @@ class VideoProcessing:
         self.arucoDetector = aruco.ArucoDetector(self.arucoDict, self.arucoParams)
         self.compensationX = 0
         self.compensationY = 0
-        self.recordCSV = True
+        self.recordCSV = False
 
     def VPConvertToGray(self, video):
         """

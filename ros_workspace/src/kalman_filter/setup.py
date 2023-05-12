@@ -11,7 +11,14 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
     ],
-    install_requires=['setuptools'],
+    install_requires=[
+        'setuptools',
+        'numpy',
+        'filterpy',
+        'rclpy',
+        'geometry_msgs',
+        'custom_interfaces'
+    ],
     zip_safe=True,
     maintainer='johndoe',
     maintainer_email='57753615+nicnike@users.noreply.github.com',

@@ -4,8 +4,8 @@ from rclpy.node import Node
 from sensor_msgs.msg import Image 
 from custom_interfaces.msg import ImageProcessing, ImageProcessingShape
 from geometry_msgs.msg import Point
-from cv_bridge import CvBridge 
-import cv2 
+from cv_bridge import CvBridge
+import VideoProcessing
  
 class PreprocessingNode(Node):
   """An image subscriber which periodically gets new frames."""
@@ -37,6 +37,9 @@ class PreprocessingNode(Node):
       self.ml_callback,
       10)
 
+    self.processor = VideoProcessing.VideoProcessing()
+    self.processor.VPInitVideo(Image)
+
   def listener_callback(self, data):
     """This function is called everytime a new message is published on the 'image_capture' topic. """
     self.get_logger().info('Receiving video frame')
@@ -48,9 +51,16 @@ class PreprocessingNode(Node):
     surface_area = 0
     radius = 0
     shape = 0
+    corners = 0
+
+    self.processor.VPProcessVideo(current_frame)
+    shape, surface_area, radius, corners = self.processor.VPCommunicateFeatures()
+    positionX, positionY = self.processor.VPCommunicatePoints()
+
+
 
     # Send preprocessed image to ML node and receive classification
-    classification = self.send_to_ml_node(surface_area, radius, shape)
+    classification = self.send_to_ml_node(surface_area, radius, shape, corners)
 
     # Send object position to Kalman filter node
     object_info = ImageProcessing()
@@ -60,6 +70,7 @@ class PreprocessingNode(Node):
     object_info.position.x = 0.0
     object_info.position.y = 0.0
     object_info.radius = 0.0
+    object_info.corners = 0.0
     object_info.classification = classification
 
     self.get_logger().info("Publishing object information " + 
