@@ -1,3 +1,3 @@
-Header header
+std_msgs/Header header
 int64 classification
 geometry_msgs/Point position
