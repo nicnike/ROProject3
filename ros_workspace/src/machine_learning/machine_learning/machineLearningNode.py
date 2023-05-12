@@ -24,11 +24,11 @@ class machineLearningNode(Node):
     super().__init__('ML_Node') # type: ignore
     self.publisher_ = self.create_publisher(
         Int64,
-        'machine_learning_classification',
+        'mlClassification_out',
         10)
     self.subscription = self.create_subscription(
         ImageProcessingShape,
-        'mlClassification',
+        'mlClassification_in',
         self.callback_classification,
       10)
     self.subscription  # prevent unused variable warning

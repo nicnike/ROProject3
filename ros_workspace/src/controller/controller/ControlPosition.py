@@ -5,18 +5,18 @@ import ro45_portalrobot_interfaces.msg as msg
 
 class ControlPosition(Node):
     def __init__(self):
-        super().__init__('control_position')
+        super().__init__('control_position') # type: ignore
         #Will be sent later to the controller
         self.target_value = [0,0,0]
         self.posSub = self.create_subscription(
             msg.RobotPos,
-            'placeholder1',
+            'position_publisher',
             self.position_callback,
             10)
         
         self.velPub = self.create_publisher(
             msg.RobotCmd,
-            'placeholder2',
+            'command_subscriber',
             10)
         
         #Logic receive target values!

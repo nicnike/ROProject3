@@ -29,11 +29,11 @@ class PreprocessingNode(Node):
     # Create publisher and subscriber for ML node
     self.ml_publisher_ = self.create_publisher(
       ImageProcessingShape,
-      'mlClassification',
+      'mlClassification_in',
       10)
     self.ml_subscriber_ = self.create_subscription(
       Int64,
-      'ml_output',
+      'mlClassification_out',
       self.ml_callback,
       10)
 
