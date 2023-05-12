@@ -46,13 +46,6 @@ class PreprocessingNode(Node):
     # Convert ROS Image message to OpenCV image to do other stuff with it afterwards
     current_frame = self.bridge.imgmsg_to_cv2(data)
 
-    # preprocess Img here
-    # do image stuff
-    surface_area = 0
-    radius = 0
-    shape = 0
-    corners = 0
-
     self.processor.VPProcessVideo(current_frame)
     shape, surface_area, radius, corners = self.processor.VPCommunicateFeatures()
     positionX, positionY = self.processor.VPCommunicatePoints()
@@ -67,9 +60,9 @@ class PreprocessingNode(Node):
     object_info.header.frame_id = 'map'
     object_info.header.stamp = self.get_clock().now().to_msg()
     object_info.position = Point()
-    object_info.position.x = 0.0
-    object_info.position.y = 0.0
-    object_info.radius = 0.0
+    object_info.position.x = positionX
+    object_info.position.y = positionY
+    object_info.radius = radius
     object_info.classification = classification
 
     self.get_logger().info("Publishing object information " + 
