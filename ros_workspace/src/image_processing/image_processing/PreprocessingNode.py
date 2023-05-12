@@ -81,11 +81,12 @@ class PreprocessingNode(Node):
     
     self.publisher.publish(object_info)
 
-  def send_to_ml_node(self, surface_area, radius, shape):
+  def send_to_ml_node(self, surface_area, radius, shape, corners):
     msg = ImageProcessingShape()
     msg.surface_area = surface_area
     msg.radius = radius
     msg.shape = shape
+    msg.corners = corners
     self.publisher.publish(msg)
 
     # Wait for response from machine learning node
