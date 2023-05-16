@@ -5,15 +5,13 @@ from sensor_msgs.msg import Image
 from custom_interfaces.msg import ImageProcessing, ImageProcessingShape
 from geometry_msgs.msg import Point
 from cv_bridge import CvBridge
-from . import VideoProcessing
+import VideoProcessing
  
 class PreprocessingNode(Node):
   """An image subscriber which periodically gets new frames."""
   def __init__(self):
     super().__init__('Preprocessing_Node') # type: ignore
-    self.get_logger().info('Initializing started')
-    self.first_callBack = True
-    self.classification_received = False
+    self.get_logger().info('Initializing')
 
     self.subscription = self.create_subscription(
       Image, 
@@ -40,16 +38,13 @@ class PreprocessingNode(Node):
       10)
 
     self.processor = VideoProcessing.VideoProcessing()
-    self.get_logger().info('Initializing finished')
+    self.processor.VPInitVideo(Image)
 
   def listener_callback(self, data):
     """This function is called everytime a new message is published on the 'image_capture' topic. """
     self.get_logger().info('Receiving video frame')
     # Convert ROS Image message to OpenCV image to do other stuff with it afterwards
     current_frame = self.bridge.imgmsg_to_cv2(data)
-    if self.first_callBack:
-      self.processor.VPInitVideo(current_frame)
-      self.first_callBack = False
 
     self.processor.VPProcessVideo(current_frame)
     shape, surface_area, radius, corners = self.processor.VPCommunicateFeatures()
@@ -84,7 +79,7 @@ class PreprocessingNode(Node):
     msg.radius = radius
     msg.shape = shape
     msg.corners = corners
-    self.ml_publisher_.publish(msg)
+    self.publisher.publish(msg)
 
     # Wait for response from machine learning node
     while not self.classification_received:

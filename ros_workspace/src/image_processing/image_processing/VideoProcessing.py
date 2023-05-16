@@ -1,11 +1,11 @@
 import cv2
 from cv2 import aruco
-
+import cv2.aruco
 import numpy as np
 from skimage.feature import peak_local_max
 import time
 
-from . import CSVGeneratorML
+import CSVGeneratorML
 
 
 class VideoProcessing:
@@ -19,8 +19,8 @@ class VideoProcessing:
         self.objectX = 0
         self.objectY = 0
         self.shape = 0
-        self.objectArea = 0.0
-        self.radius = 0.0
+        self.objectArea = 0
+        self.radius = 0
         self.cornerCount = 0
         self.speed = 0
         self.lastTime = time.time()
@@ -107,11 +107,11 @@ class VideoProcessing:
 
             if area > 1000:
                 self.shape = len(approx)
-                self.objectArea = float(area)
+                self.objectArea = area
 
                 (x, y), radius = cv2.minEnclosingCircle(cnt)
                 center = (int(x), int(y))
-                self.radius = radius
+                self.radius = int(radius)
 
                 # cv2.circle(video, center, self.radius, (0, 255, 0), 2)
 
@@ -305,33 +305,29 @@ class VideoProcessing:
         self.VPDetectArucoMarkers(video)
         self.VPCompensateHomography()
 
-def main(args=None):
-    '''
-    test loop - removed soon
-    '''
-    cap = cv2.VideoCapture(0)
 
-    testVideoProcessing = VideoProcessing()
+'''
+test loop - removed soon
+'''
+cap = cv2.VideoCapture(0)
 
-    state = 1
-    while cap.isOpened():
-        _, video = cap.read()
+testVideoProcessing = VideoProcessing()
 
-        if state == 1:
-            time.sleep(1)
-            testVideoProcessing.VPInitVideo(video)
-            state = 0
+state = 1
+while cap.isOpened():
+    _, video = cap.read()
 
-        newVideo = testVideoProcessing.VPProcessVideo(video)
-        print(testVideoProcessing.VPCommunicateFeatures(), testVideoProcessing.VPCommunicatePoints(), testVideoProcessing.VPCommunicateSpeed())
+    if state == 1:
+        time.sleep(1)
+        testVideoProcessing.VPInitVideo(video)
+        state = 0
+
+    newVideo = testVideoProcessing.VPProcessVideo(video)
+    print(testVideoProcessing.VPCommunicateFeatures(), testVideoProcessing.VPCommunicatePoints(), testVideoProcessing.VPCommunicateSpeed())
 
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
 
-    cap.release()
-    cv2.destroyAllWindows()
-
-  
-if __name__ == '__main__':
-  main()
+cap.release()
+cv2.destroyAllWindows()

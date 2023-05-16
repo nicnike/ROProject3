@@ -29,7 +29,7 @@ class ControlPosition(Node):
         self.kp = 5
 
     def position_callback(self, data):
-        regelabweichung = [self.target_value[i] - data.position[i] for i in range(2)]
+        regelabweichung = [self.target_value[i] - data.position[i] for i in range(3)]
 
         # If the control deviation is less than 0.1, it is set to 0
         for i in range(len(regelabweichung)):

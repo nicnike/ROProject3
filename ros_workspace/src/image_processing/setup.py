@@ -15,7 +15,6 @@ setup(
         'setuptools',
         'rclpy',
         'cv_bridge',
-        'opencv-contrib-python',
         'sensor_msgs',
         'numpy'],
     zip_safe=True,

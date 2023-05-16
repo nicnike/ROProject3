@@ -6,7 +6,7 @@ import cv2
 
 class CameraNode(Node):
     """An image publisher which periodically publishes new frames."""
-    def __init__(self, test_mode=True):
+    def __init__(self):
         super().__init__('CameraNode') # type: ignore
         self.publisher_ = self.create_publisher(
             Image, 
@@ -18,11 +18,7 @@ class CameraNode(Node):
         self.bridge = CvBridge()
 
         #initialize video feed
-        if not test_mode:
-            self.videoFeed = cv2.VideoCapture(0)
-        else:
-            self.videoFeed = cv2.VideoCapture('/home/johndoe/Videos/sample_video.mp4')
-
+        self.videoFeed = cv2.VideoCapture(0)
         
     def timer_callback(self):
         ret, frame = self.videoFeed.read()

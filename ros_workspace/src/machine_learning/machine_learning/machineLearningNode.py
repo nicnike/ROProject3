@@ -4,12 +4,12 @@ from rclpy.node import Node
 from std_msgs.msg import Int64
 from custom_interfaces.msg import ImageProcessingShape
 
-svmPathFile = "../resource/trainedSVMModel.joblib"
-svmPathFile2= '/home/johndoe/github/ROProject3/ros_workspace/src/machine_learning/resource/trainedSVMModel.joblib'
+svmPathFile = "trainedSVMModel.joblib"
+
 
 class machineLearning:
     def __init__(self):
-      self.model = joblib.load(svmPathFile2)
+      self.model = joblib.load(svmPathFile)
 
     def prediction(self,surface_area, radius, shape):
       return self.model.predict([surface_area, radius, shape])
