@@ -305,29 +305,33 @@ class VideoProcessing:
         self.VPDetectArucoMarkers(video)
         self.VPCompensateHomography()
 
+def main(args=None):
+    '''
+    test loop - removed soon
+    '''
+    cap = cv2.VideoCapture(0)
 
-'''
-test loop - removed soon
-'''
-cap = cv2.VideoCapture(0)
+    testVideoProcessing = VideoProcessing()
 
-testVideoProcessing = VideoProcessing()
+    state = 1
+    while cap.isOpened():
+        _, video = cap.read()
 
-state = 1
-while cap.isOpened():
-    _, video = cap.read()
+        if state == 1:
+            time.sleep(1)
+            testVideoProcessing.VPInitVideo(video)
+            state = 0
 
-    if state == 1:
-        time.sleep(1)
-        testVideoProcessing.VPInitVideo(video)
-        state = 0
-
-    newVideo = testVideoProcessing.VPProcessVideo(video)
-    print(testVideoProcessing.VPCommunicateFeatures(), testVideoProcessing.VPCommunicatePoints(), testVideoProcessing.VPCommunicateSpeed())
+        newVideo = testVideoProcessing.VPProcessVideo(video)
+        print(testVideoProcessing.VPCommunicateFeatures(), testVideoProcessing.VPCommunicatePoints(), testVideoProcessing.VPCommunicateSpeed())
 
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
 
-cap.release()
-cv2.destroyAllWindows()
+    cap.release()
+    cv2.destroyAllWindows()
+
+  
+if __name__ == '__main__':
+  main()
