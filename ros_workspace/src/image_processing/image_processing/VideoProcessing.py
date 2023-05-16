@@ -1,6 +1,4 @@
 import cv2
-from cv2 import aruco
-
 import numpy as np
 from skimage.feature import peak_local_max
 import time
@@ -45,12 +43,13 @@ class VideoProcessing:
             "DICT_7X7_1000": cv2.aruco.DICT_7X7_1000,
             "DICT_ARUCO_ORIGINAL": cv2.aruco.DICT_ARUCO_ORIGINAL
         }
-        self.arucoDict = aruco.getPredefinedDictionary(aruco.DICT_4X4_50)
-        self.arucoParams = aruco.DetectorParameters()
-        self.arucoDetector = aruco.ArucoDetector(self.arucoDict, self.arucoParams)
+        self.arucoDict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
+        self.arucoParams = cv2.aruco.DetectorParameters()
+        self.arucoDetector = cv2.aruco.ArucoDetector(self.arucoDict, self.arucoParams)
         self.compensationX = 0
         self.compensationY = 0
         self.recordCSV = False
+        self.debugVideos = False
 
     def VPConvertToGray(self, video):
         """
@@ -59,7 +58,8 @@ class VideoProcessing:
         :return: videoGray
         """
         videoGray = cv2.cvtColor(video, cv2.COLOR_BGR2GRAY)
-        cv2.imshow("VideoGray", videoGray)
+        if self.debugVideos:
+            cv2.imshow("VideoGray", videoGray)
         return videoGray
 
     def VPConvertToBinary(self, video):
@@ -69,7 +69,8 @@ class VideoProcessing:
         :return: videoBinary
         """
         _, videoBinary = cv2.threshold(video, 100, 255, cv2.THRESH_BINARY)
-        cv2.imshow("VideoBinary", videoBinary)
+        if self.debugVideos:
+            cv2.imshow("VideoBinary", videoBinary)
         return videoBinary
 
     def VPHomography(self, video):
@@ -135,7 +136,8 @@ class VideoProcessing:
             for i in corners:
                 x, y = i.ravel()
                 cv2. circle(videoDebug, (x, y), 3, 255, -1)
-            cv2.imshow("videoCorners", videoDebug)
+            if self.debugVideos:
+                cv2.imshow("videoCorners", videoDebug)
         return self.cornerCount
 
     def VPGetDistanceTransformation(self, video):
@@ -156,7 +158,8 @@ class VideoProcessing:
             pass
 
         cv2.circle(videoDebug, (self.objectX, self.objectY), radius=10, color=(0, 0, 255), thickness=-1)
-        cv2.imshow("videoDistanceTransformation", videoDebug)
+        if self.debugVideos:
+            cv2.imshow("videoDistanceTransformation", videoDebug)
 
         return self.objectX, self.objectY
 
@@ -216,7 +219,8 @@ class VideoProcessing:
                 cv2.circle(videoDebug, topLeft, 4, (0, 0, 255), -1)
                 cv2.putText(videoDebug, str(markerID), (topRight[0], topRight[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
                             (0, 0, 255), 2)
-                cv2.imshow("videoAruco", videoDebug)
+                if self.debugVideos:
+                    cv2.imshow("videoAruco", videoDebug)
 
             return video
 
@@ -293,7 +297,8 @@ class VideoProcessing:
         self.VPGetSpeed()
         if self.recordCSV:
             self.VPGenerateCSVData()
-        cv2.imshow("videoOriginal", video)
+        if self.debugVideos:
+            cv2.imshow("videoOriginal", video)
         return binary
 
     def VPInitVideo(self, video):
