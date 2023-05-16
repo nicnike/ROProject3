@@ -6,7 +6,7 @@ import cv2
 
 class CameraNode(Node):
     """An image publisher which periodically publishes new frames."""
-    def __init__(self, test_mode=False):
+    def __init__(self, test_mode=True):
         super().__init__('CameraNode') # type: ignore
         self.publisher_ = self.create_publisher(
             Image, 

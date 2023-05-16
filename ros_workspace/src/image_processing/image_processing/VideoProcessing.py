@@ -1,6 +1,6 @@
 import cv2
 from cv2 import aruco
-import cv2.aruco
+
 import numpy as np
 from skimage.feature import peak_local_max
 import time
@@ -19,8 +19,8 @@ class VideoProcessing:
         self.objectX = 0
         self.objectY = 0
         self.shape = 0
-        self.objectArea = 0
-        self.radius = 0
+        self.objectArea = 0.0
+        self.radius = 0.0
         self.cornerCount = 0
         self.speed = 0
         self.lastTime = time.time()
@@ -107,11 +107,11 @@ class VideoProcessing:
 
             if area > 1000:
                 self.shape = len(approx)
-                self.objectArea = area
+                self.objectArea = float(area)
 
                 (x, y), radius = cv2.minEnclosingCircle(cnt)
                 center = (int(x), int(y))
-                self.radius = int(radius)
+                self.radius = radius
 
                 # cv2.circle(video, center, self.radius, (0, 255, 0), 2)
 
