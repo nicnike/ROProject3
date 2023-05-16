@@ -11,6 +11,7 @@
   <depend>cv_bridge</depend>
   <depend>sensor_msgs</depend>
   <depend>numpy</depend>
+  <depend>opencv-contrib-python</depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

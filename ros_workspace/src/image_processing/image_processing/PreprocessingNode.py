@@ -5,7 +5,7 @@ from sensor_msgs.msg import Image
 from custom_interfaces.msg import ImageProcessing, ImageProcessingShape
 from geometry_msgs.msg import Point
 from cv_bridge import CvBridge
-import VideoProcessing
+from . import VideoProcessing
  
 class PreprocessingNode(Node):
   """An image subscriber which periodically gets new frames."""
