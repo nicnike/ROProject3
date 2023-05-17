@@ -11,8 +11,12 @@ class machineLearning:
     def __init__(self):
       self.model = joblib.load(svmPathFile2)
 
-    def prediction(self,surface_area, radius, shape):
-      return self.model.predict([surface_area, radius, shape])
+    def prediction(self, surface_area, radius, shape):
+        returnValue = self.model.predict([surface_area, radius, shape])
+        if returnValue == "Unicorn":
+            return 1
+        else:
+            return 0
 
 class machineLearningNode(Node):
   def __init__(self):
