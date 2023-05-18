@@ -50,6 +50,7 @@ class VideoProcessing:
         self.compensationY = 0
         self.recordCSV = False
         self.debugMode = False
+        self.objectDetected = False
 
     def VPConvertToGray(self, video):
         """
@@ -106,7 +107,7 @@ class VideoProcessing:
             approx = cv2.approxPolyDP(cnt, 0.04 * cv2.arcLength(cnt, True), True)
             area = cv2.contourArea(cnt)
 
-            if area > 1000:
+            if area > 1000 and self.objectDetected:
                 self.shape = len(approx)
                 self.objectArea = float(area)
 
@@ -129,7 +130,7 @@ class VideoProcessing:
         corners = cv2.goodFeaturesToTrack(video, 1000, 0.05, 10)
         if corners is not None:
             corners = np.int0(corners)
-            if len(corners) > 15:
+            if len(corners) > 15 and self.objectDetected:
                 self.cornerCount = len(corners)
 
             if self.debugMode:
@@ -152,8 +153,9 @@ class VideoProcessing:
         distanceTransformation = cv2.distanceTransform(video, cv2.DIST_L2, 3)
         try:
             localMax = peak_local_max(distanceTransformation, min_distance=20)
-            self.objectX = localMax[0, 1]
-            self.objectY = localMax[0, 0]
+            if self.objectDetected:
+                self.objectX = localMax[0, 1]
+                self.objectY = localMax[0, 0]
         except:
             pass
 
@@ -162,6 +164,16 @@ class VideoProcessing:
             cv2.imshow("videoDistanceTransformation", videoDebug)
 
         return self.objectX, self.objectY
+
+    def VPObjectedDetected(self, video):
+        firstRow = video[-1, :].sum()
+        lastRow = video[1, :].sum()
+        mainFrame = video[1:-2].sum()
+
+        if firstRow < 5000 and lastRow < 5000 and mainFrame > 500000:
+            self.objectDetected = True
+        else:
+            self.objectDetected = False
 
     def VPGetSpeed(self):
         """
@@ -291,6 +303,7 @@ class VideoProcessing:
         homography = self.VPHomography(video)
         gray = self.VPConvertToGray(homography)
         binary = self.VPConvertToBinary(gray)
+        self.VPObjectedDetected(binary)
         self.VPGetCorners(binary)
         self.VPGetDistanceTransformation(binary)
         self.VPGetContoursAndArea(binary)
