@@ -22,7 +22,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'machinelearningnode = machine_learning.machineLearningNode:main',
+            'MachinelearningNode = machine_learning.machineLearningNode:main',
         ],
     },
 )

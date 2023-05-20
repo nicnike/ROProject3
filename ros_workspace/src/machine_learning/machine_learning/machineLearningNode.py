@@ -9,10 +9,10 @@ svmPathFile2= '/home/johndoe/github/ROProject3/ros_workspace/src/machine_learnin
 
 class machineLearning:
     def __init__(self):
-      self.model = joblib.load(svmPathFile2)
+      self.model = joblib.load(svmPathFile)
 
-    def prediction(self, surface_area, radius, shape):
-        returnValue = self.model.predict([surface_area, radius, shape])
+    def prediction(self, radius, shape):
+        returnValue = self.model.predict([[radius, shape]])
         if returnValue == "Unicorn":
             return 1
         else:
@@ -34,7 +34,7 @@ class machineLearningNode(Node):
     self.ml = machineLearning()
 
   def callback_classification(self, msg):
-    classification = self.ml.prediction(msg.surface_area, msg.radius, msg.shape)
+    classification = self.ml.prediction(msg.radius, msg.shape)
     self.get_logger().info('Publishing: "%s"' % classification)
     self.publisher_.publish(classification)
 
