@@ -14,6 +14,7 @@ class PreprocessingNode(Node):
     self.get_logger().info('Initializing started')
     self.first_callBack = True
     self.classification_received = False
+    self.classification = 0
 
     self.subscription = self.create_subscription(
       Image, 

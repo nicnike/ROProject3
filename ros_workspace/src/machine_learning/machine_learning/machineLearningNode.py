@@ -1,15 +1,14 @@
 import joblib
 import rclpy
+import os
 from rclpy.node import Node
 from std_msgs.msg import Int64
 from custom_interfaces.msg import ImageProcessingShape
 
-svmPathFile = "../resource/trainedSVMModel.joblib"
-svmPathFile2= '/home/johndoe/github/ROProject3/ros_workspace/src/machine_learning/resource/trainedSVMModel.joblib'
-
 class machineLearning:
     def __init__(self):
-      self.model = joblib.load(svmPathFile)
+      svmfile_path = os.path.abspath("src/machine_learning/resource/trainedSVMModel.joblib")
+      self.model = joblib.load(svmfile_path)
 
     def prediction(self, radius, shape):
         returnValue = self.model.predict([[radius, shape]])
@@ -35,8 +34,10 @@ class machineLearningNode(Node):
 
   def callback_classification(self, msg):
     classification = self.ml.prediction(msg.radius, msg.shape)
+    classification_msg = Int64()
+    classification_msg.data = classification
     self.get_logger().info('Publishing: "%s"' % classification)
-    self.publisher_.publish(classification)
+    self.publisher_.publish(classification_msg)
 
 
 def main(args=None):
