@@ -14,8 +14,8 @@ class VideoProcessing:
         self.originY = 0
         self.targetHeight = 340
         self.targetWidth = 320
-        self.objectX = 0.0
-        self.objectY = 0.0
+        self.objectX = 0
+        self.objectY = 0
         self.shape = 0
         self.objectArea = 0.0
         self.radius = 0.0
@@ -166,6 +166,13 @@ class VideoProcessing:
         return self.objectX, self.objectY
 
     def VPObjectedDetected(self, video):
+        """
+        Checks if the first and last row is not in contact with an object while also checking if an object is within
+        the frame.
+        Checked if the sum of white pixels of 255 is within a certain value range.
+        :param video
+        :return:
+        """
         firstRow = video[-1, :].sum()
         lastRow = video[1, :].sum()
         mainFrame = video[1:-2].sum()
@@ -174,6 +181,23 @@ class VideoProcessing:
             self.objectDetected = True
         else:
             self.objectDetected = False
+
+    def VPObjectValueReset(self, video):
+        """
+        Checks if an object is moving out of the frame and resets the current values to 0
+        :param video:
+        :return:
+        """
+        firstRow = video[-1, :].sum()
+        lastRow = video[1, :].sum()
+
+        if firstRow < 5000 and lastRow > 5000:
+            self.objectX = 0
+            self.objectY = 0
+            self.shape = 0
+            self.objectArea = 0.0
+            self.radius = 0.0
+            self.cornerCount = 0
 
     def VPGetSpeed(self):
         """
@@ -276,7 +300,7 @@ class VideoProcessing:
         Used for ROS Communication - able to send object coordinates
         :return: objectX, objectY
         """
-        return self.objectX, self.objectY
+        return float(self.objectX), float(self.objectY)
 
     def VPCommunicateFeatures(self):
         """
@@ -308,6 +332,7 @@ class VideoProcessing:
         self.VPGetDistanceTransformation(binary)
         self.VPGetContoursAndArea(binary)
         self.VPGetSpeed()
+        self.VPObjectValueReset(binary)
         if self.recordCSV:
             self.VPGenerateCSVData()
         if self.debugMode:
