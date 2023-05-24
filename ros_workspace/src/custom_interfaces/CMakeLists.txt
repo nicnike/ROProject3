@@ -18,6 +18,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/ObjectPosition.msg"
   "msg/ImageProcessing.msg"
   "msg/ImageProcessingShape.msg"
+  "msg/MachineLearning.msg"
   DEPENDENCIES std_msgs
   DEPENDENCIES geometry_msgs
 )

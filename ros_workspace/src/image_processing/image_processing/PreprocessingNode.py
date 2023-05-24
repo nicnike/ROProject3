@@ -2,12 +2,22 @@ import rclpy
 from std_msgs.msg import Int64
 from rclpy.node import Node 
 from sensor_msgs.msg import Image 
-from custom_interfaces.msg import ImageProcessing, ImageProcessingShape
+from custom_interfaces.msg import ImageProcessing, ImageProcessingShape, MachineLearning
 from geometry_msgs.msg import Point
 from cv_bridge import CvBridge
 from . import VideoProcessing
 import cv2
+import time
 
+class PreprocessingObject():
+  def __init__(self, id, timestamp):
+    self.id = id
+    self.classification = -1
+    self.timestamp = timestamp
+    self.shape = 0
+    self.radius = 0.0
+    self.positionX = 0.0
+    self.positionY = 0.0
  
 class PreprocessingNode(Node):
   """An image subscriber which periodically gets new frames."""
@@ -36,12 +46,15 @@ class PreprocessingNode(Node):
       ImageProcessingShape,
       'mlClassification_in',
       10)
+    
     self.ml_subscriber_ = self.create_subscription(
-      Int64,
+      MachineLearning,
       'mlClassification_out',
       self.ml_callback,
       10)
-
+    
+    self.preprocessingObjectList = []
+    self. id = 0
     self.processor = VideoProcessing.VideoProcessing()
     self.get_logger().info('Initializing finished')
 
@@ -54,40 +67,43 @@ class PreprocessingNode(Node):
       self.processor.VPInitVideo(current_frame)
       self.first_callBack = False
 
-    self.processor.VPProcessVideo(current_frame)
-    shape, _,  self.radius, _ = self.processor.VPCommunicateFeatures()
-    self.positionX, self.positionY = self.processor.VPCommunicatePoints()
-    # Send preprocessed image to ML node and receive 
-    if shape > 4 and self.radius > 100:
-      self.send_to_ml_node(self.radius, shape)
-    else:
-      self.get_logger().info("No object information")
+    if not self.preprocessingObjectList:
+      self.id = 0
 
-  def send_to_ml_node(self, radius, shape):
+    preObj = PreprocessingObject(self.id, self.get_clock().now())
+    self.id += 1
+    self.processor.VPProcessVideo(current_frame)
+    preObj.shape, _,  preObj.radius, _ = self.processor.VPCommunicateFeatures()
+    preObj.positionX, preObj.positionY = self.processor.VPCommunicatePoints()
+    # Send preprocessed image to ML node and receive 
+    if preObj.shape > 4 and preObj.radius > 100:
+      self.send_to_ml_node(preObj.radius, preObj.shape, preObj.id)
+      self.preprocessingObjectList.append(preObj)
+    
+
+
+  def send_to_ml_node(self, radius, shape, id):
     self.get_logger().info('Sending image to ML node' + str(radius) + ' ' + str(shape))
     msg = ImageProcessingShape()
     msg.radius = radius
     msg.shape = shape
+    msg.id = id
     self.ml_publisher_.publish(msg)
 
   def ml_callback(self, msg):
     # Send object position to Kalman filter node
-    object_info = ImageProcessing()
-    object_info.header.frame_id = 'map'
-    object_info.header.stamp = self.get_clock().now().to_msg()
-    object_info.position = Point()
-    object_info.position.x = self.positionX
-    object_info.position.y = self.positionY
-    object_info.radius = self.radius
-    object_info.classification = msg.data
-
-    #self.get_logger().info("Publishing object information " + 
-    #                       str(object_info.classification) + ' ' 
-    #                       + str(object_info.radius) + ' ' 
-    #                       + str(object_info.position.x) + ' ' 
-    #                       + str(object_info.position.y))
-    
-    self.publisher.publish(object_info)
+    for preObj in self.preprocessingObjectList:
+      if preObj.id == msg.id:
+        object_info = ImageProcessing()
+        object_info.position = Point()
+        object_info.header.frame_id = 'map'
+        object_info.position.x = preObj.positionX
+        object_info.position.y = preObj.positionY
+        object_info.radius = preObj.radius
+        object_info.classification = msg.classification    
+        self.publisher.publish(object_info)
+        self.preprocessingObjectList.remove(preObj)        
+        self.get_logger().info('Deleted object from list with id: ' + str(preObj.id))
   
 def main(args=None):
   rclpy.init(args=args)

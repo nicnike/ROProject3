@@ -17,7 +17,8 @@ setup(
         'filterpy',
         'rclpy',
         'geometry_msgs',
-        'custom_interfaces'
+        'custom_interfaces',
+        'csv'
     ],
     zip_safe=True,
     maintainer='johndoe',
@@ -27,7 +28,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'kalmanfilternode = kalman_filter.kalmanFilterNode:main',
+            'kalmanFilterNode = kalman_filter.kalmanFilterNode:main',
         ],
     },
 )

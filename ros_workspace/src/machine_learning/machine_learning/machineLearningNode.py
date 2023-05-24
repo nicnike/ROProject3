@@ -2,8 +2,7 @@ import joblib
 import rclpy
 import os
 from rclpy.node import Node
-from std_msgs.msg import Int64
-from custom_interfaces.msg import ImageProcessingShape
+from custom_interfaces.msg import ImageProcessingShape, MachineLearning
 
 
 class machineLearning:
@@ -12,8 +11,8 @@ class machineLearning:
       self.model = joblib.load(svmfile_path)
 
     def prediction(self, radius, shape):
-        returnValue = self.model.predict([[radius, shape]])
-        if returnValue == "Unicorn":
+        returnValue = self.model.predict([[shape, radius]])
+        if returnValue == "unicorn":
             return 1
         else:
             return 0
@@ -22,7 +21,7 @@ class machineLearningNode(Node):
   def __init__(self):
     super().__init__('ML_Node') # type: ignore
     self.publisher_ = self.create_publisher(
-        Int64,
+        MachineLearning,
         'mlClassification_out',
         10)
     self.subscription = self.create_subscription(
@@ -35,8 +34,9 @@ class machineLearningNode(Node):
 
   def callback_classification(self, msg):
       classification = self.ml.prediction(msg.radius, msg.shape)
-      classification_msg = Int64()
-      classification_msg.data = classification
+      classification_msg = MachineLearning()
+      classification_msg.classification = classification
+      classification_msg.id = msg.id
       self.get_logger().info('Publishing: "%s"' % classification)
       self.publisher_.publish(classification_msg)
 
