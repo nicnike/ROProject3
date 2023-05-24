@@ -14,7 +14,7 @@ class CameraNode(Node):
             'image_capture', 
             10)
         
-        timer_period = 0.5  # 0.5 seconds
+        timer_period = 0.1  # 0.5 seconds
         self.current_frame = None
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.bridge = CvBridge()
@@ -53,6 +53,8 @@ def main(args=None):
     rclpy.spin(image_publisher)
     image_publisher.destroy_node()
     rclpy.shutdown()
+    #shut down video feed
+    image_publisher.videoFeed.release()
 
 if __name__ == '__main__':
     main()
