@@ -34,14 +34,12 @@ class machineLearningNode(Node):
     self.ml = machineLearning()
 
   def callback_classification(self, msg):
-      if msg.shape > 4 and msg.radius > 100:
-        classification = self.ml.prediction(msg.radius, msg.shape)
-        classification_msg = Int64()
-        classification_msg.data = classification
-        self.get_logger().info('Publishing: "%s"' % classification)
-        self.publisher_.publish(classification_msg)
-      else:
-          self.get_logger().info("No object information")
+      classification = self.ml.prediction(msg.radius, msg.shape)
+      classification_msg = Int64()
+      classification_msg.data = classification
+      self.get_logger().info('Publishing: "%s"' % classification)
+      self.publisher_.publish(classification_msg)
+
 
 def main(args=None):
   rclpy.init(args=args)

@@ -47,7 +47,7 @@ class PreprocessingNode(Node):
 
   def listener_callback(self, data):
     """This function is called everytime a new message is published on the 'image_capture' topic. """
-    self.get_logger().info('Receiving video frame')
+    #self.get_logger().info('Receiving video frame')
     # Convert ROS Image message to OpenCV image to do other stuff with it afterwards
     current_frame = self.bridge.imgmsg_to_cv2(data)
     if self.first_callBack:
@@ -58,19 +58,19 @@ class PreprocessingNode(Node):
     shape, _,  self.radius, _ = self.processor.VPCommunicateFeatures()
     self.positionX, self.positionY = self.processor.VPCommunicatePoints()
     # Send preprocessed image to ML node and receive 
-    
-    self.send_to_ml_node(self.radius, shape)
+    if shape > 4 and self.radius > 100:
+      self.send_to_ml_node(self.radius, shape)
+    else:
+      self.get_logger().info("No object information")
 
   def send_to_ml_node(self, radius, shape):
-    self.get_logger().info('Sending image to ML node')
+    self.get_logger().info('Sending image to ML node' + str(radius) + ' ' + str(shape))
     msg = ImageProcessingShape()
     msg.radius = radius
     msg.shape = shape
     self.ml_publisher_.publish(msg)
 
   def ml_callback(self, msg):
-    self.get_logger().info('Received classification from ML node')
-
     # Send object position to Kalman filter node
     object_info = ImageProcessing()
     object_info.header.frame_id = 'map'
@@ -81,11 +81,11 @@ class PreprocessingNode(Node):
     object_info.radius = self.radius
     object_info.classification = msg.data
 
-    self.get_logger().info("Publishing object information " + 
-                           str(object_info.classification) + ' ' 
-                           + str(object_info.radius) + ' ' 
-                           + str(object_info.position.x) + ' ' 
-                           + str(object_info.position.y))
+    #self.get_logger().info("Publishing object information " + 
+    #                       str(object_info.classification) + ' ' 
+    #                       + str(object_info.radius) + ' ' 
+    #                       + str(object_info.position.x) + ' ' 
+    #                       + str(object_info.position.y))
     
     self.publisher.publish(object_info)
   
