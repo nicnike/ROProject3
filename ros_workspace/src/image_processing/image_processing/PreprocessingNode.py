@@ -53,23 +53,30 @@ class PreprocessingNode(Node):
       self.first_callBack = False
 
     self.processor.VPProcessVideo(current_frame)
-    shape, surface_area, radius, corners = self.processor.VPCommunicateFeatures()
-    positionX, positionY = self.processor.VPCommunicatePoints()
-
-
-
+    shape, _,  self.radius, _ = self.processor.VPCommunicateFeatures()
+    self.positionX, self.positionY = self.processor.VPCommunicatePoints()
     # Send preprocessed image to ML node and receive classification
-    classification = self.send_to_ml_node(surface_area, radius, shape, corners)
+    self.send_to_ml_node(self.radius, shape)
+
+  def send_to_ml_node(self, radius, shape):
+    self.get_logger().info('Sending image to ML node')
+    msg = ImageProcessingShape()
+    msg.radius = radius
+    msg.shape = shape
+    self.ml_publisher_.publish(msg)
+
+  def ml_callback(self, msg):
+    self.get_logger().info('Received classification from ML node')
 
     # Send object position to Kalman filter node
     object_info = ImageProcessing()
     object_info.header.frame_id = 'map'
     object_info.header.stamp = self.get_clock().now().to_msg()
     object_info.position = Point()
-    object_info.position.x = positionX
-    object_info.position.y = positionY
-    object_info.radius = radius
-    object_info.classification = classification
+    object_info.position.x = self.positionX
+    object_info.position.y = self.positionY
+    object_info.radius = self.radius
+    object_info.classification = msg.data
 
     self.get_logger().info("Publishing object information " + 
                            str(object_info.classification) + ' ' 
@@ -78,27 +85,6 @@ class PreprocessingNode(Node):
                            + str(object_info.position.y))
     
     self.publisher.publish(object_info)
-
-  def send_to_ml_node(self, surface_area, radius, shape, corners):
-    msg = ImageProcessingShape()
-    msg.surface_area = surface_area
-    msg.radius = radius
-    msg.shape = shape
-    msg.corners = corners
-    self.ml_publisher_.publish(msg)
-
-    # Wait for response from machine learning node
-    while not self.classification_received:
-        rclpy.spin_once(self)
-
-    # Reset classification_received flag for next call
-    self.classification_received = False
-
-    return self.classification
-
-  def ml_callback(self, msg):
-    self.classification_received = True
-    self.classification = msg.data
   
 def main(args=None):
   rclpy.init(args=args)
@@ -109,3 +95,4 @@ def main(args=None):
   
 if __name__ == '__main__':
   main()
+

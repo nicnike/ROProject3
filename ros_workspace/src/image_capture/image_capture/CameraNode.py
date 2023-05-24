@@ -21,7 +21,7 @@ class CameraNode(Node):
         if not test_mode:
             self.videoFeed = cv2.VideoCapture(0)
         else:
-            self.videoFeed = cv2.VideoCapture('/home/johndoe/Videos/sample_video.mp4')
+            self.videoFeed = cv2.VideoCapture('/home/joemama/Videos/sample_video.mp4')
 
         
     def timer_callback(self):

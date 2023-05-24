@@ -14,8 +14,8 @@ class VideoProcessing:
         self.originY = 0
         self.targetHeight = 340
         self.targetWidth = 320
-        self.objectX = 0
-        self.objectY = 0
+        self.objectX = 0.0
+        self.objectY = 0.0
         self.shape = 0
         self.objectArea = 0.0
         self.radius = 0.0
