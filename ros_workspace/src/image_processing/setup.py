@@ -17,6 +17,7 @@ setup(
         'cv_bridge',
         'opencv-contrib-python',
         'sensor_msgs',
+        'custom_interfaces',
         'numpy'],
     zip_safe=True,
     maintainer='Ai Avengers',

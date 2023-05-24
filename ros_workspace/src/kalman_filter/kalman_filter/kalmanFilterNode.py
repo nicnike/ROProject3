@@ -94,3 +94,8 @@ def main(args=None):
 
 if __name__ == '__main__':
   main()
+
+#TODO:
+# Timebasierter predict step
+# Wie versenden wir unsere Objekte?
+# 
