@@ -300,7 +300,7 @@ class VideoProcessing:
         Used for ROS Communication - able to send object coordinates
         :return: objectX, objectY
         """
-        return self.objectX, self.objectY
+        return float(self.objectX), float(self.objectY)
 
     def VPCommunicateFeatures(self):
         """
