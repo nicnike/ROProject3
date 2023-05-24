@@ -3,8 +3,7 @@ import numpy as np
 from skimage.feature import peak_local_max
 import time
 
-# from . import CSVGeneratorML
-import CSVGeneratorML
+from . import CSVGeneratorML
 
 
 class VideoProcessing:
