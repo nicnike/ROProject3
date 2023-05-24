@@ -1,5 +1,5 @@
 <launch>
-    <node pkg="image_capture" exec="CameraNode"/>
     <node pkg="image_processing" exec="PreprocessingNode"/>
     <node pkg="machine_learning" exec="MachinelearningNode"/>
+    <node pkg="image_capture" exec="CameraNode"/>
 </launch>

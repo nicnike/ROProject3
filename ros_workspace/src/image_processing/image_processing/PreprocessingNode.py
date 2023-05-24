@@ -6,6 +6,8 @@ from custom_interfaces.msg import ImageProcessing, ImageProcessingShape
 from geometry_msgs.msg import Point
 from cv_bridge import CvBridge
 from . import VideoProcessing
+import cv2
+
  
 class PreprocessingNode(Node):
   """An image subscriber which periodically gets new frames."""
@@ -55,7 +57,8 @@ class PreprocessingNode(Node):
     self.processor.VPProcessVideo(current_frame)
     shape, _,  self.radius, _ = self.processor.VPCommunicateFeatures()
     self.positionX, self.positionY = self.processor.VPCommunicatePoints()
-    # Send preprocessed image to ML node and receive classification
+    # Send preprocessed image to ML node and receive 
+    
     self.send_to_ml_node(self.radius, shape)
 
   def send_to_ml_node(self, radius, shape):
@@ -92,6 +95,7 @@ def main(args=None):
   rclpy.spin(image_subscriber)
   image_subscriber.destroy_node()
   rclpy.shutdown()
+  cv2.destroyAllWindows()
   
 if __name__ == '__main__':
   main()
