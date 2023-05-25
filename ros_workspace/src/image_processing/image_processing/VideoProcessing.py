@@ -49,7 +49,7 @@ class VideoProcessing:
         self.compensationX = 0
         self.compensationY = 0
         self.recordCSV = False
-        self.debugMode = False
+        self.debugMode = True
         self.objectDetected = False
 
     def VPConvertToGray(self, video):
@@ -70,9 +70,23 @@ class VideoProcessing:
         :return: videoBinary
         """
         _, videoBinary = cv2.threshold(video, 100, 255, cv2.THRESH_BINARY)
+
         if self.debugMode:
             cv2.imshow("VideoBinary", videoBinary)
         return videoBinary
+
+    def VPApplyOpeing(self, video):
+        """
+        Applies morphological operation "Opening" on given binary video
+        :param video:
+        :return: videoOpening
+        """
+        kernel = np.ones((3, 3), np.uint8)
+        videoOpening = cv2.morphologyEx(video, cv2.MORPH_CLOSE, kernel, iterations=10)
+
+        if self.debugMode:
+            cv2.imshow("VideoBinary", videoOpening)
+        return videoOpening
 
     def VPHomography(self, video):
         """
@@ -137,7 +151,7 @@ class VideoProcessing:
                 videoDebug = video.copy()
                 for i in corners:
                     x, y = i.ravel()
-                    cv2. circle(videoDebug, (x, y), 3, 255, -1)
+                    cv2.circle(videoDebug, (x, y), 3, 255, -1)
                 cv2.imshow("videoCorners", videoDebug)
         return self.cornerCount
 
@@ -164,6 +178,7 @@ class VideoProcessing:
             cv2.imshow("videoDistanceTransformation", videoDebug)
 
         return self.objectX, self.objectY
+
 
     def VPObjectedDetected(self, video):
         """
@@ -254,7 +269,8 @@ class VideoProcessing:
                     cv2.line(videoDebug, bottomRight, bottomLeft, (0, 255, 0), 2)
                     cv2.line(videoDebug, bottomLeft, topLeft, (0, 255, 0), 2)
                     cv2.circle(videoDebug, topLeft, 4, (0, 0, 255), -1)
-                    cv2.putText(videoDebug, str(markerID), (topRight[0], topRight[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                    cv2.putText(videoDebug, str(markerID), (topRight[0], topRight[1] - 10), cv2.FONT_HERSHEY_SIMPLEX,
+                                0.5,
                                 (0, 0, 255), 2)
                     cv2.imshow("videoAruco", videoDebug)
 
@@ -278,8 +294,6 @@ class VideoProcessing:
         self.homographyY[2] = self.homographyY[2] + self.compensationY
         self.homographyX[3] = self.homographyX[3] + self.compensationX
         self.homographyY[3] = self.homographyY[3] + self.compensationY
-
-
 
     def VPGenerateCSVData(self):
         """
@@ -327,17 +341,18 @@ class VideoProcessing:
         homography = self.VPHomography(video)
         gray = self.VPConvertToGray(homography)
         binary = self.VPConvertToBinary(gray)
-        self.VPObjectedDetected(binary)
-        self.VPGetCorners(binary)
-        self.VPGetDistanceTransformation(binary)
-        self.VPGetContoursAndArea(binary)
+        opening = self.VPApplyOpeing(binary)
+        self.VPObjectedDetected(opening)
+        self.VPGetCorners(opening)
+        self.VPGetDistanceTransformation(opening)
+        self.VPGetContoursAndArea(opening)
         self.VPGetSpeed()
-        self.VPObjectValueReset(binary)
+        self.VPObjectValueReset(opening)
         if self.recordCSV:
             self.VPGenerateCSVData()
         if self.debugMode:
             cv2.imshow("videoOriginal", video)
-        return binary
+        return opening
 
     def VPInitVideo(self, video):
         """
@@ -348,11 +363,13 @@ class VideoProcessing:
         self.VPDetectArucoMarkers(video)
         self.VPCompensateHomography()
 
+
 def main(args=None):
     '''
     test loop - removed soon
     '''
-    cap = cv2.VideoCapture(0)
+    # cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture("sampleVideo.mp4")
 
     testVideoProcessing = VideoProcessing()
 
@@ -366,8 +383,8 @@ def main(args=None):
             state = 0
 
         newVideo = testVideoProcessing.VPProcessVideo(video)
-        print(testVideoProcessing.VPCommunicateFeatures(), testVideoProcessing.VPCommunicatePoints(), testVideoProcessing.VPCommunicateSpeed())
-
+        print(testVideoProcessing.VPCommunicateFeatures(), testVideoProcessing.VPCommunicatePoints(),
+              testVideoProcessing.VPCommunicateSpeed())
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
@@ -375,6 +392,6 @@ def main(args=None):
     cap.release()
     cv2.destroyAllWindows()
 
-  
+
 if __name__ == '__main__':
-  main()
+    main()
