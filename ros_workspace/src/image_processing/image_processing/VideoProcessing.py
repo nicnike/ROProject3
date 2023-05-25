@@ -49,7 +49,7 @@ class VideoProcessing:
         self.compensationX = 0
         self.compensationY = 0
         self.recordCSV = False
-        self.debugMode = True
+        self.debugMode = False
         self.objectDetected = False
 
     def VPConvertToGray(self, video):
