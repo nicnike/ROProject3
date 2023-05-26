@@ -30,7 +30,7 @@ class CameraNode(Node):
         if not self.test_mode:
             self.videoFeed = cv2.VideoCapture(0)
         else:
-            self.videoFeed = cv2.VideoCapture('/home/johndoe/Videos/sample_video.mp4')
+            self.videoFeed = cv2.VideoCapture('/home/joemama/Videos/sample_video.mp4')
 
         while True:
             ret, frame = self.videoFeed.read()
@@ -38,8 +38,8 @@ class CameraNode(Node):
                 self.get_logger().warn('Failed to capture frame from the camera.')
                 break
             self.current_frame = frame
-            cv2.imshow('Received Frame', self.current_frame)
-            cv2.waitKey(1)
+            #cv2.imshow('Received Frame', self.current_frame)
+            #cv2.waitKey(1)
 
         
     def timer_callback(self):

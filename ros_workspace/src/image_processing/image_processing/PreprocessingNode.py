@@ -67,23 +67,24 @@ class PreprocessingNode(Node):
       self.processor.VPInitVideo(current_frame)
       self.first_callBack = False
 
-    if not self.preprocessingObjectList:
-      self.id = 0
 
-    preObj = PreprocessingObject(self.id, self.get_clock().now())
-    self.id += 1
     self.processor.VPProcessVideo(current_frame)
-    preObj.shape, _,  preObj.radius, _ = self.processor.VPCommunicateFeatures()
-    preObj.positionX, preObj.positionY = self.processor.VPCommunicatePoints()
+    shape, _,  radius, _ = self.processor.VPCommunicateFeatures()
+    positionX, positionY = self.processor.VPCommunicatePoints()
     # Send preprocessed image to ML node and receive 
-    if preObj.shape > 4 and preObj.radius > 100:
+    if shape > 4 and radius > 100:
+      preObj = PreprocessingObject(self.id, self.get_clock().now().to_msg())
+      preObj.shape = shape
+      preObj.radius = radius
+      preObj.positionX = positionX
+      preObj.positionY = positionY
+      self.id += 1
       self.send_to_ml_node(preObj.radius, preObj.shape, preObj.id)
       self.preprocessingObjectList.append(preObj)
     
 
 
   def send_to_ml_node(self, radius, shape, id):
-    self.get_logger().info('Sending image to ML node' + str(radius) + ' ' + str(shape))
     msg = ImageProcessingShape()
     msg.radius = radius
     msg.shape = shape
@@ -97,13 +98,14 @@ class PreprocessingNode(Node):
         object_info = ImageProcessing()
         object_info.position = Point()
         object_info.header.frame_id = 'map'
+        object_info.header.stamp = preObj.timestamp
         object_info.position.x = preObj.positionX
         object_info.position.y = preObj.positionY
         object_info.radius = preObj.radius
         object_info.classification = msg.classification    
         self.publisher.publish(object_info)
         self.preprocessingObjectList.remove(preObj)        
-        self.get_logger().info('Deleted object from list with id: ' + str(preObj.id))
+        self.get_logger().info('Position x: ' + str(object_info.position.x) + ' Positon y: ' + str(object_info.position.y))
   
 def main(args=None):
   rclpy.init(args=args)

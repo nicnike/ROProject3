@@ -58,7 +58,6 @@ class ObjectTrackerNode(Node):
 
   def timer_predict(self):
     for obj in self.objects:
-      obj.timestamp = obj.timestamp
       sec, nano = self.get_clock().now().seconds_nanoseconds()
       timestamp = sec + nano * 1e-9
       if timestamp - obj.timestamp > 0.1:

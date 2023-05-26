@@ -37,7 +37,6 @@ class machineLearningNode(Node):
       classification_msg = MachineLearning()
       classification_msg.classification = classification
       classification_msg.id = msg.id
-      self.get_logger().info('Publishing: "%s"' % classification)
       self.publisher_.publish(classification_msg)
 
 
