@@ -9,14 +9,22 @@ import csv
 
 class Object:
   def __init__(self, id, classification, radius, centroid, timestamp):
+    """   
+    Initializes an Object instance with the given parameters.
+
+    @param id: The ID of the object.
+    @param classification: The classification of the object.
+    @param radius: The radius of the object.
+    @param centroid: The centroid of the object.
+    @param timestamp: The timestamp of the object.
+    """
     self.id = id
     self.classification = classification
     self.radius = radius
-    self.centroid = centroid
     self.timestamp = timestamp
     self.kf = KalmanFilter(dim_x=4, dim_z=2)
     self.kf.x = np.array([centroid[0], centroid[1], 0, 0])
-    self.kf.F = np.array([[1, 0, 1, 0],
+    self.kf.F = np.array([[1, 0, 0, 0],
                           [0, 1, 0, 1],
                           [0, 0, 1, 0],
                           [0, 0, 0, 1]])
@@ -32,6 +40,9 @@ class Object:
 
 class ObjectTrackerNode(Node):
   def __init__(self):
+    """
+    Initializes an ObjectTrackerNode instance.
+    """
     super().__init__('object_tracker') # type: ignore
     self.objects = []
     self.next_id = 0
@@ -57,6 +68,9 @@ class ObjectTrackerNode(Node):
 
 
   def timer_predict(self):
+    """
+    Predicts the position of each object using the Kalman filter.
+    """
     for obj in self.objects:
       sec, nano = self.get_clock().now().seconds_nanoseconds()
       timestamp = sec + nano * 1e-9
@@ -66,11 +80,16 @@ class ObjectTrackerNode(Node):
         # Write the x and y values to the CSV file
         with open(self.filename, 'a', newline='') as csvfile:
             writer = csv.writer(csvfile)
-            writer.writerow([obj.id, obj.timestamp, obj.centroid[0], obj.centroid[1]])
+            writer.writerow([obj.id, obj.timestamp, obj.kf.x[0], obj.kf.x[1]])
 
 
   def callback_classification(self, msg):
-    # Get object classification, radius, and centroid from message
+    """
+    Callback function that is called when a new object is detected. 
+    Updates the position of the object using the Kalman filter.
+
+    @param msg: The ImageProcessing message containing information about the detected object.
+    """    
     radius = msg.radius
     x, y = msg.position.x, msg.position.y
     classification = msg.classification
@@ -80,33 +99,39 @@ class ObjectTrackerNode(Node):
     matched_obj = None
     if self.objects:
       obj = self.objects[-1]
-      dist = np.linalg.norm(obj.centroid - np.array([x, y]))
+      dist = np.linalg.norm(obj.kf.x[0:2] - np.array([x, y]))
       if dist < obj.radius:
+          self.get_logger().info('Found match: ' + str(dist) + ' < ' + str(obj.radius ))
           matched_obj = obj
 
     # Update or create object
     if matched_obj is not None:
       matched_obj.kf.predict(timestamp - matched_obj.timestamp)
       matched_obj.kf.update(np.array([x, y]))
-      matched_obj.centroid = np.array([x, y])
       matched_obj.timestamp = timestamp
       # Write the x and y values to the CSV file
       with open(self.filename, 'a', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow([matched_obj.id, matched_obj.timestamp, matched_obj.centroid[0], matched_obj.centroid[1]])
+        writer.writerow([matched_obj.id, matched_obj.timestamp, matched_obj.kf.x[0], matched_obj.kf.x[1]])
     else:
       obj = Object(self.next_id, classification, radius, np.array([x, y]), timestamp)
       self.objects.append(obj)
       self.next_id += 1
+      self.get_logger().info('Creating: "%s"' % obj.id)
+      with open(self.filename, 'a', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow([obj.id, obj.timestamp, obj.kf.x[0], obj.kf.x[1]])
 
 
 
   # Publish object positions
   def publishCoordinates_timer(self):
-    # Publish object position as ROS2 message
+    """
+    Publishes the position of each object as a ROS2 message.
+    """
     for obj in self.objects:
-      if obj.kf.x[0] < -400:
-        obj.kf.predict(0.1)
+      if obj.kf.x[1] < -400:
+        obj.kf.predict(2.0)
         object_position = ObjectPosition()
         object_position.header.frame_id = 'map'
         object_position.header.stamp = self.get_clock().now().to_msg()
@@ -118,7 +143,7 @@ class ObjectTrackerNode(Node):
         self.get_logger().info('Publishing: "%s"' % object_position)
         self.publisher_.publish(object_position)
         obj.sendToGripper = True
-        #self.objects.remove(obj)
+        self.objects.remove(obj)
 
 def main(args=None):
   rclpy.init(args=args)
@@ -129,8 +154,3 @@ def main(args=None):
 
 if __name__ == '__main__':
   main()
-
-#TODO:
-# Timebasierter predict step
-# Wie versenden wir unsere Objekte?
-# 

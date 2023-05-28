@@ -10,7 +10,18 @@ import cv2
 import time
 
 class PreprocessingObject():
+  """
+  PreprocessingObject is a class that represents an object detected in an image 
+  by the PreprocessingNode. It stores information about the object's ID, classification, 
+  timestamp, shape, radius, and position.
+  """
   def __init__(self, id, timestamp):
+    """
+    Constructor for PreprocessingObject class.
+
+    @param id: The ID of the object.
+    @param timestamp: The timestamp of the object.
+    """
     self.id = id
     self.classification = -1
     self.timestamp = timestamp
@@ -20,8 +31,15 @@ class PreprocessingObject():
     self.positionY = 0.0
  
 class PreprocessingNode(Node):
-  """An image subscriber which periodically gets new frames."""
+  """
+  PreprocessingNode subscribes to the image_capture topic to receive image 
+  data, processes the images, and publishes object information to the object_information topic.
+  """
+
   def __init__(self):
+    """
+    Constructor for PreprocessingNode class.
+    """
     super().__init__('Preprocessing_Node') # type: ignore
     self.get_logger().info('Initializing started')
     self.first_callBack = True
@@ -31,7 +49,7 @@ class PreprocessingNode(Node):
     self.subscription = self.create_subscription(
       Image, 
       'image_capture', 
-      self.listener_callback, 
+      self.imageCapture_callback, 
       10)
     
     self.publisher = self.create_publisher(
@@ -58,10 +76,12 @@ class PreprocessingNode(Node):
     self.processor = VideoProcessing.VideoProcessing()
     self.get_logger().info('Initializing finished')
 
-  def listener_callback(self, data):
-    """This function is called everytime a new message is published on the 'image_capture' topic. """
-    #self.get_logger().info('Receiving video frame')
-    # Convert ROS Image message to OpenCV image to do other stuff with it afterwards
+  def imageCapture_callback(self, data):
+    """
+    This function is called everytime a new message is published on the 'image_capture' topic.
+
+    @param data: The image data.
+    """    
     current_frame = self.bridge.imgmsg_to_cv2(data)
     if self.first_callBack:
       self.processor.VPInitVideo(current_frame)
@@ -85,6 +105,13 @@ class PreprocessingNode(Node):
 
 
   def send_to_ml_node(self, radius, shape, id):
+    """
+    Sends the object information to the ML node.
+
+    @param radius: The radius of the object.
+    @param shape: The shape of the object.
+    @param id: The ID of the object.
+    """
     msg = ImageProcessingShape()
     msg.radius = radius
     msg.shape = shape
@@ -92,7 +119,11 @@ class PreprocessingNode(Node):
     self.ml_publisher_.publish(msg)
 
   def ml_callback(self, msg):
-    # Send object position to Kalman filter node
+    """
+    Receives the classification from the ML node and sends the object information to the Kalman filter node.
+
+    @param msg: The classification message.
+    """
     for preObj in self.preprocessingObjectList:
       if preObj.id == msg.id:
         object_info = ImageProcessing()
