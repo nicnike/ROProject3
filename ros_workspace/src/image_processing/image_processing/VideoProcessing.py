@@ -3,8 +3,7 @@ import numpy as np
 from skimage.feature import peak_local_max
 import time
 
-# from . import CSVGeneratorML
-import CSVGeneratorML
+from . import CSVGeneratorML
 
 
 class VideoProcessing:
@@ -369,41 +368,27 @@ def main(args=None):
     '''
     test loop - removed soon
     '''
-    # cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(0)
 
-    # testVideoProcessing = VideoProcessing()
-    #
-    # state = 1
-    # while cap.isOpened():
-    #     _, video = cap.read()
-    #
-    #     if state == 1:
-    #         time.sleep(1)
-    #         testVideoProcessing.VPInitVideo(video)
-    #         state = 0
-    #
-    #     newVideo = testVideoProcessing.VPProcessVideo(video)
-    #     print(testVideoProcessing.VPCommunicateFeatures(), testVideoProcessing.VPCommunicatePoints(),
-    #           testVideoProcessing.VPCommunicateSpeed())
-    #
-    #     if cv2.waitKey(1) & 0xFF == ord('q'):
-    #         break
-    #
-    # cap.release()
-    # cv2.destroyAllWindows()
-
-    img = cv2.imread("../resource/imgOriginal.jpg")
     testVideoProcessing = VideoProcessing()
+
     state = 1
-    while True:
+    while cap.isOpened():
+        _, video = cap.read()
+
         if state == 1:
             time.sleep(1)
-            testVideoProcessing.VPInitVideo(img)
+            testVideoProcessing.VPInitVideo(video)
             state = 0
-        newVideo = testVideoProcessing.VPProcessVideo(img)
+
+        newVideo = testVideoProcessing.VPProcessVideo(video)
+        print(testVideoProcessing.VPCommunicateFeatures(), testVideoProcessing.VPCommunicatePoints(),
+              testVideoProcessing.VPCommunicateSpeed())
+
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
+    cap.release()
     cv2.destroyAllWindows()
 
 
