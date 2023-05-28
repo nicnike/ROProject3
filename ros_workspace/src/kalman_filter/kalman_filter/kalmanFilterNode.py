@@ -12,11 +12,10 @@ class Object:
     self.id = id
     self.classification = classification
     self.radius = radius
-    self.centroid = centroid
     self.timestamp = timestamp
     self.kf = KalmanFilter(dim_x=4, dim_z=2)
     self.kf.x = np.array([centroid[0], centroid[1], 0, 0])
-    self.kf.F = np.array([[1, 0, 1, 0],
+    self.kf.F = np.array([[1, 0, 0, 0],
                           [0, 1, 0, 1],
                           [0, 0, 1, 0],
                           [0, 0, 0, 1]])
@@ -66,7 +65,7 @@ class ObjectTrackerNode(Node):
         # Write the x and y values to the CSV file
         with open(self.filename, 'a', newline='') as csvfile:
             writer = csv.writer(csvfile)
-            writer.writerow([obj.id, obj.timestamp, obj.centroid[0], obj.centroid[1]])
+            writer.writerow([obj.id, obj.timestamp, obj.kf.x[0], obj.kf.x[1]])
 
 
   def callback_classification(self, msg):
@@ -80,24 +79,28 @@ class ObjectTrackerNode(Node):
     matched_obj = None
     if self.objects:
       obj = self.objects[-1]
-      dist = np.linalg.norm(obj.centroid - np.array([x, y]))
+      dist = np.linalg.norm(obj.kf.x[0:2] - np.array([x, y]))
       if dist < obj.radius:
+          self.get_logger().info('Found match: ' + str(dist) + ' < ' + str(obj.radius ))
           matched_obj = obj
 
     # Update or create object
     if matched_obj is not None:
       matched_obj.kf.predict(timestamp - matched_obj.timestamp)
       matched_obj.kf.update(np.array([x, y]))
-      matched_obj.centroid = np.array([x, y])
       matched_obj.timestamp = timestamp
       # Write the x and y values to the CSV file
       with open(self.filename, 'a', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow([matched_obj.id, matched_obj.timestamp, matched_obj.centroid[0], matched_obj.centroid[1]])
+        writer.writerow([matched_obj.id, matched_obj.timestamp, matched_obj.kf.x[0], matched_obj.kf.x[1]])
     else:
       obj = Object(self.next_id, classification, radius, np.array([x, y]), timestamp)
       self.objects.append(obj)
       self.next_id += 1
+      self.get_logger().info('Creating: "%s"' % obj.id)
+      with open(self.filename, 'a', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow([obj.id, obj.timestamp, obj.kf.x[0], obj.kf.x[1]])
 
 
 
