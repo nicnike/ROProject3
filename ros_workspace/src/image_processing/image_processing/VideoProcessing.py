@@ -3,7 +3,8 @@ import numpy as np
 from skimage.feature import peak_local_max
 import time
 
-from . import CSVGeneratorML
+# from . import CSVGeneratorML
+import CSVGeneratorML
 
 
 class VideoProcessing:
@@ -274,7 +275,7 @@ class VideoProcessing:
                                 (0, 0, 255), 2)
                     cv2.imshow("videoAruco", videoDebug)
 
-            return video
+            return videoDebug
 
     def VPCompensateHomography(self):
         """!
@@ -369,27 +370,40 @@ def main(args=None):
     test loop - removed soon
     '''
     # cap = cv2.VideoCapture(0)
-    cap = cv2.VideoCapture("sampleVideo.mp4")
 
+    # testVideoProcessing = VideoProcessing()
+    #
+    # state = 1
+    # while cap.isOpened():
+    #     _, video = cap.read()
+    #
+    #     if state == 1:
+    #         time.sleep(1)
+    #         testVideoProcessing.VPInitVideo(video)
+    #         state = 0
+    #
+    #     newVideo = testVideoProcessing.VPProcessVideo(video)
+    #     print(testVideoProcessing.VPCommunicateFeatures(), testVideoProcessing.VPCommunicatePoints(),
+    #           testVideoProcessing.VPCommunicateSpeed())
+    #
+    #     if cv2.waitKey(1) & 0xFF == ord('q'):
+    #         break
+    #
+    # cap.release()
+    # cv2.destroyAllWindows()
+
+    img = cv2.imread("../resource/imgOriginal.jpg")
     testVideoProcessing = VideoProcessing()
-
     state = 1
-    while cap.isOpened():
-        _, video = cap.read()
-
+    while True:
         if state == 1:
             time.sleep(1)
-            testVideoProcessing.VPInitVideo(video)
+            testVideoProcessing.VPInitVideo(img)
             state = 0
-
-        newVideo = testVideoProcessing.VPProcessVideo(video)
-        print(testVideoProcessing.VPCommunicateFeatures(), testVideoProcessing.VPCommunicatePoints(),
-              testVideoProcessing.VPCommunicateSpeed())
-
+        newVideo = testVideoProcessing.VPProcessVideo(img)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-    cap.release()
     cv2.destroyAllWindows()
 
 
