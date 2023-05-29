@@ -3,16 +3,16 @@ from unittest.mock import MagicMock
 from ..machine_learning.machineLearningNode import machineLearning, machineLearningNode
 
 class machineLearningTests(unittest.TestCase):
-    def testModelInitialization(self):
+    def test_ModelInitialization(self):
         ml = machineLearning()
         self.assertIsNotNone(ml.model)
 
-    def testPredictFunktion(self):
+    def test_PredictFunktion(self):
         ml = machineLearning()
         self.assertIsEqual(ml.prediction(radius=140, shape=5), 0)  # Cat
         self.assertIsEqual(ml.prediction(radius=155, shape=8), 1)  # Unicorn
 
-    def testMLNode(self):
+    def test_MLNode(self):
         node = machineLearningNode()
         node.create_publisher = MagicMock()
         node.get_logger = MagicMock()
