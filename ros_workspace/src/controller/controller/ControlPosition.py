@@ -1,47 +1,53 @@
 import rclpy
 from rclpy.node import Node
-import ro45_portalrobot_interfaces.msg as msg
+from ro45_portalrobot_interfaces.msg import RobotPos, RobotCmd
 
 
 class ControlPosition(Node):
     def __init__(self):
         super().__init__('control_position') # type: ignore
         #Will be sent later to the controller
-        self.target_value = [0,0,0]
         self.posSub = self.create_subscription(
-            msg.RobotPos,
+            RobotPos,
             'position_publisher',
             self.position_callback,
             10)
         
         self.velPub = self.create_publisher(
-            msg.RobotCmd,
+            RobotCmd,
             'command_subscriber',
             10)
         
-        #Logic receive target values!
-        #self.posSub = self.create_subscription(
-        #    msg.RobotPos,
-        #    'placeholder1',
-        #    self.position_callback,
-        #    10)
-
-        self.kp = 5
+        self.posSub = self.create_subscription(
+            RobotPos,
+            'robot_reference_position',
+            self.desired_position_callback,
+            10)
+        
+        self.current_position = RobotPos()
+        self.target_position = RobotPos()
 
     def position_callback(self, data):
-        regelabweichung = [self.target_value[i] - data.position[i] for i in range(2)]
+        self.current_position = data
 
-        # If the control deviation is less than 0.1, it is set to 0
-        for i in range(len(regelabweichung)):
-            if regelabweichung[i] < 0.1:
-                regelabweichung[i] = 0
-        
-        # Control deviation is multiplied by Kp
-        regelabweichung = [self.kp * regelabweichung[0],self.kp * regelabweichung[1],self.kp * regelabweichung[2]]
+    def desired_position_callback(self, data):
+        self.target_position = data
+        self.publishVelocity()
 
-        # Publish the control deviation as a velocity
-        self.velPub.publish(msg.RobotCmd(x=regelabweichung[0],y=regelabweichung[1],z=regelabweichung[2],gripper=False))
-        self.get_logger().info('Publishing: "%s"' % regelabweichung)
+    def publishVelocity(self):
+        velocity = self.calculate_control_signal()
+        self.velPub.publish(velocity)
+
+    def calculate_control_signal(self):
+        kx = 1
+        ky = 1
+        kz = 1
+        robot_cmd = RobotCmd()
+        robot_cmd.vel_x = kx * (self.target_position.pos_x - self.current_position.pos_x)
+        robot_cmd.vel_y = ky * (self.target_position.pos_y - self.current_position.pos_y)
+        robot_cmd.vel_z = kz * (self.target_position.pos_z - self.current_position.pos_z)
+        robot_cmd.activate_gripper = False
+        return robot_cmd
 
 def main(args=None):
     rclpy.init(args=args)
