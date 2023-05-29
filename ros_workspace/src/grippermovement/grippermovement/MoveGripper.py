@@ -34,20 +34,12 @@ class MoveGripper(Node):
             self.callback_objPos,
             10)
 
-        self.ml_out = self.create_subscriber(
-            MachineLearning,
-            'mlClassification_out',
-            self.callback_ML,
-            10)
-
     def callback_robPos(self, msg):
         self.robPos = msg.RobotPos
 
     def callback_objPos(self, msg):
         self.objPos = msg.position
-
-    def callback_ML(self, msg):
-        self.id = msg.id
+        self.id = msg.classification
 
     def moveGripper(self):
         if self.state == 0:
