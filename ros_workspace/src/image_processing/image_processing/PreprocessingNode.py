@@ -6,30 +6,8 @@ from custom_interfaces.msg import ImageProcessing, ImageProcessingShape, Machine
 from geometry_msgs.msg import Point
 from cv_bridge import CvBridge
 from . import VideoProcessing
-import cv2
-import time
+from . import PreprocessingObject
 
-class PreprocessingObject():
-  """
-  PreprocessingObject is a class that represents an object detected in an image 
-  by the PreprocessingNode. It stores information about the object's ID, classification, 
-  timestamp, shape, radius, and position.
-  """
-  def __init__(self, id, timestamp):
-    """
-    Constructor for PreprocessingObject class.
-
-    @param id: The ID of the object.
-    @param timestamp: The timestamp of the object.
-    """
-    self.id = id
-    self.classification = -1
-    self.timestamp = timestamp
-    self.shape = 0
-    self.radius = 0.0
-    self.positionX = 0.0
-    self.positionY = 0.0
- 
 class PreprocessingNode(Node):
   """
   PreprocessingNode subscribes to the image_capture topic to receive image 
@@ -93,7 +71,7 @@ class PreprocessingNode(Node):
     positionX, positionY = self.processor.VPCommunicatePoints()
     # Send preprocessed image to ML node and receive 
     if shape > 4 and radius > 100:
-      preObj = PreprocessingObject(self.id, self.get_clock().now().to_msg())
+      preObj = PreprocessingObject.PreprocessingObject(self.id, self.get_clock().now().to_msg())
       preObj.shape = shape
       preObj.radius = radius
       preObj.positionX = positionX
@@ -144,7 +122,6 @@ def main(args=None):
   rclpy.spin(image_subscriber)
   image_subscriber.destroy_node()
   rclpy.shutdown()
-  cv2.destroyAllWindows()
   
 if __name__ == '__main__':
   main()
