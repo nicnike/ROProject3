@@ -23,6 +23,10 @@ class TestVideoProcessing(unittest.TestCase):
         gray = self.class_VideoProcessing.VPConvertToGray(self.imgHomography)
         self.assertIsNot(gray, 42)
 
+        # Edge Case
+        self.assertIsNot(gray, 0)
+        self.assertIsNot(gray, "")
+
     def test_VPConvertToBinary(self):
         """!
         Tests the conversion from a grayscale image to a binary image.
@@ -32,6 +36,10 @@ class TestVideoProcessing(unittest.TestCase):
         binary = 42
         binary = self.class_VideoProcessing.VPConvertToBinary(self.imgGray)
         self.assertIsNot(binary, 42)
+
+        # Edge Case
+        self.assertIsNot(binary, 0)
+        self.assertIsNot(binary, "")
 
     def test_VPApplyOpening(self):
         """!
@@ -43,6 +51,10 @@ class TestVideoProcessing(unittest.TestCase):
         opening = self.class_VideoProcessing.VPApplyOpening(self.imgBinary)
         self.assertIsNot(opening, 42)
 
+        # Edge Case
+        self.assertIsNot(opening, 0)
+        self.assertIsNot(opening, "")
+
     def test_VPHomography(self):
         """!
         Tests the application of the homography function on a binary image
@@ -53,6 +65,10 @@ class TestVideoProcessing(unittest.TestCase):
         homography = self.class_VideoProcessing.VPHomography(self.imgBinary)
         self.assertIsNot(homography, 42)
 
+        # Edge Case
+        self.assertIsNot(homography, 0)
+        self.assertIsNot(homography, "")
+
     # Test for Init Functions
     # tests VPArucoDisplay automatically with it as well
     def test_VPDetectArucoMarkers(self):
@@ -61,6 +77,10 @@ class TestVideoProcessing(unittest.TestCase):
         """
         self.class_VideoProcessing.VPDetectArucoMarkers(self.img)
         self.assertEqual(len(self.class_VideoProcessing.homographyX), 4)
+
+        # Edge Case
+        self.assertIsNot(len(self.class_VideoProcessing.homographyX), "")
+        self.assertIsNot(self.class_VideoProcessing.homographyX, (0, 0, 0, 0))
 
     def test_VPGetContoursAndArea(self):
         """!
@@ -71,7 +91,20 @@ class TestVideoProcessing(unittest.TestCase):
         """
         self.class_VideoProcessing.objectDetected = True
         self.class_VideoProcessing.VPGetContoursAndArea(self.imgOpening)
-        self.assertEqual((self.class_VideoProcessing.shape, self.class_VideoProcessing.objectArea, self.class_VideoProcessing.radius), (7, 35274.5, 150.90219116210938))
+        self.assertEqual((self.class_VideoProcessing.shape,
+                          self.class_VideoProcessing.objectArea,
+                          self.class_VideoProcessing.radius),
+                         (7, 35274.5, 150.90219116210938))
+
+        # Edge Case
+        self.assertIsNot((self.class_VideoProcessing.shape,
+                          self.class_VideoProcessing.objectArea,
+                          self.class_VideoProcessing.radius),
+                         (0, 0.0, 0.0))
+        self.assertIsNot((self.class_VideoProcessing.shape,
+                          self.class_VideoProcessing.objectArea,
+                          self.class_VideoProcessing.radius),
+                         "")
 
     def test_VPGetDistanceTransformation(self):
         """!
@@ -83,6 +116,9 @@ class TestVideoProcessing(unittest.TestCase):
         self.class_VideoProcessing.objectDetected = True
         self.class_VideoProcessing.VPGetDistanceTransformation(self.imgOpening)
         self.assertEqual((self.class_VideoProcessing.objectX, self.class_VideoProcessing.objectY), (135, 241))
+        # Edge Case
+        self.assertIsNot((self.class_VideoProcessing.objectX, self.class_VideoProcessing.objectY), (0, 0))
+        self.assertIsNot((self.class_VideoProcessing.objectX, self.class_VideoProcessing.objectY), "")
 
     def test_VPGetCorners(self):
         """!
@@ -94,6 +130,10 @@ class TestVideoProcessing(unittest.TestCase):
         self.class_VideoProcessing.objectDetected = True
         self.class_VideoProcessing.VPGetCorners(self.imgOpening)
         self.assertEqual(self.class_VideoProcessing.cornerCount, 51)
+
+        # Edge Case
+        self.assertIsNot(self.class_VideoProcessing.cornerCount, 0)
+        self.assertIsNot(self.class_VideoProcessing.cornerCount, "")
 
     def test_VPObjectedDetected(self):
         """!
@@ -107,14 +147,8 @@ class TestVideoProcessing(unittest.TestCase):
     def test_VPObjectValueReset(self):
         """!
         Tests if the Reset function correctly resets every variable back to 0 or 0.0 if number is a float
+        Values cannot be set to a random state because the reset condition of the function will not be met
         """
-        self.assertEqual((self.class_VideoProcessing.objectX,
-                          self.class_VideoProcessing.objectY,
-                          self.class_VideoProcessing.shape,
-                          self.class_VideoProcessing.objectArea,
-                          self.class_VideoProcessing.radius,
-                          self.class_VideoProcessing.cornerCount),
-                         (1, 1, 1, 1.0, 1.0, 1))
         self.class_VideoProcessing.VPObjectValueReset(self.imgOpening)
         self.assertEqual((self.class_VideoProcessing.objectX,
                           self.class_VideoProcessing.objectY,
@@ -123,6 +157,21 @@ class TestVideoProcessing(unittest.TestCase):
                           self.class_VideoProcessing.radius,
                           self.class_VideoProcessing.cornerCount),
                          (0, 0, 0, 0.0, 0.0, 0))
+        # Edge Case
+        self.assertIsNot((self.class_VideoProcessing.objectX,
+                          self.class_VideoProcessing.objectY,
+                          self.class_VideoProcessing.shape,
+                          self.class_VideoProcessing.objectArea,
+                          self.class_VideoProcessing.radius,
+                          self.class_VideoProcessing.cornerCount),
+                         "")
+        self.assertLess((self.class_VideoProcessing.objectX,
+                          self.class_VideoProcessing.objectY,
+                          self.class_VideoProcessing.shape,
+                          self.class_VideoProcessing.objectArea,
+                          self.class_VideoProcessing.radius,
+                          self.class_VideoProcessing.cornerCount),
+                         (1, 1, 1, 1.0, 1.0, 1))
 
     def test_VPCommunicatePoints(self):
         """!
@@ -132,6 +181,11 @@ class TestVideoProcessing(unittest.TestCase):
         self.class_VideoProcessing.objectY = 10
         points = self.class_VideoProcessing.VPCommunicatePoints()
         self.assertEqual(points, (4, 10))
+
+        # Edge Case
+        self.assertIsNot(points, (4.0, 10.0))
+        self.assertIsNot(points, (0, 0))
+        self.assertIsNot(points, "")
 
     def test_VPCommunicateFeatures(self):
         """!
@@ -143,6 +197,11 @@ class TestVideoProcessing(unittest.TestCase):
         self.class_VideoProcessing.cornerCount = 50
         features = self.class_VideoProcessing.VPCommunicateFeatures()
         self.assertEqual(features, (7, 35000, 150, 50))
+
+        # Edge Case
+        self.assertIsNot(features, (7.0, 35000.0, 150.0, 50.0))
+        self.assertIsNot(features, (0, 0, 0, 0))
+        self.assertIsNot(features, "")
 
     def test_VPCommunicateSpeed(self):
         """!
