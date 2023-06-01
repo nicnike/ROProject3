@@ -52,12 +52,12 @@ class MoveGripper(Node):
             self.state = 2
             self.destPub.publish(self.objPos[0], self.objPos[1], -10, True)
             time.sleep(1)
-        if self.id == 0 && self.state = 2:
+        if self.id == 0 && self.state == 2:
             self.destPub.publish(self.target_box0[0], self.target_box0[1], self.target_box0[2], True)
             if self.robPos == self.target_box0:
                 self.destPub.publish(self.target_box0[0], self.target_box0[1], self.target_box0[2], False)
                 self.state = 1
-        if self.id == 1 && self.state = 2:
+        if self.id == 1 && self.state == 2:
             self.destPub.publish(self.target_box1[0], self.target_box1[1], self.target_box1[2], True)
             if self.robPos == self.target_box0:
                 self.destPub.publish(self.target_box1[0], self.target_box1[1], self.target_box1[2], False)
