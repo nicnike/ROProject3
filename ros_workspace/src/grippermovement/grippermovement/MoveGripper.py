@@ -47,7 +47,7 @@ class MoveGripper(Node):
             self.state = 1
             time.sleep(5)
         if self.state == 1:
-            self.destPub.publish((self.grippingzone[0], self.grippingzone[1], self.grippingzone[2], False)
+            self.destPub.publish(self.grippingzone[0], self.grippingzone[1], self.grippingzone[2], False)
         if self.objPos - self.threshold < self.grippingzone && self.objPos + self.threshold > self.grippingzone:
             self.state = 2
             self.destPub.publish(self.objPos[0], self.objPos[1], -10, True)
