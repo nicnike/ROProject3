@@ -14,21 +14,41 @@ class TestVideoProcessing(unittest.TestCase):
         self.imgOpening = cv2.imread('../resource/imgOpening.jpg', cv2.IMREAD_GRAYSCALE)
 
     def test_VPConvertToGray(self):
+        """!
+        Tests the conversion from an image to a grayscale image.
+        Sets a variable to a random input and after using the function checks if the value was changed.
+        Testing images is difficult.
+        """
         gray = 42
         gray = self.class_VideoProcessing.VPConvertToGray(self.imgHomography)
         self.assertIsNot(gray, 42)
 
     def test_VPConvertToBinary(self):
+        """!
+        Tests the conversion from a grayscale image to a binary image.
+        Sets a variable to a random input and after using the function checks if the value was changed.
+        Testing images is difficult.
+        """
         binary = 42
         binary = self.class_VideoProcessing.VPConvertToBinary(self.imgGray)
         self.assertIsNot(binary, 42)
 
     def test_VPApplyOpening(self):
+        """!
+        Tests the application of the opening function on a binary image.
+        Sets a variable to a random input and after using the function checks if the value was changed.
+        Testing images is difficult.
+        """
         opening = 42
         opening = self.class_VideoProcessing.VPApplyOpening(self.imgBinary)
         self.assertIsNot(opening, 42)
 
     def test_VPHomography(self):
+        """!
+        Tests the application of the homography function on a binary image
+        Sets a variable to a random input and after using the function checks if the value was changed.
+        Testing images is difficult.
+        """
         homography = 42
         homography = self.class_VideoProcessing.VPHomography(self.imgBinary)
         self.assertIsNot(homography, 42)
@@ -36,29 +56,65 @@ class TestVideoProcessing(unittest.TestCase):
     # Test for Init Functions
     # tests VPArucoDisplay automatically with it as well
     def test_VPDetectArucoMarkers(self):
+        """!
+        Tests the detection of the 4 Aruco markers in a given frame and checks if exactly 4 are found.
+        """
         self.class_VideoProcessing.VPDetectArucoMarkers(self.img)
         self.assertEqual(len(self.class_VideoProcessing.homographyX), 4)
 
     def test_VPGetContoursAndArea(self):
+        """!
+        Tests the variables shape, objectArea and radius of the object within the given frame.
+
+        The objectDetected variable has to be True because test functions run in random order
+        and the variable has to be tested later as well
+        """
         self.class_VideoProcessing.objectDetected = True
         self.class_VideoProcessing.VPGetContoursAndArea(self.imgOpening)
         self.assertEqual((self.class_VideoProcessing.shape, self.class_VideoProcessing.objectArea, self.class_VideoProcessing.radius), (7, 35274.5, 150.90219116210938))
 
     def test_VPGetDistanceTransformation(self):
+        """!
+        Tests the variables objectX and objectY of the object within the given frame.
+
+        The objectDetected variable has to be True because test functions run in random order
+        and the variable has to be tested later as well
+        """
         self.class_VideoProcessing.objectDetected = True
         self.class_VideoProcessing.VPGetDistanceTransformation(self.imgOpening)
         self.assertEqual((self.class_VideoProcessing.objectX, self.class_VideoProcessing.objectY), (135, 241))
 
     def test_VPGetCorners(self):
+        """!
+        Tests the variable cornerCount of the object within the given frame.
+
+        The objectDetected variable has to be True because test functions run in random order
+        and the variable has to be tested later as well
+        """
         self.class_VideoProcessing.objectDetected = True
         self.class_VideoProcessing.VPGetCorners(self.imgOpening)
         self.assertEqual(self.class_VideoProcessing.cornerCount, 51)
 
     def test_VPObjectedDetected(self):
+        """!
+        Tests if an object is correctly detected within the given frame.
+        The objectDetected variable should be set to True if correct.
+        """
+        self.class_VideoProcessing.objectDetected = False
         self.class_VideoProcessing.VPObjectedDetected(self.imgOpening)
         self.assertEqual(self.class_VideoProcessing.objectDetected, True)
 
     def test_VPObjectValueReset(self):
+        """!
+        Tests if the Reset function correctly resets every variable back to 0 or 0.0 if number is a float
+        """
+        self.assertEqual((self.class_VideoProcessing.objectX,
+                          self.class_VideoProcessing.objectY,
+                          self.class_VideoProcessing.shape,
+                          self.class_VideoProcessing.objectArea,
+                          self.class_VideoProcessing.radius,
+                          self.class_VideoProcessing.cornerCount),
+                         (1, 1, 1, 1.0, 1.0, 1))
         self.class_VideoProcessing.VPObjectValueReset(self.imgOpening)
         self.assertEqual((self.class_VideoProcessing.objectX,
                           self.class_VideoProcessing.objectY,
@@ -69,12 +125,18 @@ class TestVideoProcessing(unittest.TestCase):
                          (0, 0, 0, 0.0, 0.0, 0))
 
     def test_VPCommunicatePoints(self):
+        """!
+        Tests if the CommunicatePoints function correctly returns the X ans Y Coordinates
+        """
         self.class_VideoProcessing.objectX = 4
         self.class_VideoProcessing.objectY = 10
         points = self.class_VideoProcessing.VPCommunicatePoints()
         self.assertEqual(points, (4, 10))
 
     def test_VPCommunicateFeatures(self):
+        """!
+        Tests if the CommunicateFeatures function correctly returns shape, area, radius and corners
+        """
         self.class_VideoProcessing.shape = 7
         self.class_VideoProcessing.objectArea = 35000
         self.class_VideoProcessing.radius = 150
@@ -83,6 +145,9 @@ class TestVideoProcessing(unittest.TestCase):
         self.assertEqual(features, (7, 35000, 150, 50))
 
     def test_VPCommunicateSpeed(self):
+        """!
+        Tests if the CommunicateSpeed function correctly returns speed
+        """
         self.class_VideoProcessing.speed = 100
         speed = self.class_VideoProcessing.VPCommunicateSpeed()
         self.assertEqual(speed, 100)
