@@ -1,13 +1,14 @@
 import rclpy
 from rclpy.node import Node
 from ro45_portalrobot_interfaces.msg import RobotPos, RobotCmd
+from custom_interfaces.msg import RobotPosWithGripper
 
 
 class ControlPosition(Node):
     def __init__(self):
         super().__init__('control_position') # type: ignore
         #Will be sent later to the controller
-        self.posSub = self.create_subscription(
+        self.currentPosSub = self.create_subscription(
             RobotPos,
             'position_publisher',
             self.position_callback,
@@ -18,14 +19,14 @@ class ControlPosition(Node):
             'command_subscriber',
             10)
         
-        self.posSub = self.create_subscription(
-            RobotPos,
-            'robot_reference_position',
+        self.desiredPosSub = self.create_subscription(
+            RobotPosWithGripper,
+            'robotposwithgripper',
             self.desired_position_callback,
             10)
         
         self.current_position = RobotPos()
-        self.target_position = RobotPos()
+        self.target_position = RobotPosWithGripper()
 
     def position_callback(self, data):
         self.current_position = data
@@ -46,7 +47,7 @@ class ControlPosition(Node):
         robot_cmd.vel_x = kx * (self.target_position.pos_x - self.current_position.pos_x)
         robot_cmd.vel_y = ky * (self.target_position.pos_y - self.current_position.pos_y)
         robot_cmd.vel_z = kz * (self.target_position.pos_z - self.current_position.pos_z)
-        robot_cmd.activate_gripper = False
+        robot_cmd.activate_gripper = self.target_position.activate_gripper
         return robot_cmd
 
 def main(args=None):

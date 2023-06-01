@@ -2,6 +2,7 @@ import rclpy
 import time
 from rclpy.node import Node
 import ro45_portalrobot_interfaces.msg as msg
+from custom_interfaces.msg import ObjectPosition, RobotPosWithGripper
 
 
 class MoveGripper(Node):
@@ -24,8 +25,8 @@ class MoveGripper(Node):
 
         # muss vom Controller als Eingang verarbeitet werden
         self.destPub = self.create_publisher(
-            Destination,
-            'destination',
+            RobotPosWithGripper,
+            'robotposwithgripper',
             10)
 
         self.objPosSub = self.create_subscription(

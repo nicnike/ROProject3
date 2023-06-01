@@ -14,7 +14,8 @@ setup(
     install_requires=[        
         'setuptools',
         'rclpy',
-        'ro45_portalrobot_interfaces'],
+        'ro45_portalrobot_interfaces',
+        'custom_interfaces'],
     zip_safe=True,
     maintainer='Ai Avengers',
     maintainer_email='57753615+nicnike@users.noreply.github.com',

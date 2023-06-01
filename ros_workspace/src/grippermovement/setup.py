@@ -15,7 +15,8 @@ setup(
         'setuptools',
         'rclpy',
         'ro45_portalrobot_interfaces'
-        'time'],
+        'time',
+        'custom_interfaces'],
     zip_safe=True,
     maintainer='Ai Avengers',
     maintainer_email='57753615+nicnike@users.noreply.github.com',
