@@ -1,7 +1,7 @@
 import rclpy
 import time
 from rclpy.node import Node
-import ro45_portalrobot_interfaces.msg as msg
+from ro45_portalrobot_interfaces.msg import RobotPos, RobotCmd
 from custom_interfaces.msg import ObjectPosition, RobotPosWithGripper
 
 
