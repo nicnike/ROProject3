@@ -23,13 +23,6 @@ class MoveGripperManually(Node):
             'robotposwithgripper',
             10)
 
-        self.objPosSub = self.create_subscription(
-            ObjectPosition,
-            'object_position',
-            self.callback_objPos,
-            10)
-
-
     def callback_robPos(self, msg):
         self.robPos = msg.RobotPos
 
