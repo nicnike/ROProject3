@@ -1,7 +1,7 @@
 import rclpy
 import time
 from rclpy.node import Node
-from ro45_portalrobot_interfaces.msg import RobotPos, RobotCmd
+from ro45_portalrobot_interfaces.msg import RotPos, RobotCmd
 from custom_interfaces.msg import ObjectPosition, RobotPosWithGripper
 
 
@@ -27,14 +27,14 @@ class MoveGripperManually(Node):
 
 
     def callback_robPos(self, msg):
-        self.robPos = msg.RobotPos
+        self.robPos = msg
 
 
     def moveXUp(self):
-        self.destPub.publish(self.robPos[0] + self.increment, self.robPos[1], self.robPos[2], False)
+        self.destPub.publish(self.robPos.pos_x + self.increment, self.robPos.pos_y, self.robPos.pos_z, False)
         self.get_logger().info("Rob at Pos: " & self.robPos)
     def moveXDown(self):
-        self.destPub.publish(self.robPos[0] - self.increment, self.robPos[1], self.robPos[2], False)
+        self.destPub.publish(self.robPos.pos_x - self.increment, self.robPos[1], self.robPos[2], False)
         self.get_logger().info("Rob at Pos: " & self.robPos)
 
 
