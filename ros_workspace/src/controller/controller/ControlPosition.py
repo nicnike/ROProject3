@@ -10,13 +10,13 @@ class ControlPosition(Node):
         #Will be sent later to the controller
         self.currentPosSub = self.create_subscription(
             RobotPos,
-            'position_publisher',
+            'robot_position',
             self.position_callback,
             10)
         
         self.velPub = self.create_publisher(
             RobotCmd,
-            'command_subscriber',
+            'robot_command',
             10)
         
         self.desiredPosSub = self.create_subscription(
