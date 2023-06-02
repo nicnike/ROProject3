@@ -13,7 +13,7 @@ class MoveGripperManually(Node):
 
         self.posSub = self.create_subscription(
             RobotPos,
-            'position_publisher',
+            'robot_position',
             self.callback_robPos,
             10)
 
