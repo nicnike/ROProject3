@@ -3,4 +3,6 @@
     <node pkg="machine_learning" exec="MachinelearningNode"/>
     <node pkg="image_capture" exec="CameraNode"/>
     <node pkg="kalman_filter" exec="kalmanFilterNode"/>
+    <node pkg="controller" exec="ControlPosition"/>
+    <node pkg="grippermovement" exec="MoveGripper"/>
 </launch>
