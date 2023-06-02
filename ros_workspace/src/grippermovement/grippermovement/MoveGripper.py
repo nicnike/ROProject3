@@ -8,14 +8,24 @@ from custom_interfaces.msg import ObjectPosition, RobotPosWithGripper
 class MoveGripper(Node):
     def __init__(self):
         super().__init__('move_gripper') # type: ignore
-        self.target_box0 = [0, 200, 200]
-        self.target_box1 = [0, 400, 200]
-        self.grippingzone = [600, 600, 0]
-        self.state = 0
+        self.target_box0 = [0, 0.2, 0.2]
+        self.target_box1 = [0, 0.4, 0.2]
+        self.grippingzone = [0.6, 0.6, 0]
+        self.grippingzoneInPx = [-400, 135, 0]
+        self.down = -0.1
+        self.offsetPos = [0, 0, 0]
+        self.initmove = [-1, -1, -1]
         self.robPos = [0, 0, 0]
         self.objPos = [0, 0, 0]
-        self.id = -1
         self.threshold = 10
+        self.id = -1
+        self.init = False
+        self.gripping = False
+        self.working = False
+        self.gripperOn = True
+        self.gripperOff = False
+
+        self.timer = self.create_timer(0.01, self.timer_callback)
 
         self.posSub = self.create_subscription(
             msg.RobotPos,
@@ -35,34 +45,58 @@ class MoveGripper(Node):
             self.callback_objPos,
             10)
 
+    def timer_callback(self):
+        moveGripper()
+
     def callback_robPos(self, msg):
         self.robPos = msg.RobotPos
 
     def callback_objPos(self, msg):
-        self.objPos = msg.position
+        self.objPos = [msg.position.x, msg.position.y, msg.position.z]
         self.id = msg.classification
 
+    def calcOffsetPos(self):
+        self.offsetPos = self.grippingzone + (self.objPos - self.grippingzoneInPx) * 2.5 # /40 * 100 (40px = 1cm zu m)
+
     def moveGripper(self):
-        if self.state == 0:
-            self.destPub.publish(0, 0, 0, False)
-            self.state = 1
-            time.sleep(5)
-        if self.state == 1:
-            self.destPub.publish(self.grippingzone[0], self.grippingzone[1], self.grippingzone[2], False)
-        if self.objPos - self.threshold < self.grippingzone && self.objPos + self.threshold > self.grippingzone:
-            self.state = 2
-            self.destPub.publish(self.objPos[0], self.objPos[1], -10, True)
-            time.sleep(1)
-        if self.id == 0 && self.state == 2:
-            self.destPub.publish(self.target_box0[0], self.target_box0[1], self.target_box0[2], True)
+        if not self.init:
+            self.get_logger().info("Initialization...")
+            self.destPub.publish(-1, -1, -1, False)
+            self.init = True
+            self.gripping = True
+            time.sleep(10)
+            self.get_logger().info("Initialization done")
+
+        if self.gripping:
+            self.get_logger().info("Moving to GrippingZone")
+            self.destPub.publish(self.grippingzone[0], self.grippingzone[1], self.grippingzone[2], self.gripperOff)
+        if self.objPos - self.threshold < self.grippingzoneInPx or self.objPos + self.threshold > self.grippingzoneInPx:
+            self.get_logger().info("Picking Object...")
+            calcOffset()
+            self.destPub.publish(self.offsetPos[0], self.offsetPos[1], self.offsetPos[2], self.gripperOff)
+            time.sleep(2)
+            self.destPub.publish(self.offsetPos[0], self.offsetPos[1], self.down, self.gripperOn)
+            time.sleep(0.2)
+            self.gripping = False
+            self.working = True
+            self.get_logger().info("Object picked")
+
+        if self.working and self.id == 0:
+            self.get_logger().info("Sorting Object...")
+            self.destPub.publish(self.target_box0[0], self.target_box0[1], self.target_box0[2], self.gripperOn)
             if self.robPos == self.target_box0:
-                self.destPub.publish(self.target_box0[0], self.target_box0[1], self.target_box0[2], False)
-                self.state = 1
-        if self.id == 1 && self.state == 2:
-            self.destPub.publish(self.target_box1[0], self.target_box1[1], self.target_box1[2], True)
-            if self.robPos == self.target_box0:
-                self.destPub.publish(self.target_box1[0], self.target_box1[1], self.target_box1[2], False)
-                self.state = 1
+                self.destPub.publish(self.target_box0[0], self.target_box0[1], self.target_box0[2], self.gripperOff)
+                self.working = False
+                self.gripping = True
+                self.get_logger().info("Object sorted")
+        if self.working and self.id == 1:
+            self.get_logger().info("Sorting Object...")
+            self.destPub.publish(self.target_box1[0], self.target_box1[1], self.target_box1[2], self.gripperOn)
+            if self.robPos == self.target_box1:
+                self.destPub.publish(self.target_box1[0], self.target_box1[1], self.target_box1[2], self.gripperOff)
+                self.working = False
+                self.gripping = True
+                self.get_logger().info("Object sorted")
 
 
 
