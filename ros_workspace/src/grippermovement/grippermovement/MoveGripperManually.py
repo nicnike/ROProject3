@@ -9,7 +9,7 @@ class MoveGripperManually(Node):
     def __init__(self):
         super().__init__('move_gripper_m') # type: ignore
 
-        self.increment = 0.1
+        self.increment = 10
 
         self.posSub = self.create_subscription(
             msg.RobotPos,
@@ -22,6 +22,9 @@ class MoveGripperManually(Node):
             RobotPosWithGripper,
             'robotposwithgripper',
             10)
+            
+        self.moveXUp()
+
 
     def callback_robPos(self, msg):
         self.robPos = msg.RobotPos
