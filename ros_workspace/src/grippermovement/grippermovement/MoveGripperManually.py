@@ -12,7 +12,7 @@ class MoveGripperManually(Node):
         self.increment = 10
 
         self.posSub = self.create_subscription(
-            msg.RobotPos,
+            RobotPos,
             'position_publisher',
             self.callback_robPos,
             10)
@@ -22,7 +22,7 @@ class MoveGripperManually(Node):
             RobotPosWithGripper,
             'robotposwithgripper',
             10)
-            
+
         self.moveXUp()
 
 
