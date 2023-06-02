@@ -26,6 +26,7 @@ setup(
     entry_points={
         'console_scripts': [
             'MoveGripper = controller.MoveGripper:main',
+            'MoveGripperManually = controller.MoveGripperManually:main',
         ],
     },
 )
