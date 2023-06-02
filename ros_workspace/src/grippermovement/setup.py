@@ -25,8 +25,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'MoveGripper = controller.MoveGripper:main',
-            'MoveGripperManually = controller.MoveGripperManually:main',
+            'MoveGripper = grippermovement.MoveGripper:main',
+            'MoveGripperManually = grippermovement.MoveGripperManually:main',
         ],
     },
 )
