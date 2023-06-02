@@ -1,3 +1,12 @@
 [submodule "ros_workspace/src/ro45_portalrobot_interfaces"]
 	path = ros_workspace/src/ro45_portalrobot_interfaces
 	url = https://github.com/matl-hsk/ro45_portalrobot_interfaces
+[submodule "ros_workspace/src/ro45_ros2_pickrobot_serial"]
+	path = ros_workspace/src/ro45_ros2_pickrobot_serial
+	url = https://github.com/matl-hsk/ro45_ros2_pickrobot_serial
+[submodule "ros_workspace/src/PlotbotEncoderRosSerial"]
+	path = ros_workspace/src/PlotbotEncoderRosSerial
+	url = https://github.com/matl-hsk/PlotbotEncoderRosSerial
+[submodule "ros_workspace/src/PickRobotRosSerial"]
+	path = ros_workspace/src/PickRobotRosSerial
+	url = https://github.com/matl-hsk/PickRobotRosSerial
