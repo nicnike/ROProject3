@@ -40,9 +40,9 @@ class ControlPosition(Node):
         self.velPub.publish(velocity)
 
     def calculate_control_signal(self):
-        kx = 1
-        ky = 1
-        kz = 1
+        kx = 2
+        ky = 2
+        kz = 2
         robot_cmd = RobotCmd()
         robot_cmd.vel_x = kx * (self.target_position.pos_x - self.current_position.pos_x)
         robot_cmd.vel_y = ky * (self.target_position.pos_y - self.current_position.pos_y)
