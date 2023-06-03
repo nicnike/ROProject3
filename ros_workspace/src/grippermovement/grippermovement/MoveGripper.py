@@ -1,7 +1,7 @@
 import rclpy
 import time
 from rclpy.node import Node
-import ro45_portalrobot_interfaces.msg as msg
+from ro45_portalrobot_interfaces.msg import RobotPos, RobotCmd
 from custom_interfaces.msg import ObjectPosition, RobotPosWithGripper
 
 
@@ -28,8 +28,8 @@ class MoveGripper(Node):
         self.timer = self.create_timer(0.01, self.timer_callback)
 
         self.posSub = self.create_subscription(
-            msg.RobotPos,
-            'position_publisher',
+            RobotPos,
+            'robot_position',
             self.callback_robPos,
             10)
 
@@ -49,7 +49,8 @@ class MoveGripper(Node):
         moveGripper()
 
     def callback_robPos(self, msg):
-        self.robPos = msg.RobotPos
+        self.robPos = [msg.pos_x, msg.pos_y, msg.pos_z]
+
 
     def callback_objPos(self, msg):
         self.objPos = [msg.position.x, msg.position.y, msg.position.z]
