@@ -54,3 +54,4 @@ qtcreator-*
 CATKIN_IGNORE
 .idea/vcs.xml
 .idea/workspace.xml
+.idea/.name

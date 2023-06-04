@@ -46,7 +46,7 @@ class MoveGripper(Node):
             10)
 
     def timer_callback(self):
-        moveGripper()
+        self.moveGripper()
 
     def callback_robPos(self, msg):
         self.robPos = [msg.pos_x, msg.pos_y, msg.pos_z]
@@ -57,7 +57,7 @@ class MoveGripper(Node):
         self.id = msg.classification
 
     def calcOffsetPos(self):
-        self.offsetPos = self.grippingzone + (self.objPos - self.grippingzoneInPx) * 2.5 # /40 * 100 (40px = 1cm zu m)
+        self.offsetPos = self.grippingzone + (self.objPos - self.grippingzoneInPx) * 2.5  # /40 * 100 (40px = 1cm zu m)
 
     def moveGripper(self):
         if not self.init:
@@ -73,7 +73,7 @@ class MoveGripper(Node):
             self.destPub.publish(self.grippingzone[0], self.grippingzone[1], self.grippingzone[2], self.gripperOff)
         if self.objPos - self.threshold < self.grippingzoneInPx or self.objPos + self.threshold > self.grippingzoneInPx:
             self.get_logger().info("Picking Object...")
-            calcOffset()
+            self.calcOffsetPos()
             self.destPub.publish(self.offsetPos[0], self.offsetPos[1], self.offsetPos[2], self.gripperOff)
             time.sleep(2)
             self.destPub.publish(self.offsetPos[0], self.offsetPos[1], self.down, self.gripperOn)

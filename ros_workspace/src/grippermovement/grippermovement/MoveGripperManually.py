@@ -10,6 +10,7 @@ class MoveGripperManually(Node):
         super().__init__('move_gripper_m') # type: ignore
 
         self.increment = 10
+        self.gripperOff = False
 
         self.posSub = self.create_subscription(
             RobotPos,
@@ -31,27 +32,26 @@ class MoveGripperManually(Node):
 
 
     def moveXUp(self):
-        self.destPub.publish(self.robPos.pos_x + self.increment, self.robPos.pos_y, self.robPos.pos_z, False)
+        self.destPub.publish(self.robPos.pos_x + self.increment, self.robPos.pos_y, self.robPos.pos_z, self.gripperOff)
         self.get_logger().info("Rob at Pos: " & self.robPos)
     def moveXDown(self):
-        self.publish = self.destPub.publish(self.robPos.pos_x - self.increment, self.robPos.pos_y, self.robPos.pos_z,
-                                            False)
+        self.destPub.publish(self.robPos.pos_x - self.increment, self.robPos.pos_y, self.robPos.pos_z, self.gripperOff)
         self.get_logger().info("Rob at Pos: " & self.robPos)
 
 
     def moveYUp(self):
-        self.destPub.publish(self.robPos.pos_x, self.robPos.pos_y + self.increment, self.robPos.pos_z, False)
+        self.destPub.publish(self.robPos.pos_x, self.robPos.pos_y + self.increment, self.robPos.pos_z, self.gripperOff)
         self.get_logger().info("Rob at Pos: " & self.robPos)
     def moveYDown(self):
-        self.destPub.publish(self.robPos.pos_x, self.robPos.pos_y - self.increment, self.robPos.pos_z, False)
+        self.destPub.publish(self.robPos.pos_x, self.robPos.pos_y - self.increment, self.robPos.pos_z, self.gripperOff)
         self.get_logger().info("Rob at Pos: " & self.robPos)
 
 
     def moveZUp(self):
-        self.destPub.publish(self.robPos.pos_x, self.robPos.pos_y, self.robPos.pos_z + self.increment, False)
+        self.destPub.publish(self.robPos.pos_x, self.robPos.pos_y, self.robPos.pos_z + self.increment, self.gripperOff)
         self.get_logger().info("Rob at Pos: " & self.robPos)
     def moveZDown(self):
-        self.destPub.publish(self.robPos.pos_x, self.robPos.pos_y, self.robPos.pos_z - self.increment, False)
+        self.destPub.publish(self.robPos.pos_x, self.robPos.pos_y, self.robPos.pos_z - self.increment, self.gripperOff)
         self.get_logger().info("Rob at Pos: " & self.robPos)
 
 
