@@ -8,7 +8,6 @@ from custom_interfaces.msg import ObjectPosition, RobotPosWithGripper
 class MoveGripperManually(Node):
     def __init__(self):
         super().__init__('move_gripper_m') # type: ignore
-
         self.increment = 10
         self.gripperOff = False
 
@@ -24,6 +23,7 @@ class MoveGripperManually(Node):
             'robotposwithgripper',
             10)
 
+        self.robPos = RobotPos()
         self.moveXUp()
 
 
@@ -32,28 +32,34 @@ class MoveGripperManually(Node):
 
 
     def moveXUp(self):
-        self.destPub.publish(self.robPos.pos_x + self.increment, self.robPos.pos_y, self.robPos.pos_z, self.gripperOff)
-        self.get_logger().info("Rob at Pos: " & self.robPos)
-    def moveXDown(self):
-        self.destPub.publish(self.robPos.pos_x - self.increment, self.robPos.pos_y, self.robPos.pos_z, self.gripperOff)
-        self.get_logger().info("Rob at Pos: " & self.robPos)
-
-
-    def moveYUp(self):
-        self.destPub.publish(self.robPos.pos_x, self.robPos.pos_y + self.increment, self.robPos.pos_z, self.gripperOff)
-        self.get_logger().info("Rob at Pos: " & self.robPos)
-    def moveYDown(self):
-        self.destPub.publish(self.robPos.pos_x, self.robPos.pos_y - self.increment, self.robPos.pos_z, self.gripperOff)
+        move = RobotPosWithGripper()
+        move.pos_x = self.robPos.pos_x + self.increment
+        move.pos_y = self.robPos.pos_y
+        move.pos_z = self.robPos.pos_z
+        move.gripperOn = False
+        self.destPub.publish(move)
         self.get_logger().info("Rob at Pos: " & self.robPos)
 
-
-    def moveZUp(self):
-        self.destPub.publish(self.robPos.pos_x, self.robPos.pos_y, self.robPos.pos_z + self.increment, self.gripperOff)
-        self.get_logger().info("Rob at Pos: " & self.robPos)
-    def moveZDown(self):
-        self.destPub.publish(self.robPos.pos_x, self.robPos.pos_y, self.robPos.pos_z - self.increment, self.gripperOff)
-        self.get_logger().info("Rob at Pos: " & self.robPos)
-
+    # def moveXDown(self):
+    #     self.destPub.publish(self.robPos.pos_x - self.increment, self.robPos.pos_y, self.robPos.pos_z, self.gripperOff)
+    #     self.get_logger().info("Rob at Pos: " & self.robPos)
+    #
+    #
+    # def moveYUp(self):
+    #     self.destPub.publish(self.robPos.pos_x, self.robPos.pos_y + self.increment, self.robPos.pos_z, self.gripperOff)
+    #     self.get_logger().info("Rob at Pos: " & self.robPos)
+    # def moveYDown(self):
+    #     self.destPub.publish(self.robPos.pos_x, self.robPos.pos_y - self.increment, self.robPos.pos_z, self.gripperOff)
+    #     self.get_logger().info("Rob at Pos: " & self.robPos)
+    #
+    #
+    # def moveZUp(self):
+    #     self.destPub.publish(self.robPos.pos_x, self.robPos.pos_y, self.robPos.pos_z + self.increment, self.gripperOff)
+    #     self.get_logger().info("Rob at Pos: " & self.robPos)
+    # def moveZDown(self):
+    #     self.destPub.publish(self.robPos.pos_x, self.robPos.pos_y, self.robPos.pos_z - self.increment, self.gripperOff)
+    #     self.get_logger().info("Rob at Pos: " & self.robPos)
+    #
 
 def main(args=None):
     rclpy.init(args=args)
