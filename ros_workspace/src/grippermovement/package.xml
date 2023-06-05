@@ -10,6 +10,7 @@
   <depend>rclpy</depend>
   <depend>ro45_portalrobot_interfaces</depend>
   <depend>time</depend>
+  <depend>numpy</depend>
   <depend>custom_interfaces</depend>
 
   <test_depend>ament_copyright</test_depend>

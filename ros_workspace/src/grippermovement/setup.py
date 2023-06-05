@@ -16,6 +16,7 @@ setup(
         'rclpy',
         'ro45_portalrobot_interfaces'
         'time',
+        'numpy'
         'custom_interfaces'],
     zip_safe=True,
     maintainer='Ai Avengers',

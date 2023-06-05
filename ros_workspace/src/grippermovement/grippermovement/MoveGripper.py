@@ -3,7 +3,7 @@ import time
 from rclpy.node import Node
 from ro45_portalrobot_interfaces.msg import RobotPos, RobotCmd
 from custom_interfaces.msg import ObjectPosition, RobotPosWithGripper
-
+import numpy as np
 
 class MoveGripper(Node):
     def __init__(self):
@@ -23,8 +23,8 @@ class MoveGripper(Node):
         self.init = False
         self.gripping = False
         self.working = False
-        self.gripperOn = True
-        self.gripperOff = False
+        self.on = True
+        self.off = False
 
         self.timer = self.create_timer(0.01, self.timer_callback)
 
@@ -58,7 +58,7 @@ class MoveGripper(Node):
         self.id = msg.classification
 
     def calcOffsetPos(self):
-        self.offsetPos = self.grippingzone + (self.objPos - self.grippingzoneInPx) * 0.025  # /40 / 100 (40px = 1cm zu m)
+        self.offsetPos = np.add(self.grippingzone, np.multiply((np.subtract(self.objPos, self.grippingzoneInPx)), 0.025))  # /40 / 100 (40px = 1cm zu m)
 
     def moveGripper(self):
         move = RobotPosWithGripper()
@@ -75,7 +75,7 @@ class MoveGripper(Node):
             move.pos_x = self.grippingzone[0]
             move.pos_y = self.grippingzone[1]
             move.pos_z = self.grippingzone[2]
-            move.gripperActivate = self.gripperOff
+            move.gripperActivate = self.off
             self.destPub.publish(move)
         if self.objPos[1] - self.grippingzoneInPx[1] < self.thresholdPx:
             self.get_logger().info("Picking Object...")
@@ -83,13 +83,13 @@ class MoveGripper(Node):
             move.pos_x = self.offsetPos[0]
             move.pos_y = self.offsetPos[1]
             move.pos_z = self.offsetPos[2]
-            move.gripperActivate = self.gripperOff
+            move.gripperActivate = self.off
             self.destPub.publish(move)
             time.sleep(2)
             move.pos_x = self.offsetPos[0]
             move.pos_y = self.offsetPos[1]
             move.pos_z = self.down
-            move.gripperActivate = self.gripperOn
+            move.gripperActivate = self.on
             self.destPub.publish(move)
             time.sleep(0.2)
             self.gripping = False
@@ -101,13 +101,13 @@ class MoveGripper(Node):
             move.pos_x = self.target_box0[0]
             move.pos_y = self.target_box0[1]
             move.pos_z = self.target_box0[2]
-            move.gripperActivate = self.gripperOn
+            move.gripperActivate = self.on
             self.destPub.publish(move)
-            if  self.target_box0 - self.robPos < self.threshold:
+            if  np.subtract(self.target_box0, self.robPos) < self.threshold:
                 move.pos_x = self.target_box0[0]
                 move.pos_y = self.target_box0[1]
                 move.pos_z = self.target_box0[2]
-                move.gripperActivate = self.gripperOff
+                move.gripperActivate = self.off
                 self.destPub.publish(move)
                 self.working = False
                 self.gripping = True
@@ -116,14 +116,14 @@ class MoveGripper(Node):
             move.pos_x = self.target_box1[0]
             move.pos_y = self.target_box1[1]
             move.pos_z = self.target_box1[2]
-            move.gripperActivate = self.gripperOn
+            move.gripperActivate = self.on
             self.destPub.publish(move)
             diff = self.robPos - self.target_box1
-            if self.target_box1 - self.robPos < self.threshold:
+            if np.subtract(self.target_box1, self.robPos) < self.threshold:
                 move.pos_x = self.target_box1[0]
                 move.pos_y = self.target_box1[1]
                 move.pos_z = self.target_box1[2]
-                move.gripperActivate = self.gripperOff
+                move.gripperActivate = self.off
                 self.destPub.publish(move)
                 self.working = False
                 self.gripping = True
