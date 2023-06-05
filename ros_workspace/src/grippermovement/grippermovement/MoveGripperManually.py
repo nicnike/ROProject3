@@ -38,7 +38,7 @@ class MoveGripperManually(Node):
         move.pos_z = self.robPos.pos_z
         move.activate_gripper = False
         self.destPub.publish(move)
-        self.get_logger().info("Rob at Pos: " & self.robPos)
+        self.get_logger().info("Rob at Pos: {self.robPos}")
 
     # def moveXDown(self):
     #     self.destPub.publish(self.robPos.pos_x - self.increment, self.robPos.pos_y, self.robPos.pos_z, self.gripperOff)
