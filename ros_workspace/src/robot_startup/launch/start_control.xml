@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="controller" exec="ControlPosition"/>
+    <node pkg="grippermovement" exec="MoveGripperManually"/>
+</launch>

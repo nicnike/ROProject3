@@ -40,13 +40,22 @@ class ControlPosition(Node):
         self.velPub.publish(velocity)
 
     def calculate_control_signal(self):
-        kx = 0.001
-        ky = 0.001
-        kz = 0.001
+        kx = 2
+        ky = 2
+        kz = 2
         robot_cmd = RobotCmd()
+
         robot_cmd.vel_x = kx * (self.target_position.pos_x - self.current_position.pos_x)
         robot_cmd.vel_y = ky * (self.target_position.pos_y - self.current_position.pos_y)
         robot_cmd.vel_z = kz * (self.target_position.pos_z - self.current_position.pos_z)
+
+        if robot_cmd.vel_x > 0.03
+            robot_cmd.vel_x = 0.03
+        if robot_cmd.vel_y > 0.025
+            robot_cmd.vel_y = 0.025
+        if robot_cmd.vel_z > 0.02
+            robot_cmd.vel_z = 0.02
+
         robot_cmd.activate_gripper = self.target_position.activate_gripper
         return robot_cmd
 
