@@ -28,7 +28,7 @@ class CameraNode(Node):
     def read_frames(self):
         #initialize video feed
         if not self.test_mode:
-            self.videoFeed = cv2.VideoCapture(0)
+            self.videoFeed = cv2.VideoCapture(2)
         else:
             self.videoFeed = cv2.VideoCapture('/home/johndoe/Videos/sample_video.mp4')
 

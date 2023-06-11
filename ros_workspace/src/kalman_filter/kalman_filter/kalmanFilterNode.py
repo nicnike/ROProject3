@@ -157,7 +157,7 @@ class ObjectTrackerNode(Node):
     Publishes the position of each object as a ROS2 message.
     """
     for obj in self.objects:
-      if obj.kf.x[1] < -400:
+      if obj.kf.x[1] < -480:
         obj.kf.predict(2.0)
         object_position = ObjectPosition()
         object_position.header.frame_id = 'map'
