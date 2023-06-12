@@ -49,19 +49,25 @@ class ControlPosition(Node):
         robot_cmd.vel_y = ky * (self.target_position.pos_y - self.current_position.pos_y)
         robot_cmd.vel_z = kz * (self.target_position.pos_z - self.current_position.pos_z)
 
-        if robot_cmd.vel_x > 0.03:
-            robot_cmd.vel_x = 0.03
-        if robot_cmd.vel_y > 0.025:
-            robot_cmd.vel_y = 0.025
-        if robot_cmd.vel_z > 0.02:
-            robot_cmd.vel_z = 0.02
 
-        if robot_cmd.vel_x < 0.01:
-            robot_cmd.vel_x = 0.01
-        if robot_cmd.vel_y < 0.01:
-            robot_cmd.vel_y = 0.01
-        if robot_cmd.vel_z < 0.01:
-            robot_cmd.vel_z = 0.01
+        if robot_cmd.vel_x > 0.016:
+            robot_cmd.vel_x = 0.016
+        if robot_cmd.vel_y > 0.018:
+            robot_cmd.vel_y = 0.018
+
+        if robot_cmd.vel_x < -0.016:
+            robot_cmd.vel_x = -0.016
+        if robot_cmd.vel_y < -0.018:
+            robot_cmd.vel_y = -0.018
+
+
+        if robot_cmd.vel_x < 0.004 and robot_cmd.vel_x > -0.004:
+            robot_cmd.vel_x = 0.0
+        if robot_cmd.vel_y < 0.004 and robot_cmd.vel_y > -0.004:
+            robot_cmd.vel_y = 0.0
+        if robot_cmd.vel_z < 0.004 and robot_cmd.vel_z > -0.004:
+            robot_cmd.vel_z = 0.0
+
 
         robot_cmd.activate_gripper = self.target_position.activate_gripper
         return robot_cmd
