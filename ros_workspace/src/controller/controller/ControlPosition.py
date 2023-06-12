@@ -56,6 +56,13 @@ class ControlPosition(Node):
         if robot_cmd.vel_z > 0.02:
             robot_cmd.vel_z = 0.02
 
+        if robot_cmd.vel_x < 0.01:
+            robot_cmd.vel_x = 0.01
+        if robot_cmd.vel_y < 0.01:
+            robot_cmd.vel_y = 0.01
+        if robot_cmd.vel_z < 0.01:
+            robot_cmd.vel_z = 0.01
+
         robot_cmd.activate_gripper = self.target_position.activate_gripper
         return robot_cmd
 
