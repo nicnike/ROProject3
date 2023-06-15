@@ -46,14 +46,14 @@ class ControlPosition(Node):
         robot_cmd = RobotCmd()
 
         x_diff = self.target_position.pos_x - self.current_position.pos_x
-        if x_diff < 0.0005:
-            x_diff = 0.0
+        if x_diff < 0.0005 and x_diff > -0.0005:
+             x_diff = 0.0
         y_diff = self.target_position.pos_y - self.current_position.pos_y
-        if y_diff < 0.0005:
-            x_diff = 0.0
+        if y_diff < 0.0005 and y_diff > -0.0005:
+            y_diff = 0.0
         z_diff = self.target_position.pos_z - self.current_position.pos_z
-        if z_diff < 0.0005:
-            x_diff = 0.0
+        if z_diff < 0.0005 and z_diff > -0.0005:
+            z_diff = 0.0
 
         robot_cmd.vel_x = kx * x_diff
         robot_cmd.vel_y = ky * y_diff
@@ -65,8 +65,8 @@ class ControlPosition(Node):
         if robot_cmd.vel_y > 0.018:
             robot_cmd.vel_y = 0.018
 
-        if robot_cmd.vel_x < -0.016:
-            robot_cmd.vel_x = -0.016
+        if robot_cmd.vel_x < -0.015:
+            robot_cmd.vel_x = -0.015
         if robot_cmd.vel_y < -0.018:
             robot_cmd.vel_y = -0.018
 

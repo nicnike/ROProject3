@@ -28,7 +28,8 @@ class MoveGripper(Node):
         self.down = -0.1
         self.offsetPos = [0, 0, 0]
 
-        self.robPos = [0, 0, 0]
+        self.robPos = [0.0, 0.0, 0.0]
+
         self.objPos = [1000, 1000, 1000]
         self.thresholdPx = 40
         self.threshold = [0.02, 0.02, 0.02]
@@ -38,7 +39,7 @@ class MoveGripper(Node):
         self.working = False
         self.gripperOn = True
         self.gripperOff = False
-        self.offset = [0, 0, 0]
+        self.offset = [0.0, 0.0, 0.0]
 
         self.cat = 0
         self.unicorn = 1
@@ -68,7 +69,8 @@ class MoveGripper(Node):
 
         @param msg: is the published message on the 'robot_position' topic
         """
-        self.robPos = [msg.pos_x, msg.pos_y, msg.pos_z]
+        data = msg
+        self.robPos = [data.pos_x, data.pos_y, data.pos_z]
 
     def callback_obj_pos(self, msg):
         """
@@ -83,11 +85,12 @@ class MoveGripper(Node):
         """
         initialize the destination position arrays once
         """
-        self.offset = self.robPos
-        self.grippingzone = np.add(self.grippingzone, self.offset)
-        self.target_box0 = np.add(self.target_box0, self.offset)
-        self.target_box1 = np.add(self.target_box1, self.offset)
-        self.pickup = np.add(self.pickup, self.offset)
+        self.grippingzone = np.add(self.grippingzone, self.robPos)
+        self.target_box0 = np.add(self.target_box0, self.robPos)
+        self.target_box1 = np.add(self.target_box1, self.robPos)
+        self.pickup = np.add(self.pickup, self.robPos)
+
+        self.get_logger().info(str(self.grippingzone))
 
     def calc_object_offset_pos(self):
         """
@@ -125,6 +128,7 @@ class MoveGripper(Node):
         self.get_logger().info(str(exec))
         self.destPub.publish(exec)
         time.sleep(10)
+        self.get_logger().info(str(self.robPos))
         self.init_zone_values()
         self.init = True
         self.gripping = True
