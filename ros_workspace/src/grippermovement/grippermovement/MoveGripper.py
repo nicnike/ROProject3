@@ -19,7 +19,7 @@ class MoveGripper(Node):
         super().__init__('move_gripper') # type: ignore
         self.target_box0 = [0.0, 0.0, 0.0]
         self.target_box1 = [-0.08, 0.0, 0.0]
-        self.grippingzone = [-0.04, -0.09, 0.06]
+        self.grippingzone = [-0.04, -0.09, 0.04]
         self.pickup = [-0.04, -0.09, 0.03]
         self.initMove = [1.0, 1.0, -1.0]
         self.grippingzoneInPx = [-480, 135, 0]
