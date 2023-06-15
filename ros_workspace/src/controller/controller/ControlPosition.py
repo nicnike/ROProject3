@@ -40,14 +40,24 @@ class ControlPosition(Node):
         self.velPub.publish(velocity)
 
     def calculate_control_signal(self):
-        kx = 2
-        ky = 2
-        kz = 2
+        kx = 5
+        ky = 5
+        kz = 5
         robot_cmd = RobotCmd()
 
-        robot_cmd.vel_x = kx * (self.target_position.pos_x - self.current_position.pos_x)
-        robot_cmd.vel_y = ky * (self.target_position.pos_y - self.current_position.pos_y)
-        robot_cmd.vel_z = kz * (self.target_position.pos_z - self.current_position.pos_z)
+        x_diff = self.target_position.pos_x - self.current_position.pos_x
+        if x_diff < 0.001:
+            x_diff = 0
+        y_diff = self.target_position.pos_y - self.current_position.pos_y
+        if y_diff < 0.001:
+            x_diff = 0
+        z_diff = self.target_position.pos_z - self.current_position.pos_z
+        if z_diff < 0.001:
+            x_diff = 0
+
+        robot_cmd.vel_x = kx * x_diff
+        robot_cmd.vel_y = ky * y_diff
+        robot_cmd.vel_z = kz * z_diff
 
 
         if robot_cmd.vel_x > 0.016:
@@ -61,12 +71,12 @@ class ControlPosition(Node):
             robot_cmd.vel_y = -0.018
 
 
-        if robot_cmd.vel_x < 0.004 and robot_cmd.vel_x > -0.004:
-            robot_cmd.vel_x = 0.0
-        if robot_cmd.vel_y < 0.004 and robot_cmd.vel_y > -0.004:
-            robot_cmd.vel_y = 0.0
-        if robot_cmd.vel_z < 0.004 and robot_cmd.vel_z > -0.004:
-            robot_cmd.vel_z = 0.0
+        # if robot_cmd.vel_x < 0.004 and robot_cmd.vel_x > -0.004:
+        #     robot_cmd.vel_x = 0.0
+        # if robot_cmd.vel_y < 0.004 and robot_cmd.vel_y > -0.004:
+        #     robot_cmd.vel_y = 0.0
+        # if robot_cmd.vel_z < 0.004 and robot_cmd.vel_z > -0.004:
+        #     robot_cmd.vel_z = 0.0
 
 
         robot_cmd.activate_gripper = self.target_position.activate_gripper

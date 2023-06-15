@@ -17,10 +17,10 @@ class MoveGripper(Node):
             Constructor for MoveGripper class.
         """
         super().__init__('move_gripper') # type: ignore
-        self.target_box0 = [-0.085724999, 0.091122502, 0.0238125]
-        self.target_box1 = [-0.008254997, 0.091122502, 0.0238125]
-        self.grippingzone = [-0.008254997, 0.193357505, 0.066040002]
-        self.pickup = [-0.008254997, 0.193357505, 0.037465001]
+        self.target_box0 = [0.0, 0.0, 0.0]
+        self.target_box1 = [-0.08, 0.0, 0.0]
+        self.grippingzone = [-0.04, -0.09, 0.06]
+        self.pickup = [-0.04, -0.09, 0.03]
         self.initMove = [1.0, 1.0, -1.0]
         self.grippingzoneInPx = [-480, 135, 0]
         self.timeToReach = 2
