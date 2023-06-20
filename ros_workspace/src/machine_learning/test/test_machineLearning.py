@@ -15,8 +15,16 @@ class machineLearningTests(unittest.TestCase):
         Tests predict function of the machine learning model for correct classification between cat and unicorn.
         '''
         ml = machineLearning()
-        self.assertIsEqual(ml.prediction(radius=140, shape=5), 0)  # Cat
-        self.assertIsEqual(ml.prediction(radius=155, shape=8), 1)  # Unicorn
+        self.assertEqual(ml.prediction(radius=140, shape=5), 0)  # Cat
+        self.assertEqual(ml.prediction(radius=155, shape=8), 1)  # Unicorn
+
+    def test_ReturnValues(self):
+        '''!
+        Checks if animalType and returnValue of the machine learning model have the same types. Takes 0 as default
+        parameters for the predict function of the model
+        '''
+        ml = machineLearning()
+        self.assertEqual(type(ml.animalType), type(ml.model.predict([[0, 0]])))
 
     def test_MLNode(self):
         '''!
