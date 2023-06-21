@@ -70,10 +70,10 @@ class TestVideoProcessing(unittest.TestCase):
         self.assertIsNot(homography, "")
 
     # Test for Init Functions
-    # tests VPArucoDisplay automatically with it as well
     def test_VPDetectArucoMarkers(self):
         """!
         Tests the detection of the 4 Aruco markers in a given frame and checks if exactly 4 are found.
+        Tests VPArucoDisplay automatically with it as well
         """
         self.class_VideoProcessing.VPDetectArucoMarkers(self.img)
         self.assertEqual(len(self.class_VideoProcessing.homographyX), 4)
@@ -189,32 +189,17 @@ class TestVideoProcessing(unittest.TestCase):
 
     def test_VPCommunicateFeatures(self):
         """!
-        Tests if the CommunicateFeatures function correctly returns shape, area, radius and corners
+        Tests if the CommunicateFeatures function correctly returns shape and radius
         """
         self.class_VideoProcessing.shape = 7
-        self.class_VideoProcessing.objectArea = 35000
         self.class_VideoProcessing.radius = 150
-        self.class_VideoProcessing.cornerCount = 50
         features = self.class_VideoProcessing.VPCommunicateFeatures()
-        self.assertEqual(features, (7, 35000, 150, 50))
+        self.assertEqual(features, (7, 150))
 
         # Edge Case
-        self.assertIsNot(features, (7.0, 35000.0, 150.0, 50.0))
-        self.assertIsNot(features, (0, 0, 0, 0))
+        self.assertIsNot(features, (7.0, 150.0))
+        self.assertIsNot(features, (0, 0))
         self.assertIsNot(features, "")
-
-    def test_VPCommunicateSpeed(self):
-        """!
-        Tests if the CommunicateSpeed function correctly returns speed
-        """
-        self.class_VideoProcessing.speed = 100
-        speed = self.class_VideoProcessing.VPCommunicateSpeed()
-        self.assertEqual(speed, 100)
-
-    # ToDo: keine Ahnung wie das zu Testen ist
-    # def test_VPCompensateHomography(self):
-    # def test_VPGetSpeed(self):
-    # def test_VPProcessVideo(self):
 
 
 if __name__ == '__main__':

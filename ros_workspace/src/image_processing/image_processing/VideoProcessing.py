@@ -5,7 +5,6 @@ import time
 
 from . import CSVGeneratorML
 
-
 class VideoProcessing:
     def __init__(self):
         self.homographyX = [0, 0, 0, 0]
@@ -20,10 +19,6 @@ class VideoProcessing:
         self.objectArea = 0.0
         self.radius = 0.0
         self.cornerCount = 0
-        self.speed = 0
-        self.lastTime = time.time()
-        self.frame1 = 0
-        self.frame2 = 0
         self.ARUCO_DICT = {
             "DICT_4X4_50": cv2.aruco.DICT_4X4_50,
             "DICT_4X4_100": cv2.aruco.DICT_4X4_100,
@@ -55,8 +50,8 @@ class VideoProcessing:
     def VPConvertToGray(self, video):
         """!
         Converts given video to grayscale
-        @param video
-        @return videoGray
+        @param video: a normal color video - in this case the prepared homography
+        @return videoGray: grayscale video
         """
         videoGray = cv2.cvtColor(video, cv2.COLOR_BGR2GRAY)
         if self.debugMode:
@@ -66,8 +61,8 @@ class VideoProcessing:
     def VPConvertToBinary(self, video):
         """!
         Converts given grayscale video to binary using Otsu's Method
-        @param video
-        @return videoBinary
+        @param video: grayscale video
+        @return videoBinary: binary video
         """
         _, videoBinary = cv2.threshold(video, 100, 255, cv2.THRESH_BINARY)
 
@@ -78,8 +73,8 @@ class VideoProcessing:
     def VPApplyOpening(self, video):
         """!
         Applies morphological operation "Opening" on given binary video
-        @param video:
-        @return videoOpening
+        @param video: binary video
+        @return videoOpening: binary video but with the opening operation applied
         """
         kernel = np.ones((3, 3), np.uint8)
         videoOpening = cv2.morphologyEx(video, cv2.MORPH_CLOSE, kernel, iterations=10)
@@ -93,8 +88,8 @@ class VideoProcessing:
         Applies homography transformation on a given video.
         FromPoints are determined by the 4 top left corners of the Aruco markers.
         ToPoints are determined by the targetHeight and targetWidth
-        @param video
-        @return videoTransformed
+        @param video: normal color video
+        @return videoTransformed: video with homography applied still in color
         """
         fromPoints = np.array(list(zip(self.homographyX, self.homographyY)), dtype='float32')
         toPoints = np.array([(self.originX + self.targetWidth, self.originY + self.targetHeight),
@@ -110,8 +105,10 @@ class VideoProcessing:
         Takes a binary Video.
         Sets Contours and Area using findContours and approximation of polygonal curves.
         Sets Radius with minEnclosingCircle
-        @param video
-        @return shape, objectArea, radius
+        @param video: the binary video with opening operation
+        @return shape: length of found contours
+        @return objectArea: area of found object - currently not used
+        @return radius: min circle radius around found object
         """
         videoBlurred = cv2.GaussianBlur(video, (5, 5), 0)
         videoEdged = cv2.Canny(videoBlurred, 50, 150)
@@ -138,8 +135,8 @@ class VideoProcessing:
         """!
         Takes a binary Video.
         Sets Corner count using goodFeaturesToTrack
-        @param video
-        @return cornerCount
+        @param video: the binary video with opening operation
+        @return cornerCount: amount of found corners in given image - currently not used
         """
         corners = cv2.goodFeaturesToTrack(video, 1000, 0.05, 10)
         if corners is not None:
@@ -160,8 +157,12 @@ class VideoProcessing:
         Takes a binary Video.
         Applies distance transformation algorithm with euclidean distance on detected object,
         calculates the maximum value and set the x and y coordinates of the object.
-        @param video
-        @return objectX, objectY
+        Coordinate System:
+        (0,340)(0,0)
+        (320,340)(320,0)
+        @param video: the binary video with opening operation
+        @return objectX: X coordinate of the highest value after distance transformation
+        @return objectY: Y coordinate of the highest value after distance transformation
         """
         videoDebug = video.copy()
         distanceTransformation = cv2.distanceTransform(video, cv2.DIST_L2, 3)
@@ -179,13 +180,12 @@ class VideoProcessing:
 
         return self.objectX, self.objectY
 
-
     def VPObjectedDetected(self, video):
         """!
         Checks if the first and last row is not in contact with an object while also checking if an object is within
         the frame.
         Checked if the sum of white pixels of 255 is within a certain value range.
-        @param video
+        @param video: the binary video with opening operation
         @return
         """
         firstRow = video[-1, :].sum()
@@ -199,8 +199,8 @@ class VideoProcessing:
 
     def VPObjectValueReset(self, video):
         """!
-        Checks if an object is moving out of the frame and resets the current values to 0
-        @param video:
+        Checks if an object is moving out of the frame and resets the current object values to 0
+        @param video: the binary video with opening operation
         @return
         """
         firstRow = video[-1, :].sum()
@@ -214,26 +214,12 @@ class VideoProcessing:
             self.radius = 0.0
             self.cornerCount = 0
 
-    def VPGetSpeed(self):
-        """!
-        Returns the speed of an object, measured every 0.5 seconds.
-        @param
-        @return speed
-        """
-        if time.time() - self.lastTime > 0.5:
-            self.frame2 = self.objectY
-            if self.frame2 - self.frame1 < 0:
-                self.speed = abs((self.frame2 - self.frame1) / (time.time() - self.lastTime))
-            self.frame1 = self.frame2
-            self.lastTime = time.time()
-        return self.speed
-
     def VPDetectArucoMarkers(self, video):
         """!
         Detects Aruco markers in given video.
         Uses found corners and ids to display it with own function: VPArucoDisplay
-        @param video
-        @return videoDetectedMarkers
+        @param video: normal unprocessed color image
+        @return videoDetectedMarkers: color image with drawn aruco frames if enabled otherwise unprocessed
         """
         corners, ids, rejected = self.arucoDetector.detectMarkers(video)
         videoDetectedMarkers = self.VPArucoDisplay(corners, ids, rejected, video)
@@ -243,8 +229,12 @@ class VideoProcessing:
         """!
         Uses corners and ids of found Aruco Markers in a video frame to calculate the corner positions.
         Saves the top left corners of 4 markers in the homography variable used as the fromPoints.
-        @param corners, ids, rejected, video
-        @return video
+        Aruco Markers are rotated so all top left corners point toward the center of a square.
+        @param corners: all corners of found aruco markers
+        @param ids: ids of found aruco markers starting with 0
+        @param rejected: found and considered shapes but not valid markers - no purpose here
+        @param video: normal unprocessed color image
+        @return video: color image with drawn aruco frames if enabled otherwise unprocessed
         """
         videoDebug = video.copy()
         if len(corners) > 0:
@@ -259,7 +249,7 @@ class VideoProcessing:
                 bottomLeft = (int(bottomLeft[0]), int(bottomLeft[1]))
                 topLeft = (int(topLeft[0]), int(topLeft[1]))
 
-                if 0 <= markerID <= 4:
+                if 0 <= markerID <= 3:
                     self.homographyX[markerID] = int(topLeft[0])
                     self.homographyY[markerID] = int(topLeft[1])
 
@@ -281,6 +271,7 @@ class VideoProcessing:
         Compensates the values in the homography variables for the 1cm white border around the Aruco markers
         as the Contrast is needed for detection.
         The compensation value in pixels is calculated by the distance between 2 aruco markers.
+        The distances between the marker top left corners are 8 and 7.5 cm.
         @param
         @return
         """
@@ -288,16 +279,15 @@ class VideoProcessing:
         self.compensationX = int((self.homographyX[1] - self.homographyX[0]) / 7.5)
         self.homographyX[0] = self.homographyX[0] + self.compensationX
         self.homographyY[0] = self.homographyY[0] - self.compensationY
-        # self.homographyX[1] = self.homographyX[1] - self.compensationX
         self.homographyY[1] = self.homographyY[1] - self.compensationY
-        # self.homographyX[2] = self.homographyX[2] - self.compensationX
         self.homographyY[2] = self.homographyY[2] + self.compensationY
         self.homographyX[3] = self.homographyX[3] + self.compensationX
         self.homographyY[3] = self.homographyY[3] + self.compensationY
 
     def VPGenerateCSVData(self):
         """!
-        Generates CSV Data used for machine learning.
+        Generates CSV Data used for machine learning if enabled.
+        Output value (cat/unicorn) has to be changed manually in this function.
         @param
         @return
         """
@@ -312,31 +302,25 @@ class VideoProcessing:
     def VPCommunicatePoints(self):
         """!
         Used for ROS Communication - able to send object coordinates
-        @return objectX, objectY
+        @return objectX: the object X coordinate
+        @return objectY: the object Y coordinate
         """
         return float(self.objectX), float(self.objectY)
 
     def VPCommunicateFeatures(self):
         """!
-        Used for ROS Communication - able to send shape, objectArea, radius, cornerCount
-        @return shape, objectArea, radius, cornerCount
+        Used for ROS Communication - able to send shape and radius
+        @return shape: object shape count
+        @return radius: object minimum enclosing radius
         """
-        return self.shape, self.objectArea, self.radius, self.cornerCount
-
-    def VPCommunicateSpeed(self):
-        """!
-        Used for ROS Communication - able to send Speed
-        @param
-        @return speed
-        """
-        return self.speed
+        return self.shape, self.radius
 
     def VPProcessVideo(self, video):
         """!
         Main function that uses all Video Processing steps in correct order.
         Can Generate CSV Data if recordCSV variable is set to True.
-        @param video
-        @return binary
+        @param video: normal unprocessed color video
+        @return opening: the binary video with opening operation
         """
         homography = self.VPHomography(video)
         gray = self.VPConvertToGray(homography)
@@ -346,7 +330,6 @@ class VideoProcessing:
         self.VPGetCorners(opening)
         self.VPGetDistanceTransformation(opening)
         self.VPGetContoursAndArea(opening)
-        self.VPGetSpeed()
         self.VPObjectValueReset(opening)
         if self.recordCSV:
             self.VPGenerateCSVData()
@@ -357,7 +340,7 @@ class VideoProcessing:
     def VPInitVideo(self, video):
         """!
         Init function that detects the 4 Aruco markers and compensate for the white borders.
-        @param video
+        @param video: normal unprocessed color video
         @return
         """
         self.VPDetectArucoMarkers(video)
@@ -366,7 +349,7 @@ class VideoProcessing:
 
 def main(args=None):
     '''
-    test loop - removed soon
+    test loop - for manual testing
     '''
     cap = cv2.VideoCapture(0)
 
@@ -382,8 +365,7 @@ def main(args=None):
             state = 0
 
         newVideo = testVideoProcessing.VPProcessVideo(video)
-        print(testVideoProcessing.VPCommunicateFeatures(), testVideoProcessing.VPCommunicatePoints(),
-              testVideoProcessing.VPCommunicateSpeed())
+        print(testVideoProcessing.VPCommunicateFeatures(), testVideoProcessing.VPCommunicatePoints())
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break

@@ -67,7 +67,7 @@ class PreprocessingNode(Node):
 
 
     self.processor.VPProcessVideo(current_frame)
-    shape, _,  radius, _ = self.processor.VPCommunicateFeatures()
+    shape, radius = self.processor.VPCommunicateFeatures()
     positionX, positionY = self.processor.VPCommunicatePoints()
     # Send preprocessed image to ML node and receive 
     if shape > 4 and radius > 100:
