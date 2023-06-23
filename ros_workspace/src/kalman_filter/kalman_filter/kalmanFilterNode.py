@@ -6,6 +6,8 @@ from geometry_msgs.msg import Point
 import numpy as np
 
 class ObjectTrackerNode(Node):
+  """
+  """
   def __init__(self):
     """
     Initializes an ObjectTrackerNode instance.
@@ -86,6 +88,12 @@ class ObjectTrackerNode(Node):
         self.publishCoordinates(obj)
 
   def publishCoordinates(self,obj):
+        """
+        Publishes the position of an object as a ROS2 message.
+
+        @param obj: The object to publish the position of.
+        """
+        # To prevent another predict step from being executed during the publish by the timer interval, the object is locked.
         obj.locked = True
         self.get_logger().info('old y: ' + str(obj.kf.x[1]))
         obj.calculateNewFMatrix(1.0)

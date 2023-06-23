@@ -63,12 +63,24 @@ class ObjectTracker:
                           [0, 0, 0, 0.1]])
     
   def predictNextStep(self,timestamp):
+    """
+    Predicts the next state of the object.
+    
+    @param timestamp: The timestamp of the object.
+    """
     if timestamp - self.timestamp > 0.1:
       self.calculateNewFMatrix(timestamp - self.timestamp)
       self.kf.predict()
       self.timestamp = timestamp
 
   def predictUpdateStep(self, timestamp,x,y):
+      """
+      Predicts and updates the next state of the object. 
+
+      @param timestamp: The timestamp of the object.
+      @param x: The x coordinate of the object.
+      @param y: The y coordinate of the object.
+      """
       self.calculateNewFMatrix(timestamp - self.timestamp)
       self.kf.predict()
       self.kf.update(np.array([x, y]))
