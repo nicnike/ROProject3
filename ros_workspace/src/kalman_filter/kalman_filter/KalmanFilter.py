@@ -25,7 +25,7 @@ class KalmanFilter(object):
         self.x = np.matrix([[0], [0], [0], [0]])
 
         #Define the State Transition Matrix A
-        self.A = np.matrix([[1, 0, self.dt, 0],
+        self.A = np.matrix([[1, 0, 0, 0],
                             [0, 1, 0, self.dt],
                             [0, 0, 1, 0],
                             [0, 0, 0, 1]])
