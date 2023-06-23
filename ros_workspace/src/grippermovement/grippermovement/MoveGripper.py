@@ -22,27 +22,29 @@ class MoveGripper(Node):
         self.grippingzone = [-0.04, -0.09, 0.04]
         self.pickup = [-0.04, -0.09, 0.03]
         self.initMove = [1.0, 1.0, -1.0]
+        self.robPos = [0.0, 0.0, 0.0]
+        self.offsetPos = [0.0, 0.0, 0.0]
+        self.threshold = [0.02, 0.02, 0.02]
+
         self.grippingzoneInPx = [-480, 135, 0]
+        self.objPos = [1000, 1000, 1000]
+        self.thresholdPx = 40
+
+        self.startTime = time.clock()
         self.timeToReach = 2
         self.timeToPick = 0.2
         self.down = -0.1
-        self.offsetPos = [0, 0, 0]
 
-        self.robPos = [0.0, 0.0, 0.0]
-
-        self.objPos = [1000, 1000, 1000]
-        self.thresholdPx = 40
-        self.threshold = [0.02, 0.02, 0.02]
         self.id = -1
         self.init = False
         self.gripping = False
         self.working = False
         self.gripperOn = True
         self.gripperOff = False
-        self.offset = [0.0, 0.0, 0.0]
 
         self.cat = 0
         self.unicorn = 1
+
 
         self.posSub = self.create_subscription(
             RobotPos,
@@ -60,6 +62,7 @@ class MoveGripper(Node):
             'object_position',
             self.callback_obj_pos,
             10)
+
         self.movegripper()
 
 
@@ -69,8 +72,9 @@ class MoveGripper(Node):
 
         @param msg: is the published message on the 'robot_position' topic
         """
-        data = msg
-        self.robPos = [data.pos_x, data.pos_y, data.pos_z]
+        self.robPos = [msg.pos_x, msg.pos_y, msg.pos_z]
+        self.get_logger().info(str(self.robPos))
+
 
     def callback_obj_pos(self, msg):
         """
@@ -112,12 +116,6 @@ class MoveGripper(Node):
         move.activate_gripper = gripper
         return move
 
-    def test(self):
-        exec = RobotPosWithGripper()
-        self.get_logger().info("test...")
-        exec = self.pub_pos(self.initMove, self.gripperOff)
-        self.destPub.publish(exec)
-        self.get_logger().info(str(exec))
     def initialize(self):
         """
         this function initialize the destination position arrays once
@@ -127,17 +125,18 @@ class MoveGripper(Node):
         exec = self.pub_pos(self.initMove, self.gripperOff)
         self.get_logger().info(str(exec))
         self.destPub.publish(exec)
-        time.sleep(10)
-        self.get_logger().info(str(self.robPos))
-        self.init_zone_values()
-        self.init = True
-        self.gripping = True
-        self.get_logger().info("Initialization done")
+
+        if time.clock() - self.startTime >= 10:
+            self.get_logger().info(str(self.robPos))
+            self.init_zone_values()
+            self.init = True
+            self.gripping = True
+            self.get_logger().info("Initialization done")
 
     def movegripper(self):
         """
-        this function is called by a timer (100Hz) picks up the objects
-        and sends position and gripping data to the controller
+        this function is called by the ros spin function picks up the objects
+        and sends position and gripping data to the controller through a custom interface
         """
         exec = RobotPosWithGripper()
 
