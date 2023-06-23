@@ -5,6 +5,7 @@ from rclpy.node import Node
 from custom_interfaces.msg import ImageProcessingShape, MachineLearning
 
 
+
 class machineLearning:
     '''!
     Load deposited machine learning model
@@ -12,6 +13,7 @@ class machineLearning:
     def __init__(self):
       svmfile_path = os.path.abspath("src/machine_learning/resource/trainedSVMModel.joblib")
       self.model = joblib.load(svmfile_path)
+      self.animalType = "unicorn"  # One return value of the machinelearning model prediction.
 
     def prediction(self, radius, shape):
         '''!
@@ -22,7 +24,7 @@ class machineLearning:
         @return 1 for unicorn and 0 for cat
         '''
         returnValue = self.model.predict([[shape, radius]])
-        if returnValue == "unicorn":
+        if returnValue == self.animalType:
             return 1
         else:
             return 0
@@ -33,15 +35,16 @@ class machineLearningNode(Node):
     '''
     def __init__(self):
         super().__init__('ML_Node') # type: ignore
+        queueSize = 10
         self.publisher_ = self.create_publisher(
             MachineLearning,
             'mlClassification_out',
-            10)
+            queueSize)
         self.subscription = self.create_subscription(
             ImageProcessingShape,
             'mlClassification_in',
             self.callback_classification,
-            10)
+            queueSize)
         self.subscription  # prevent unused variable warning
         self.ml = machineLearning()
 
