@@ -77,7 +77,10 @@ class PreprocessingNode(Node):
       preObj.positionX = positionX
       preObj.positionY = positionY
       self.id += 1
+      self.get_logger().info("Send to ML...")
+
       self.send_to_ml_node(preObj.radius, preObj.shape, preObj.id)
+
       self.preprocessingObjectList.append(preObj)
     
 

@@ -31,7 +31,7 @@ class Object:
     the object are assumed to be constant over time.
     '''
     self.kf.F = np.array([[1, 0, 0, 0],
-                          [0, 1, 0, 1],
+                          [0, 1, 0, 0.1],
                           [0, 0, 1, 0],
                           [0, 0, 0, 1]])
     '''
@@ -157,8 +157,8 @@ class ObjectTrackerNode(Node):
     Publishes the position of each object as a ROS2 message.
     """
     for obj in self.objects:
-      if obj.kf.x[1] < -480:
-        obj.kf.predict(2.0)
+      if obj.kf.x[1] < -420:
+        obj.kf.predict()
         object_position = ObjectPosition()
         object_position.header.frame_id = 'map'
         object_position.header.stamp = self.get_clock().now().to_msg()
@@ -166,7 +166,7 @@ class ObjectTrackerNode(Node):
         object_position.position = Point()
         object_position.position.x = obj.kf.x[0]
         object_position.position.y = obj.kf.x[1]
-        object_position.position.z = 0
+        object_position.position.z = 0.0
         self.get_logger().info('Publishing: "%s"' % object_position)
         self.publisher_.publish(object_position)
         obj.sendToGripper = True
