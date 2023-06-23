@@ -37,9 +37,9 @@ class ObjectTrackerNode(Node):
     Predicts the position of each object using the Kalman filter.
     """
     for obj in self.objects:
-      if not obj.locked: 
-        sec, nano = self.get_clock().now().seconds_nanoseconds()
-        timestamp = sec + nano * 1e-9
+      sec, nano = self.get_clock().now().seconds_nanoseconds()
+      timestamp = sec + nano * 1e-9
+      if timestamp - obj.timestamp > 0.1 and not obj.locked: 
         obj.predictNextStep(timestamp)
         self.fwCSV.write_data(obj.id, obj.timestamp, obj.kf.x[0], obj.kf.x[1])
 
