@@ -25,13 +25,11 @@ class ObjectTrackerNode(Node):
       self.callback_classification,
       10)
     self.subscription  # prevent unused variable warning
-    self.timer = self.create_timer(0.1, self.timer_predict)
-    self.timer = self.create_timer(0.1, self.publishCoordinates_timer)
+    self.create_timer(0.1, self.timer_predict)
+    self.create_timer(0.1, self.publishCoordinates_timer)
 
     # Create a CSV file for all objects
-    #Will be saved in workspace 
-    self.filename = 'object_positions.csv'
-    self.fwCSV = FileWriterCSV.FileWriterCSV(self.filename)
+    self.fwCSV = FileWriterCSV.FileWriterCSV('object_positions.csv')
 
 
   def timer_predict(self):
