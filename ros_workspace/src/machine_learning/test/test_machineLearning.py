@@ -24,7 +24,8 @@ class machineLearningTests(unittest.TestCase):
         parameters for the predict function of the model
         '''
         ml = machineLearning()
-        self.assertEqual(type(ml.animalType), type(ml.model.predict([[0, 0]])))
+        returntype = ml.model.predict([[0, 0]])
+        self.assertEqual(type(ml.animalType), type(returntype[0]))
 
     def test_MLNode(self):
         '''!
