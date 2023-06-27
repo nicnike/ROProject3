@@ -70,18 +70,18 @@ class VideoProcessing:
             cv2.imshow("VideoBinary", videoBinary)
         return videoBinary
 
-    def VPApplyOpening(self, video):
+    def VPApplyClosing(self, video):
         """!
-        Applies morphological operation "Opening" on given binary video
+        Applies morphological operation "Closing" on given binary video
         @param video: binary video
-        @return videoOpening: binary video but with the opening operation applied
+        @return videoClosing: binary video but with the closing operation applied
         """
         kernel = np.ones((3, 3), np.uint8)
-        videoOpening = cv2.morphologyEx(video, cv2.MORPH_CLOSE, kernel, iterations=10)
+        videoClosing = cv2.morphologyEx(video, cv2.MORPH_CLOSE, kernel, iterations=10)
 
         if self.debugMode:
-            cv2.imshow("VideoBinary", videoOpening)
-        return videoOpening
+            cv2.imshow("VideoBinary", videoClosing)
+        return videoClosing
 
     def VPHomography(self, video):
         """!
@@ -105,7 +105,7 @@ class VideoProcessing:
         Takes a binary Video.
         Sets Contours and Area using findContours and approximation of polygonal curves.
         Sets Radius with minEnclosingCircle
-        @param video: the binary video with opening operation
+        @param video: the binary video with closing operation
         @return shape: length of found contours
         @return objectArea: area of found object - currently not used
         @return radius: min circle radius around found object
@@ -135,7 +135,7 @@ class VideoProcessing:
         """!
         Takes a binary Video.
         Sets Corner count using goodFeaturesToTrack
-        @param video: the binary video with opening operation
+        @param video: the binary video with closing operation
         @return cornerCount: amount of found corners in given image - currently not used
         """
         corners = cv2.goodFeaturesToTrack(video, 1000, 0.05, 10)
@@ -160,7 +160,7 @@ class VideoProcessing:
         Coordinate System:
         (0,340)(0,0)
         (320,340)(320,0)
-        @param video: the binary video with opening operation
+        @param video: the binary video with closing operation
         @return objectX: X coordinate of the highest value after distance transformation
         @return objectY: Y coordinate of the highest value after distance transformation
         """
@@ -185,7 +185,7 @@ class VideoProcessing:
         Checks if the first and last row is not in contact with an object while also checking if an object is within
         the frame.
         Checked if the sum of white pixels of 255 is within a certain value range.
-        @param video: the binary video with opening operation
+        @param video: the binary video with closing operation
         @return
         """
         firstRow = video[-1, :].sum()
@@ -200,7 +200,7 @@ class VideoProcessing:
     def VPObjectValueReset(self, video):
         """!
         Checks if an object is moving out of the frame and resets the current object values to 0
-        @param video: the binary video with opening operation
+        @param video: the binary video with closing operation
         @return
         """
         firstRow = video[-1, :].sum()
@@ -320,22 +320,22 @@ class VideoProcessing:
         Main function that uses all Video Processing steps in correct order.
         Can Generate CSV Data if recordCSV variable is set to True.
         @param video: normal unprocessed color video
-        @return opening: the binary video with opening operation
+        @return closing: the binary video with closing operation
         """
         homography = self.VPHomography(video)
         gray = self.VPConvertToGray(homography)
         binary = self.VPConvertToBinary(gray)
-        opening = self.VPApplyOpening(binary)
-        self.VPObjectedDetected(opening)
-        self.VPGetCorners(opening)
-        self.VPGetDistanceTransformation(opening)
-        self.VPGetContoursAndArea(opening)
-        self.VPObjectValueReset(opening)
+        closing = self.VPApplyClosing(binary)
+        self.VPObjectedDetected(closing)
+        self.VPGetCorners(closing)
+        self.VPGetDistanceTransformation(closing)
+        self.VPGetContoursAndArea(closing)
+        self.VPObjectValueReset(closing)
         if self.recordCSV:
             self.VPGenerateCSVData()
         if self.debugMode:
             cv2.imshow("videoOriginal", video)
-        return opening
+        return closing
 
     def VPInitVideo(self, video):
         """!

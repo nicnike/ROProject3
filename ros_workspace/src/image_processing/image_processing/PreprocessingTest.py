@@ -11,7 +11,7 @@ class TestVideoProcessing(unittest.TestCase):
         self.imgHomography = cv2.imread('../resource/imgHomography.jpg')
         self.imgGray = cv2.imread('../resource/imgGray.jpg')
         self.imgBinary = cv2.imread('../resource/imgBinary.jpg')
-        self.imgOpening = cv2.imread('../resource/imgOpening.jpg', cv2.IMREAD_GRAYSCALE)
+        self.imgClosing = cv2.imread('../resource/imgClosing.jpg', cv2.IMREAD_GRAYSCALE)
 
     def test_VPConvertToGray(self):
         """!
@@ -41,19 +41,19 @@ class TestVideoProcessing(unittest.TestCase):
         self.assertIsNot(binary, 0)
         self.assertIsNot(binary, "")
 
-    def test_VPApplyOpening(self):
+    def test_VPApplyClosing(self):
         """!
-        Tests the application of the opening function on a binary image.
+        Tests the application of the closing function on a binary image.
         Sets a variable to a random input and after using the function checks if the value was changed.
         Testing images is difficult.
         """
-        opening = 42
-        opening = self.class_VideoProcessing.VPApplyOpening(self.imgBinary)
-        self.assertIsNot(opening, 42)
+        closing = 42
+        closing = self.class_VideoProcessing.VPApplyClosing(self.imgBinary)
+        self.assertIsNot(closing, 42)
 
         # Edge Case
-        self.assertIsNot(opening, 0)
-        self.assertIsNot(opening, "")
+        self.assertIsNot(closing, 0)
+        self.assertIsNot(closing, "")
 
     def test_VPHomography(self):
         """!
@@ -90,7 +90,7 @@ class TestVideoProcessing(unittest.TestCase):
         and the variable has to be tested later as well
         """
         self.class_VideoProcessing.objectDetected = True
-        self.class_VideoProcessing.VPGetContoursAndArea(self.imgOpening)
+        self.class_VideoProcessing.VPGetContoursAndArea(self.imgClosing)
         self.assertEqual((self.class_VideoProcessing.shape,
                           self.class_VideoProcessing.objectArea,
                           self.class_VideoProcessing.radius),
@@ -114,7 +114,7 @@ class TestVideoProcessing(unittest.TestCase):
         and the variable has to be tested later as well
         """
         self.class_VideoProcessing.objectDetected = True
-        self.class_VideoProcessing.VPGetDistanceTransformation(self.imgOpening)
+        self.class_VideoProcessing.VPGetDistanceTransformation(self.imgClosing)
         self.assertEqual((self.class_VideoProcessing.objectX, self.class_VideoProcessing.objectY), (135, 241))
         # Edge Case
         self.assertIsNot((self.class_VideoProcessing.objectX, self.class_VideoProcessing.objectY), (0, 0))
@@ -128,7 +128,7 @@ class TestVideoProcessing(unittest.TestCase):
         and the variable has to be tested later as well
         """
         self.class_VideoProcessing.objectDetected = True
-        self.class_VideoProcessing.VPGetCorners(self.imgOpening)
+        self.class_VideoProcessing.VPGetCorners(self.imgClosing)
         self.assertEqual(self.class_VideoProcessing.cornerCount, 51)
 
         # Edge Case
@@ -141,7 +141,7 @@ class TestVideoProcessing(unittest.TestCase):
         The objectDetected variable should be set to True if correct.
         """
         self.class_VideoProcessing.objectDetected = False
-        self.class_VideoProcessing.VPObjectedDetected(self.imgOpening)
+        self.class_VideoProcessing.VPObjectedDetected(self.imgClosing)
         self.assertEqual(self.class_VideoProcessing.objectDetected, True)
 
     def test_VPObjectValueReset(self):
@@ -149,7 +149,7 @@ class TestVideoProcessing(unittest.TestCase):
         Tests if the Reset function correctly resets every variable back to 0 or 0.0 if number is a float
         Values cannot be set to a random state because the reset condition of the function will not be met
         """
-        self.class_VideoProcessing.VPObjectValueReset(self.imgOpening)
+        self.class_VideoProcessing.VPObjectValueReset(self.imgClosing)
         self.assertEqual((self.class_VideoProcessing.objectX,
                           self.class_VideoProcessing.objectY,
                           self.class_VideoProcessing.shape,
