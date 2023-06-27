@@ -24,7 +24,7 @@ class machineLearning:
         @return 1 for unicorn and 0 for cat
         '''
         returnValue = self.model.predict([[shape, radius]])
-        if returnValue == self.animalType:
+        if returnValue[0] == self.animalType:
             return 1
         else:
             return 0
