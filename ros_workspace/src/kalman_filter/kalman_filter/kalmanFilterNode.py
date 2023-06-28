@@ -94,7 +94,7 @@ class ObjectTrackerNode(Node):
         # To prevent another predict step from being executed during the publish by the timer interval, the object is locked.
         obj.locked = True
         self.get_logger().info('old y: ' + str(obj.kf.x[1]))
-        obj.calculateNewFMatrix(1.0)
+        obj.calculateNewFMatrix(1.2)
         obj.kf.predict()
         self.fwCSV.write_data(obj.id, obj.timestamp, obj.kf.x[0], obj.kf.x[1])
         self.get_logger().info('new y: ' + str(obj.kf.x[1]))
