@@ -9,7 +9,7 @@ class ObjectTrackerNode(Node):
   """
   """
   def __init__(self):
-    """
+    """!
     Initializes an ObjectTrackerNode instance.
     """
     super().__init__('object_tracker') # type: ignore
@@ -33,7 +33,7 @@ class ObjectTrackerNode(Node):
 
 
   def timer_predict(self):
-    """
+    """!
     Predicts the position of each object using the Kalman filter.
     """
     for obj in self.objects:
@@ -45,7 +45,7 @@ class ObjectTrackerNode(Node):
 
 
   def callback_classification(self, msg):
-    """
+    """!
     Callback function that is called when a new object is detected. 
     Updates the position of the object using the Kalman filter.
 
@@ -78,7 +78,7 @@ class ObjectTrackerNode(Node):
 
   # Publish object positions
   def publishCoordinates_timer(self):
-    """
+    """!
     Publishes the position of each object as a ROS2 message.
     """
     for obj in self.objects:
@@ -86,7 +86,7 @@ class ObjectTrackerNode(Node):
         self.publishCoordinates(obj)
 
   def publishCoordinates(self,obj):
-        """
+        """!
         Publishes the position of an object as a ROS2 message.
 
         @param obj: The object to publish the position of.

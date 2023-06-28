@@ -1,7 +1,7 @@
 import numpy as np
 class KalmanFilter(object):
     def __init__(self, dt, uX, uY, stdAcc, xStdMeas, yStdMeas):
-        """
+        """!
                :param dt: sampling time (time for 1 cycle)
                :param uX: acceleration in x-direction
                :param uY: acceleration in y-direction
