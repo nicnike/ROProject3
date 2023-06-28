@@ -1,11 +1,11 @@
 class PreprocessingObject():
-  """
+  """!
   PreprocessingObject is a class that represents an object detected in an image 
   by the PreprocessingNode. It stores information about the object's ID, classification, 
   timestamp, shape, radius, and position.
   """
   def __init__(self, id, timestamp):
-    """
+    """!
     Constructor for PreprocessingObject class.
 
     @param id: The ID of the object.

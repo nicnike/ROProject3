@@ -6,7 +6,7 @@ import cv2
 import threading
 
 class CameraNode(Node):
-    """An image publisher which periodically publishes new frames."""
+    """!An image publisher which periodically publishes new frames."""
     def __init__(self):
         super().__init__('CameraNode') # type: ignore
         self.publisher_ = self.create_publisher(
