@@ -9,13 +9,13 @@ from . import VideoProcessing
 from . import PreprocessingObject
 
 class PreprocessingNode(Node):
-  """
+  """!
   PreprocessingNode subscribes to the image_capture topic to receive image 
   data, processes the images, and publishes object information to the object_information topic.
   """
 
   def __init__(self):
-    """
+    """!
     Constructor for PreprocessingNode class.
     """
     super().__init__('Preprocessing_Node') # type: ignore
@@ -55,7 +55,7 @@ class PreprocessingNode(Node):
     self.get_logger().info('Initializing finished')
 
   def imageCapture_callback(self, data):
-    """
+    """!
     This function is called everytime a new message is published on the 'image_capture' topic.
 
     @param data: The image data.
@@ -86,7 +86,7 @@ class PreprocessingNode(Node):
 
 
   def send_to_ml_node(self, radius, shape, id):
-    """
+    """!
     Sends the object information to the ML node.
 
     @param radius: The radius of the object.
@@ -100,7 +100,7 @@ class PreprocessingNode(Node):
     self.ml_publisher_.publish(msg)
 
   def ml_callback(self, msg):
-    """
+    """!
     Receives the classification from the ML node and sends the object information to the Kalman filter node.
 
     @param msg: The classification message.

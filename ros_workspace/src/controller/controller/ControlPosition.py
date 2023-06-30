@@ -60,17 +60,6 @@ class ControlPosition(Node):
         robot_cmd.vel_z = kz * z_diff
 
 
-        # if robot_cmd.vel_x > 0.016:
-        #     robot_cmd.vel_x = 0.016
-        # if robot_cmd.vel_y > 0.018:
-        #     robot_cmd.vel_y = 0.018
-        #
-        # if robot_cmd.vel_x < -0.015:
-        #     robot_cmd.vel_x = -0.015
-        # if robot_cmd.vel_y < -0.018:
-        #     robot_cmd.vel_y = -0.018
-
-
         # if robot_cmd.vel_x < 0.004 and robot_cmd.vel_x > -0.004:
         #      robot_cmd.vel_x = 0.0
         # if robot_cmd.vel_y < 0.004 and robot_cmd.vel_y > -0.004:

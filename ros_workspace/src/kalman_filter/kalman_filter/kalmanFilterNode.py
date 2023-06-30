@@ -9,7 +9,7 @@ class ObjectTrackerNode(Node):
   """
   """
   def __init__(self):
-    """
+    """!
     Initializes an ObjectTrackerNode instance.
     """
     super().__init__('object_tracker') # type: ignore
@@ -33,7 +33,7 @@ class ObjectTrackerNode(Node):
 
 
   def timer_predict(self):
-    """
+    """!
     Predicts the position of each object using the Kalman filter.
     """
     for obj in self.objects:
@@ -45,7 +45,7 @@ class ObjectTrackerNode(Node):
 
 
   def callback_classification(self, msg):
-    """
+    """!
     Callback function that is called when a new object is detected. 
     Updates the position of the object using the Kalman filter.
 
@@ -78,7 +78,7 @@ class ObjectTrackerNode(Node):
 
   # Publish object positions
   def publishCoordinates_timer(self):
-    """
+    """!
     Publishes the position of each object as a ROS2 message.
     """
     for obj in self.objects:
@@ -86,7 +86,7 @@ class ObjectTrackerNode(Node):
         self.publishCoordinates(obj)
 
   def publishCoordinates(self,obj):
-        """
+        """!
         Publishes the position of an object as a ROS2 message.
 
         @param obj: The object to publish the position of.
@@ -94,7 +94,7 @@ class ObjectTrackerNode(Node):
         # To prevent another predict step from being executed during the publish by the timer interval, the object is locked.
         obj.locked = True
         self.get_logger().info('old y: ' + str(obj.kf.x[1]))
-        obj.calculateNewFMatrix(1.0)
+        obj.calculateNewFMatrix(1.2)
         obj.kf.predict()
         self.fwCSV.write_data(obj.id, obj.timestamp, obj.kf.x[0], obj.kf.x[1])
         self.get_logger().info('new y: ' + str(obj.kf.x[1]))

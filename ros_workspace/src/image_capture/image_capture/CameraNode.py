@@ -6,7 +6,7 @@ import cv2
 import threading
 
 class CameraNode(Node):
-    """An image publisher which periodically publishes new frames."""
+    """!An image publisher which periodically publishes new frames."""
     def __init__(self):
         super().__init__('CameraNode') # type: ignore
         self.publisher_ = self.create_publisher(
@@ -14,7 +14,7 @@ class CameraNode(Node):
             'image_capture', 
             10)
         
-        self.test_mode = True
+        self.test_mode = False
         timer_period = 0.0333  # 30 fps -> 1/30 s = 0.0333 s
         self.current_frame = None
         self.timer = self.create_timer(timer_period, self.timer_callback)
