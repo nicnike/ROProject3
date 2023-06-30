@@ -196,10 +196,18 @@ class TestVideoProcessing(unittest.TestCase):
         features = self.class_VideoProcessing.VPCommunicateFeatures()
         self.assertEqual(features, (7, 150))
 
-        # Edge Case
-        self.assertIsNot(features, (7.0, 150.0))
-        self.assertIsNot(features, (0, 0))
+        # valid equivalence classes
+        self.assertIsNot(features, (1, 69))
+        self.assertIsNot(features, (42, 420))
+
+        # invalid equivalence classes
+        self.assertIsNot(features, ("a", "a"))
         self.assertIsNot(features, "")
+        self.assertIsNot(features, (0, 0))
+        self.assertIsNot(features, (-7, -150))
+        self.assertIsNot(features, (7.0, 150.0))
+
+
 
 
 if __name__ == '__main__':
