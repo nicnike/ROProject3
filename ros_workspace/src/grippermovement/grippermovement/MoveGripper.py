@@ -26,7 +26,7 @@ class MoveGripper(Node):
         self.offset_pos = [0.0 , 0.0, 0.0]
         self.threshold = [0.02, 0.02, 0.02]
 
-        self.grippingzone_in_px = [-552, 135, 0]
+        self.grippingzone_in_px = [-552, 160, 0]
         self.default_pos = [1000, 1000, 1000]
         self.obj_pos = self.default_pos
         self.threshold_in_px = 200
@@ -34,8 +34,8 @@ class MoveGripper(Node):
         self.start_time = time.time()
         self.get_logger().info(str(self.start_time))
 
-        self.time_to_reach = 1
-        self.time_to_pick = 0.2
+        self.time_to_reach = 0.8
+        self.time_to_pick = 0.4
         self.down = 0.085
 
         self.id = -1
@@ -87,7 +87,7 @@ class MoveGripper(Node):
         @param msg: is the published message on the 'object_information' topic
         """
         self.obj_pos = [msg.position.y, msg.position.x, msg.position.z]
-        # y and x swapped because camera has different axis
+        # y and x swapped because camera has different axis orientation
         self.id = msg.classification
         self.get_logger().info(str(self.obj_pos))
 
@@ -99,8 +99,7 @@ class MoveGripper(Node):
         self.target_box_0 = np.add(self.target_box_0, self.rob_pos)
         self.target_box_1 = np.add(self.target_box_1, self.rob_pos)
         self.pickup = np.add(self.pickup, self.rob_pos)
-        temp = self.grippingzone
-        self.offset_pos = temp
+        self.offset_pos =  self.grippingzone
 
         self.get_logger().info("Init!!!")
 
@@ -108,14 +107,11 @@ class MoveGripper(Node):
         """
         calculates the offset between the grippingzone and the actual object position
         """
-        gripping_x = self.grippingzone[0]
-        self.get_logger().info("Gripping X:" + str(gripping_x))
-        temp_grippingzone = self.grippingzone
-        self.offset_pos[0] = gripping_x + 0.00025 * (self.obj_pos[0] - self.grippingzone_in_px[0])
-        self.grippingzone = temp_grippingzone
-        self.get_logger().info("Gripping X:" + str(gripping_x))
         self.get_logger().info("Gripping Zone:" + str(self.grippingzone))
-
+        self.offset_pos[0] = self.grippingzone[0] + 0.00025 * (self.obj_pos[0] - self.grippingzone_in_px[0])
+        self.offset_pos[1] = self.grippingzone[1] + 0.00025 * (self.obj_pos[1] - self.grippingzone_in_px[1])
+        self.get_logger().info("Gripping Zone:" + str(self.grippingzone))
+        self.get_logger().info("Offset Position:" + str(self.offset_pos))
 
 
     def pub_pos(self, move_to, gripper):
@@ -136,7 +132,6 @@ class MoveGripper(Node):
         """
         this function initialize the destination position arrays once
         """
-        exec = RobotPosWithGripper()
         self.get_logger().info("Initialization...")
         exec = self.pub_pos(self.init_move, self.gripperOff)
         self.get_logger().info(str(exec))
@@ -151,7 +146,7 @@ class MoveGripper(Node):
 
     def movegripper(self):
         """
-        this function is called by the ros spin function picks up the objects
+        this function implements a state machine and updates at 10Hz picks up the objects
         and sends position and gripping data to the controller through a custom interface
         """
 
