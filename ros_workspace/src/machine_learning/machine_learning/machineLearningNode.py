@@ -6,10 +6,10 @@ from rclpy.node import Node
 from custom_interfaces.msg import ImageProcessingShape, MachineLearning
 
 # Your machine learning model
-myMachineLearningModel = "trainedSVMModel.joblib"
+myMachineLearningModelIs = "trainedSVMModel.joblib"
 
 # One return value of the machinelearning model prediction.
-myReturnValue = "unicorn"
+myReturnValueIs = "unicorn"
 
 
 
@@ -18,9 +18,9 @@ class machineLearning:
     Load deposited machine learning model
     '''
     def __init__(self):
-      file_path = os.path.abspath(const.FILEPATH+myMachineLearningModel)
+      file_path = os.path.abspath(const.FILEPATH+myMachineLearningModelIs)
       self.model = joblib.load(file_path)
-      self.animalType = myReturnValue
+      self.animalType = myReturnValueIs
 
     def prediction(self, radius, shape):
         '''!
