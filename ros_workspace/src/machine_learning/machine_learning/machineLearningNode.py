@@ -9,7 +9,7 @@ from custom_interfaces.msg import ImageProcessingShape, MachineLearning
 myMachineLearningModel = "trainedSVMModel.joblib"
 
 # One return value of the machinelearning model prediction.
-yourReturnValue = "unicorn"
+myReturnValue = "unicorn"
 
 
 
@@ -20,7 +20,7 @@ class machineLearning:
     def __init__(self):
       file_path = os.path.abspath(const.FILEPATH+myMachineLearningModel)
       self.model = joblib.load(file_path)
-      self.animalType = yourReturnValue
+      self.animalType = myReturnValue
 
     def prediction(self, radius, shape):
         '''!
