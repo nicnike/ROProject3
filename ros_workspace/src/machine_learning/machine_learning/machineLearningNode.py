@@ -1,8 +1,15 @@
 import joblib
 import rclpy
+from ..resource import const
 import os
 from rclpy.node import Node
 from custom_interfaces.msg import ImageProcessingShape, MachineLearning
+
+# Your machine learning model
+myMachineLearningModel = "trainedSVMModel.joblib"
+
+# One return value of the machinelearning model prediction.
+yourReturnValue = "unicorn"
 
 
 
@@ -11,9 +18,9 @@ class machineLearning:
     Load deposited machine learning model
     '''
     def __init__(self):
-      svmfile_path = os.path.abspath("src/machine_learning/resource/trainedSVMModel.joblib")
-      self.model = joblib.load(svmfile_path)
-      self.animalType = "unicorn"  # One return value of the machinelearning model prediction.
+      file_path = os.path.abspath(const.FILEPATH+myMachineLearningModel)
+      self.model = joblib.load(file_path)
+      self.animalType = yourReturnValue
 
     def prediction(self, radius, shape):
         '''!
@@ -34,7 +41,7 @@ class machineLearningNode(Node):
     Node that receives values and publishes the classification.
     '''
     def __init__(self):
-        super().__init__('ML_Node') # type: ignore
+        super().__init__('ML_Node')  # type: ignore
         queueSize = 10
         self.publisher_ = self.create_publisher(
             MachineLearning,
