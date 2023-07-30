@@ -197,8 +197,8 @@ class TestVideoProcessing(unittest.TestCase):
         self.assertEqual(features, (7, 150))
 
         # valid equivalence classes
-        self.assertIsNot(features, (1, 69))
-        self.assertIsNot(features, (42, 420))
+        self.assertIsNot(features, (1, 100))
+        self.assertIsNot(features, (50, 400))
 
         # invalid equivalence classes
         self.assertIsNot(features, ("a", "a"))
