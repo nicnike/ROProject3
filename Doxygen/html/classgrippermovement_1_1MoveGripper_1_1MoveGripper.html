@@ -80,6 +80,9 @@ $(function() {
   <div class="headertitle"><div class="title">grippermovement.MoveGripper.MoveGripper Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>MoveGripper subscribes to the "robot_position" topic to receive robot position data and to the "object_information" to receive object information data, processes them and publishes position and gripping data to "robotposwithgripper" topic.  
+ <a href="classgrippermovement_1_1MoveGripper_1_1MoveGripper.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for grippermovement.MoveGripper.MoveGripper:</div>
 <div class="dyncontent">
@@ -89,79 +92,83 @@ Inheritance diagram for grippermovement.MoveGripper.MoveGripper:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6bdaa40f1fd38d24424548099c69164d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgrippermovement_1_1MoveGripper_1_1MoveGripper.html#a6bdaa40f1fd38d24424548099c69164d">__init__</a> (self)</td></tr>
+<tr class="memitem:a6bdaa40f1fd38d24424548099c69164d"><td class="memItemLeft" align="right" valign="top"><a id="a6bdaa40f1fd38d24424548099c69164d" name="a6bdaa40f1fd38d24424548099c69164d"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>__init__</b> (self)</td></tr>
+<tr class="memdesc:a6bdaa40f1fd38d24424548099c69164d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for MoveGripper class. <br /></td></tr>
 <tr class="separator:a6bdaa40f1fd38d24424548099c69164d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68bba41a1fcb1fe8292e0956ab423b80"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgrippermovement_1_1MoveGripper_1_1MoveGripper.html#a68bba41a1fcb1fe8292e0956ab423b80">callback_rob_pos</a> (self, msg)</td></tr>
+<tr class="memdesc:a68bba41a1fcb1fe8292e0956ab423b80"><td class="mdescLeft">&#160;</td><td class="mdescRight">this function is called everytime a new message is published on the 'robot_position' topic  <br /></td></tr>
 <tr class="separator:a68bba41a1fcb1fe8292e0956ab423b80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f4aed886881c3a8f1ef3f659cfbcce4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgrippermovement_1_1MoveGripper_1_1MoveGripper.html#a4f4aed886881c3a8f1ef3f659cfbcce4">callback_obj_pos</a> (self, msg)</td></tr>
+<tr class="memdesc:a4f4aed886881c3a8f1ef3f659cfbcce4"><td class="mdescLeft">&#160;</td><td class="mdescRight">this function is called everytime a new message is published on the 'object_position' topic  <br /></td></tr>
 <tr class="separator:a4f4aed886881c3a8f1ef3f659cfbcce4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adbe57824b1276cb02bddecdfed09dc72"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgrippermovement_1_1MoveGripper_1_1MoveGripper.html#adbe57824b1276cb02bddecdfed09dc72">init_zone_values</a> (self)</td></tr>
+<tr class="memitem:adbe57824b1276cb02bddecdfed09dc72"><td class="memItemLeft" align="right" valign="top"><a id="adbe57824b1276cb02bddecdfed09dc72" name="adbe57824b1276cb02bddecdfed09dc72"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>init_zone_values</b> (self)</td></tr>
+<tr class="memdesc:adbe57824b1276cb02bddecdfed09dc72"><td class="mdescLeft">&#160;</td><td class="mdescRight">initialize the destination position arrays once <br /></td></tr>
 <tr class="separator:adbe57824b1276cb02bddecdfed09dc72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af00c64e98733898a2f0680a1e0f34689"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgrippermovement_1_1MoveGripper_1_1MoveGripper.html#af00c64e98733898a2f0680a1e0f34689">calc_object_offset_pos</a> (self)</td></tr>
+<tr class="memitem:af00c64e98733898a2f0680a1e0f34689"><td class="memItemLeft" align="right" valign="top"><a id="af00c64e98733898a2f0680a1e0f34689" name="af00c64e98733898a2f0680a1e0f34689"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>calc_object_offset_pos</b> (self)</td></tr>
+<tr class="memdesc:af00c64e98733898a2f0680a1e0f34689"><td class="mdescLeft">&#160;</td><td class="mdescRight">calculates the offset between the grippingzone and the actual object position <br /></td></tr>
 <tr class="separator:af00c64e98733898a2f0680a1e0f34689"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3b735eb905e8aadc88cee16e58b10c6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgrippermovement_1_1MoveGripper_1_1MoveGripper.html#ae3b735eb905e8aadc88cee16e58b10c6">pub_pos</a> (self, moveTo, gripper)</td></tr>
-<tr class="separator:ae3b735eb905e8aadc88cee16e58b10c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa74ed72f0d7947fde070aceeb71dcf1f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgrippermovement_1_1MoveGripper_1_1MoveGripper.html#aa74ed72f0d7947fde070aceeb71dcf1f">initialize</a> (self)</td></tr>
+<tr class="memitem:aae3ffee8844c06169fc10434ceabcc99"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgrippermovement_1_1MoveGripper_1_1MoveGripper.html#aae3ffee8844c06169fc10434ceabcc99">pub_pos</a> (self, move_to, gripper)</td></tr>
+<tr class="memdesc:aae3ffee8844c06169fc10434ceabcc99"><td class="mdescLeft">&#160;</td><td class="mdescRight">this function creates an object for the "robotposwithgripper" topic  <br /></td></tr>
+<tr class="separator:aae3ffee8844c06169fc10434ceabcc99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa74ed72f0d7947fde070aceeb71dcf1f"><td class="memItemLeft" align="right" valign="top"><a id="aa74ed72f0d7947fde070aceeb71dcf1f" name="aa74ed72f0d7947fde070aceeb71dcf1f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>initialize</b> (self)</td></tr>
+<tr class="memdesc:aa74ed72f0d7947fde070aceeb71dcf1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">this function initialize the destination position arrays once <br /></td></tr>
 <tr class="separator:aa74ed72f0d7947fde070aceeb71dcf1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa146c8ad8ee37a5948f2fab98cc3f67a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgrippermovement_1_1MoveGripper_1_1MoveGripper.html#aa146c8ad8ee37a5948f2fab98cc3f67a">movegripper</a> (self)</td></tr>
+<tr class="memitem:aa146c8ad8ee37a5948f2fab98cc3f67a"><td class="memItemLeft" align="right" valign="top"><a id="aa146c8ad8ee37a5948f2fab98cc3f67a" name="aa146c8ad8ee37a5948f2fab98cc3f67a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>movegripper</b> (self)</td></tr>
+<tr class="memdesc:aa146c8ad8ee37a5948f2fab98cc3f67a"><td class="mdescLeft">&#160;</td><td class="mdescRight">this function implements a state machine and updates at 10Hz picks up the objects and sends position and gripping data to the controller through a custom interface <br /></td></tr>
 <tr class="separator:aa146c8ad8ee37a5948f2fab98cc3f67a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:aab37ba88c6282f90e3914ed0d1724f9b"><td class="memItemLeft" align="right" valign="top"><a id="aab37ba88c6282f90e3914ed0d1724f9b" name="aab37ba88c6282f90e3914ed0d1724f9b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>target_box0</b></td></tr>
-<tr class="separator:aab37ba88c6282f90e3914ed0d1724f9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa21f6fc6defda99ac69701cc72f328c"><td class="memItemLeft" align="right" valign="top"><a id="aaa21f6fc6defda99ac69701cc72f328c" name="aaa21f6fc6defda99ac69701cc72f328c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>target_box1</b></td></tr>
-<tr class="separator:aaa21f6fc6defda99ac69701cc72f328c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b347a3ae5ede3c395c6c80e692767ef"><td class="memItemLeft" align="right" valign="top"><a id="a3b347a3ae5ede3c395c6c80e692767ef" name="a3b347a3ae5ede3c395c6c80e692767ef"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>target_box_0</b></td></tr>
+<tr class="separator:a3b347a3ae5ede3c395c6c80e692767ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafdd42814f12a29286138c5b916ac906"><td class="memItemLeft" align="right" valign="top"><a id="aafdd42814f12a29286138c5b916ac906" name="aafdd42814f12a29286138c5b916ac906"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>target_box_1</b></td></tr>
+<tr class="separator:aafdd42814f12a29286138c5b916ac906"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a88c73b1368bd4fdd35a2c56eba33b0c6"><td class="memItemLeft" align="right" valign="top"><a id="a88c73b1368bd4fdd35a2c56eba33b0c6" name="a88c73b1368bd4fdd35a2c56eba33b0c6"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>grippingzone</b></td></tr>
 <tr class="separator:a88c73b1368bd4fdd35a2c56eba33b0c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adaaa4c1e3ea3e75dbdab5e14c3e8d768"><td class="memItemLeft" align="right" valign="top"><a id="adaaa4c1e3ea3e75dbdab5e14c3e8d768" name="adaaa4c1e3ea3e75dbdab5e14c3e8d768"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>pickup</b></td></tr>
 <tr class="separator:adaaa4c1e3ea3e75dbdab5e14c3e8d768"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb6ea095c6db18cb8bf2fe98694994fb"><td class="memItemLeft" align="right" valign="top"><a id="abb6ea095c6db18cb8bf2fe98694994fb" name="abb6ea095c6db18cb8bf2fe98694994fb"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>initMove</b></td></tr>
-<tr class="separator:abb6ea095c6db18cb8bf2fe98694994fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adad0ba77c10346e3773202f234d40d25"><td class="memItemLeft" align="right" valign="top"><a id="adad0ba77c10346e3773202f234d40d25" name="adad0ba77c10346e3773202f234d40d25"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>robPos</b></td></tr>
-<tr class="separator:adad0ba77c10346e3773202f234d40d25"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64bf71584e7efed107f5def96d5912bd"><td class="memItemLeft" align="right" valign="top"><a id="a64bf71584e7efed107f5def96d5912bd" name="a64bf71584e7efed107f5def96d5912bd"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>offsetPos</b></td></tr>
-<tr class="separator:a64bf71584e7efed107f5def96d5912bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d2729b8ea19fdfa5eef04f0e7ad0a32"><td class="memItemLeft" align="right" valign="top"><a id="a7d2729b8ea19fdfa5eef04f0e7ad0a32" name="a7d2729b8ea19fdfa5eef04f0e7ad0a32"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>init_move</b></td></tr>
+<tr class="separator:a7d2729b8ea19fdfa5eef04f0e7ad0a32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b71b821c7db7b546a1b8340b52d8427"><td class="memItemLeft" align="right" valign="top"><a id="a2b71b821c7db7b546a1b8340b52d8427" name="a2b71b821c7db7b546a1b8340b52d8427"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>rob_pos</b></td></tr>
+<tr class="separator:a2b71b821c7db7b546a1b8340b52d8427"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88f5fbb71218d7dd09fa68744513dbd2"><td class="memItemLeft" align="right" valign="top"><a id="a88f5fbb71218d7dd09fa68744513dbd2" name="a88f5fbb71218d7dd09fa68744513dbd2"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>offset_pos</b></td></tr>
+<tr class="separator:a88f5fbb71218d7dd09fa68744513dbd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6e70a051f73f5532c9b79f0dc7f7862"><td class="memItemLeft" align="right" valign="top"><a id="ac6e70a051f73f5532c9b79f0dc7f7862" name="ac6e70a051f73f5532c9b79f0dc7f7862"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>threshold</b></td></tr>
 <tr class="separator:ac6e70a051f73f5532c9b79f0dc7f7862"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1062ccfdb1d487e0c496474797e11c1b"><td class="memItemLeft" align="right" valign="top"><a id="a1062ccfdb1d487e0c496474797e11c1b" name="a1062ccfdb1d487e0c496474797e11c1b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>grippingzoneInPx</b></td></tr>
-<tr class="separator:a1062ccfdb1d487e0c496474797e11c1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16c3a41d8df374a211179353fd7cd01c"><td class="memItemLeft" align="right" valign="top"><a id="a16c3a41d8df374a211179353fd7cd01c" name="a16c3a41d8df374a211179353fd7cd01c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>defaultPos</b></td></tr>
-<tr class="separator:a16c3a41d8df374a211179353fd7cd01c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80cb0646739bd6c112d469db3ac1f140"><td class="memItemLeft" align="right" valign="top"><a id="a80cb0646739bd6c112d469db3ac1f140" name="a80cb0646739bd6c112d469db3ac1f140"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>objPos</b></td></tr>
-<tr class="separator:a80cb0646739bd6c112d469db3ac1f140"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac24d1d29289a2b2576f17e57b43049b5"><td class="memItemLeft" align="right" valign="top"><a id="ac24d1d29289a2b2576f17e57b43049b5" name="ac24d1d29289a2b2576f17e57b43049b5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>thresholdPx</b></td></tr>
-<tr class="separator:ac24d1d29289a2b2576f17e57b43049b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a999a1d665521fa777edf137d48c6b1d7"><td class="memItemLeft" align="right" valign="top"><a id="a999a1d665521fa777edf137d48c6b1d7" name="a999a1d665521fa777edf137d48c6b1d7"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>off</b></td></tr>
-<tr class="separator:a999a1d665521fa777edf137d48c6b1d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a380d9645505d4c77881dd97a865fa7ea"><td class="memItemLeft" align="right" valign="top"><a id="a380d9645505d4c77881dd97a865fa7ea" name="a380d9645505d4c77881dd97a865fa7ea"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>on</b></td></tr>
-<tr class="separator:a380d9645505d4c77881dd97a865fa7ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5b4a77cb8f64256d7fe62e324a2c969"><td class="memItemLeft" align="right" valign="top"><a id="ae5b4a77cb8f64256d7fe62e324a2c969" name="ae5b4a77cb8f64256d7fe62e324a2c969"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>startTime</b></td></tr>
-<tr class="separator:ae5b4a77cb8f64256d7fe62e324a2c969"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc13ae074292dabedbd79b9fb3633d0f"><td class="memItemLeft" align="right" valign="top"><a id="afc13ae074292dabedbd79b9fb3633d0f" name="afc13ae074292dabedbd79b9fb3633d0f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>timeToReach</b></td></tr>
-<tr class="separator:afc13ae074292dabedbd79b9fb3633d0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0be3f2b47f82f41a882d8e1ec81aac6b"><td class="memItemLeft" align="right" valign="top"><a id="a0be3f2b47f82f41a882d8e1ec81aac6b" name="a0be3f2b47f82f41a882d8e1ec81aac6b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>timeToPick</b></td></tr>
-<tr class="separator:a0be3f2b47f82f41a882d8e1ec81aac6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a166acf4a97d009f62010e170e60221a7"><td class="memItemLeft" align="right" valign="top"><a id="a166acf4a97d009f62010e170e60221a7" name="a166acf4a97d009f62010e170e60221a7"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>timeToSort</b></td></tr>
-<tr class="separator:a166acf4a97d009f62010e170e60221a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8b169fc1bce6a6581b11a5792e98045"><td class="memItemLeft" align="right" valign="top"><a id="ad8b169fc1bce6a6581b11a5792e98045" name="ad8b169fc1bce6a6581b11a5792e98045"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>grippingzone_in_px</b></td></tr>
+<tr class="separator:ad8b169fc1bce6a6581b11a5792e98045"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6f2e636bde25c5c58f8281e56adccd7"><td class="memItemLeft" align="right" valign="top"><a id="ac6f2e636bde25c5c58f8281e56adccd7" name="ac6f2e636bde25c5c58f8281e56adccd7"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>default_pos</b></td></tr>
+<tr class="separator:ac6f2e636bde25c5c58f8281e56adccd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ed76bdcb431b1434b150693cd2f8adf"><td class="memItemLeft" align="right" valign="top"><a id="a5ed76bdcb431b1434b150693cd2f8adf" name="a5ed76bdcb431b1434b150693cd2f8adf"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>obj_pos</b></td></tr>
+<tr class="separator:a5ed76bdcb431b1434b150693cd2f8adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a546b5f97cf2411d9b7538f83ae698260"><td class="memItemLeft" align="right" valign="top"><a id="a546b5f97cf2411d9b7538f83ae698260" name="a546b5f97cf2411d9b7538f83ae698260"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>threshold_in_px</b></td></tr>
+<tr class="separator:a546b5f97cf2411d9b7538f83ae698260"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4305ef5a44a4454389579a574cb56685"><td class="memItemLeft" align="right" valign="top"><a id="a4305ef5a44a4454389579a574cb56685" name="a4305ef5a44a4454389579a574cb56685"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>start_time</b></td></tr>
+<tr class="separator:a4305ef5a44a4454389579a574cb56685"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa231f51a037719e72c98ef71d345e230"><td class="memItemLeft" align="right" valign="top"><a id="aa231f51a037719e72c98ef71d345e230" name="aa231f51a037719e72c98ef71d345e230"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>time_to_reach</b></td></tr>
+<tr class="separator:aa231f51a037719e72c98ef71d345e230"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca9b2b6a58370977a0e7b8e1784078f0"><td class="memItemLeft" align="right" valign="top"><a id="aca9b2b6a58370977a0e7b8e1784078f0" name="aca9b2b6a58370977a0e7b8e1784078f0"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>time_to_pick</b></td></tr>
+<tr class="separator:aca9b2b6a58370977a0e7b8e1784078f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a224de75f62039cc906b57a02925d535a"><td class="memItemLeft" align="right" valign="top"><a id="a224de75f62039cc906b57a02925d535a" name="a224de75f62039cc906b57a02925d535a"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>down</b></td></tr>
 <tr class="separator:a224de75f62039cc906b57a02925d535a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -189,65 +196,25 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:afec61bf56c9c22aa8ec24e6f84371bc2"><td class="memItemLeft" align="right" valign="top"><a id="afec61bf56c9c22aa8ec24e6f84371bc2" name="afec61bf56c9c22aa8ec24e6f84371bc2"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>unicorn</b></td></tr>
 <tr class="separator:afec61bf56c9c22aa8ec24e6f84371bc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a509f326fe6efb93acaeae455827cbf2c"><td class="memItemLeft" align="right" valign="top"><a id="a509f326fe6efb93acaeae455827cbf2c" name="a509f326fe6efb93acaeae455827cbf2c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>posSub</b></td></tr>
-<tr class="separator:a509f326fe6efb93acaeae455827cbf2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a250bf589b16da1f9e1b94a4ee61e34d6"><td class="memItemLeft" align="right" valign="top"><a id="a250bf589b16da1f9e1b94a4ee61e34d6" name="a250bf589b16da1f9e1b94a4ee61e34d6"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>pos_sub</b></td></tr>
+<tr class="separator:a250bf589b16da1f9e1b94a4ee61e34d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a454a1e5e5902891cd59a4ebe478233dd"><td class="memItemLeft" align="right" valign="top"><a id="a454a1e5e5902891cd59a4ebe478233dd" name="a454a1e5e5902891cd59a4ebe478233dd"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>callback_rob_pos</b></td></tr>
 <tr class="separator:a454a1e5e5902891cd59a4ebe478233dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ce8040d697f13c881b75663af16b64c"><td class="memItemLeft" align="right" valign="top"><a id="a2ce8040d697f13c881b75663af16b64c" name="a2ce8040d697f13c881b75663af16b64c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>destPub</b></td></tr>
-<tr class="separator:a2ce8040d697f13c881b75663af16b64c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71e540bf80757cbe0ed0da5f1ffaf358"><td class="memItemLeft" align="right" valign="top"><a id="a71e540bf80757cbe0ed0da5f1ffaf358" name="a71e540bf80757cbe0ed0da5f1ffaf358"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>objPosSub</b></td></tr>
-<tr class="separator:a71e540bf80757cbe0ed0da5f1ffaf358"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad079c09b03dd4e237dbae9ab23f7db83"><td class="memItemLeft" align="right" valign="top"><a id="ad079c09b03dd4e237dbae9ab23f7db83" name="ad079c09b03dd4e237dbae9ab23f7db83"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>dest_pub</b></td></tr>
+<tr class="separator:ad079c09b03dd4e237dbae9ab23f7db83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e32dc519379c9f97347a514917fb3ba"><td class="memItemLeft" align="right" valign="top"><a id="a3e32dc519379c9f97347a514917fb3ba" name="a3e32dc519379c9f97347a514917fb3ba"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>obj_pos_sub</b></td></tr>
+<tr class="separator:a3e32dc519379c9f97347a514917fb3ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0909e8bca77c8ebc76c8411410fcc274"><td class="memItemLeft" align="right" valign="top"><a id="a0909e8bca77c8ebc76c8411410fcc274" name="a0909e8bca77c8ebc76c8411410fcc274"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>callback_obj_pos</b></td></tr>
 <tr class="separator:a0909e8bca77c8ebc76c8411410fcc274"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><pre class="fragment">  MoveGripper subscribes to the "robot_position" topic to receive robot position data and to the
-  "object_information" to receive object information data, processes them and publishes
-  position and gripping data to "robotposwithgripper" topic.</pre> </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a6bdaa40f1fd38d24424548099c69164d" name="a6bdaa40f1fd38d24424548099c69164d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6bdaa40f1fd38d24424548099c69164d">&#9670;&#160;</a></span>__init__()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">grippermovement.MoveGripper.MoveGripper.__init__ </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<pre class="fragment">    Constructor for MoveGripper class.
-</pre> 
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="af00c64e98733898a2f0680a1e0f34689" name="af00c64e98733898a2f0680a1e0f34689"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af00c64e98733898a2f0680a1e0f34689">&#9670;&#160;</a></span>calc_object_offset_pos()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">grippermovement.MoveGripper.MoveGripper.calc_object_offset_pos </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<pre class="fragment">calculates the offset between the grippingzone and the actual object position
-</pre> 
-</div>
-</div>
+<div class="textblock"><p>MoveGripper subscribes to the "robot_position" topic to receive robot position data and to the "object_information" to receive object information data, processes them and publishes position and gripping data to "robotposwithgripper" topic. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a4f4aed886881c3a8f1ef3f659cfbcce4" name="a4f4aed886881c3a8f1ef3f659cfbcce4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4f4aed886881c3a8f1ef3f659cfbcce4">&#9670;&#160;</a></span>callback_obj_pos()</h2>
 
@@ -273,10 +240,15 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">this function is called everytime a new message is published on the 'object_position' topic
 
-@param msg: is the published message on the 'object_information' topic
-</pre> 
+<p>this function is called everytime a new message is published on the 'object_position' topic </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">msg</td><td>is the published message on the 'object_information' topic </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a68bba41a1fcb1fe8292e0956ab423b80" name="a68bba41a1fcb1fe8292e0956ab423b80"></a>
@@ -304,72 +276,19 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">this function is called everytime a new message is published on the 'robot_position' topic
 
-@param msg: is the published message on the 'robot_position' topic
-</pre> 
-</div>
-</div>
-<a id="adbe57824b1276cb02bddecdfed09dc72" name="adbe57824b1276cb02bddecdfed09dc72"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adbe57824b1276cb02bddecdfed09dc72">&#9670;&#160;</a></span>init_zone_values()</h2>
+<p>this function is called everytime a new message is published on the 'robot_position' topic </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">msg</td><td>is the published message on the 'robot_position' topic </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">grippermovement.MoveGripper.MoveGripper.init_zone_values </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<pre class="fragment">initialize the destination position arrays once
-</pre> 
 </div>
 </div>
-<a id="aa74ed72f0d7947fde070aceeb71dcf1f" name="aa74ed72f0d7947fde070aceeb71dcf1f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa74ed72f0d7947fde070aceeb71dcf1f">&#9670;&#160;</a></span>initialize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">grippermovement.MoveGripper.MoveGripper.initialize </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<pre class="fragment">this function initialize the destination position arrays once
-</pre> 
-</div>
-</div>
-<a id="aa146c8ad8ee37a5948f2fab98cc3f67a" name="aa146c8ad8ee37a5948f2fab98cc3f67a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa146c8ad8ee37a5948f2fab98cc3f67a">&#9670;&#160;</a></span>movegripper()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">grippermovement.MoveGripper.MoveGripper.movegripper </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<pre class="fragment">this function is called by the ros spin function picks up the objects
-and sends position and gripping data to the controller through a custom interface
-</pre> 
-</div>
-</div>
-<a id="ae3b735eb905e8aadc88cee16e58b10c6" name="ae3b735eb905e8aadc88cee16e58b10c6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3b735eb905e8aadc88cee16e58b10c6">&#9670;&#160;</a></span>pub_pos()</h2>
+<a id="aae3ffee8844c06169fc10434ceabcc99" name="aae3ffee8844c06169fc10434ceabcc99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae3ffee8844c06169fc10434ceabcc99">&#9670;&#160;</a></span>pub_pos()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -384,7 +303,7 @@ and sends position and gripping data to the controller through a custom interfac
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>moveTo</em>, </td>
+          <td class="paramname"><em>move_to</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -399,11 +318,16 @@ and sends position and gripping data to the controller through a custom interfac
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">this function creates an object for the "robotposwithgripper" topic
 
-@param moveTo: the desired position array
-@param gripper: information whether the gripper should be activated or not
-</pre> 
+<p>this function creates an object for the "robotposwithgripper" topic </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">move_to</td><td>the desired position array </td></tr>
+    <tr><td class="paramname">gripper</td><td>information whether the gripper should be activated or not </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
