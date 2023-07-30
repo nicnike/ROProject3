@@ -6,15 +6,15 @@ from custom_interfaces.msg import ObjectPosition, RobotPosWithGripper
 import numpy as np
 
 class MoveGripper(Node):
+    """!
+    MoveGripper subscribes to the "robot_position" topic to receive robot position data and to the
+    "object_information" to receive object information data, processes them and publishes
+    position and gripping data to "robotposwithgripper" topic.
     """
-      MoveGripper subscribes to the "robot_position" topic to receive robot position data and to the
-      "object_information" to receive object information data, processes them and publishes
-      position and gripping data to "robotposwithgripper" topic.
-      """
 
     def __init__(self):
-        """
-            Constructor for MoveGripper class.
+        """!
+        Constructor for MoveGripper class.
         """
         super().__init__('move_gripper') # type: ignore
         self.target_box_0 = [-0.01, 0.0, 0.0]
@@ -70,7 +70,7 @@ class MoveGripper(Node):
 
 
     def callback_rob_pos(self, msg):
-        """
+        """!
         this function is called everytime a new message is published on the 'robot_position' topic
 
         @param msg: is the published message on the 'robot_position' topic
@@ -81,7 +81,7 @@ class MoveGripper(Node):
 
 
     def callback_obj_pos(self, msg):
-        """
+        """!
         this function is called everytime a new message is published on the 'object_position' topic
 
         @param msg: is the published message on the 'object_information' topic
@@ -92,7 +92,7 @@ class MoveGripper(Node):
         self.get_logger().info(str(self.obj_pos))
 
     def init_zone_values(self):
-        """
+        """!
         initialize the destination position arrays once
         """
         self.grippingzone = np.add(self.grippingzone, self.rob_pos)
@@ -104,7 +104,7 @@ class MoveGripper(Node):
         self.get_logger().info("Init!!!")
 
     def calc_object_offset_pos(self):
-        """
+        """!
         calculates the offset between the grippingzone and the actual object position
         """
         self.get_logger().info("Gripping Zone:" + str(self.grippingzone))
@@ -115,7 +115,7 @@ class MoveGripper(Node):
 
 
     def pub_pos(self, move_to, gripper):
-        """
+        """!
         this function creates an object for the "robotposwithgripper" topic
 
         @param move_to: the desired position array
@@ -129,7 +129,7 @@ class MoveGripper(Node):
         return move
 
     def initialize(self):
-        """
+        """!
         this function initialize the destination position arrays once
         """
         self.get_logger().info("Initialization...")
@@ -145,7 +145,7 @@ class MoveGripper(Node):
             self.get_logger().info("Initialization done")
 
     def movegripper(self):
-        """
+        """!
         this function implements a state machine and updates at 10Hz picks up the objects
         and sends position and gripping data to the controller through a custom interface
         """

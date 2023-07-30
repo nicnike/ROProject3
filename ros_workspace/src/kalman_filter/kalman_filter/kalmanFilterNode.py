@@ -6,8 +6,6 @@ from geometry_msgs.msg import Point
 import numpy as np
 
 class ObjectTrackerNode(Node):
-  """
-  """
   def __init__(self):
     """!
     Initializes an ObjectTrackerNode instance.
